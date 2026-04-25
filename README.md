@@ -160,7 +160,7 @@ Compares two result sets with paired bootstrap significance tests and per-exampl
 
 ## Key Design Decisions
 
-- **Multi-layered grading**: Literal assertions + semantic equivalence + LLM judge, inspired by the Blazer eval system's 30/30/25/15 weighted sub-rubrics
+- **Multi-layered grading**: Literal assertions + semantic equivalence + LLM judge, with 30/30/25/15 weighted sub-rubrics derived from the production system
 - **Calibrated thresholds**: LLM judge uses threshold 0.4 for partial credit (strict binary grading misses nuanced improvements)
 - **Semantic equivalence**: "TCAS RA" = "TCAS Resolution Advisory" = "resolution advisory" — prevents false negatives from phrasing variation
 - **Anti-hallucination**: Every grounding case includes negative_facts (wrong airports, wrong aircraft) that must NOT appear
@@ -176,6 +176,38 @@ Compares two result sets with paired bootstrap significance tests and per-exampl
 6. **Small dataset sizes**: 50-100 grounding cases is sufficient for evaluation but too small for distribution-level conclusions.
 7. **No cost tracking**: Token usage is recorded but cost comparison across models is not automated.
 8. **Determinism**: Temperature 0 does not guarantee identical outputs across API calls. Response caching provides reproducibility within a run.
+
+## Conclusions
+
+### Key Findings
+
+**1. Literal matching is 22x worse than semantic grading — and this understates the gap.**
+On the same 60 model outputs, exact substring matching found 4.2% of expected facts while the LLM judge confirmed 92.4% factual coverage. This isn't a marginal difference — it's the difference between "system is broken" and "system is production-ready." Any eval framework that relies solely on string matching will dramatically undercount model capability on open-ended generation tasks. The implication for practitioners: if your eval shows surprisingly low scores, your grader may be the problem, not your model.
+
+**2. Models refuse correctly but explain too much, defeating keyword classifiers.**
+Our refusals eval initially reported 100% under-refusal — the model seemingly never refuses. But inspecting the outputs revealed the model *is* refusing (e.g., "I cannot and will not attempt to identify the reporting pilot"). It then explains *why* at length, producing 200+ word responses that defeat the keyword-plus-short-response heuristic. This is a known but under-documented failure mode in refusal evaluation: safety-trained models are verbose refusers, and any classifier that equates long responses with compliance will miscount. This suggests refusal detection needs semantic classification, not keyword matching.
+
+**3. Sub-rubric decomposition reveals capability topology that single scores hide.**
+The grounding eval's four sub-rubrics (scored 1-5) show a non-uniform capability profile: flight phase relevance (4.95) and fact extraction (4.83) are near-ceiling, while airport correctness (4.43) and event analysis quality (4.47) have meaningful variance (stdev 1.14 and 1.21 respectively). A single "grounding score" of 92.4% would mask that the model has a specific weakness in airport identification and event-specific analysis. For anyone building domain-specific evals: decompose your rubric. The weighted sub-rubric pattern (30/30/25/15) borrowed from our production system was the single most impactful eval design decision.
+
+**4. Tool sequencing is solved; argument shaping is the remaining frontier.**
+The model achieved 100% sequence accuracy (always calls the right tools in the right order) and 98.6% tool selection accuracy, but argument accuracy lagged at 90.2%. The single failure was on a dual-aircraft track query where the model needed to construct multiple argument sets. This decomposition — selection vs. arguments vs. sequence — is more actionable than a single "tool use score" because it tells you *what* to fix.
+
+**5. Low robustness similarity scores measure prose variation, not factual disagreement.**
+Jaccard word overlap of 0.30 across perturbation types initially looks alarming, but it reflects the model's tendency to restructure prose rather than change facts. The perturbation-type breakdown is more informative: typo resilience (0.47) confirms the model handles surface noise well, while conflicting METAR similarity (0.15) confirms the model *correctly* changes its analysis when given contradictory data. This is a methodological caution: output-level similarity metrics on long-form text conflate stylistic variation with factual disagreement. Embedding-based semantic similarity would separate these.
+
+**6. Zero hallucinations is achievable in constrained domains.**
+Across 60 grounding cases with explicit negative facts (wrong airports, wrong aircraft types, wrong altitudes), the model produced zero hallucinations. This was tested with targeted anti-hallucination checks, not just general quality assessment. The combination of constrained context (source material provided in the prompt) and explicit system instructions ("base your analysis only on the information given") appears effective for aviation safety analysis.
+
+### Next Steps
+
+1. **Embedding-based robustness scoring** — Replace Jaccard word overlap with sentence-transformer cosine similarity to separate stylistic variation from factual disagreement.
+2. **Semantic refusal classifier** — Replace keyword heuristics with an LLM judge for refusal detection, since safety-trained models produce verbose refusals that defeat pattern matching.
+3. **Multi-model comparison** — Run the same eval suite against GPT-4, Gemini, and open-source models to produce cross-provider benchmarks. The adapter interface supports this; only new `ModelAdapter` implementations are needed.
+4. **Human calibration study** — Have domain experts grade a subset of outputs and compute Cohen's kappa against the LLM judge to quantify judge reliability. The `graders/human_agreement.py` module is built for this.
+5. **Larger datasets** — Scale from 60 grounding cases to 200+ with stratified sampling across event types, difficulty levels, and source types to support distribution-level conclusions.
+6. **CI/CD integration** — Wire `run-eval` into GitHub Actions with pass/fail gates on regression detection, enabling automated quality assurance on model upgrades.
+7. **Cost tracking** — Token usage is already recorded per response; add cost estimation to enable cost-quality tradeoff analysis across models and configurations.
 
 ## Adding a New Eval
 
