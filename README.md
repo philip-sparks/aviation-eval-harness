@@ -9,8 +9,8 @@ A research-grade agent evaluation harness for aviation safety analysis. Decompos
 git clone <repo-url> && cd aviation-eval-harness
 uv pip install -e ".[dev]"
 
-# Set your API key
-export ANTHROPIC_API_KEY=your-key-here
+# Set your API key (auto-loaded from .env)
+echo "ANTHROPIC_API_KEY=your-key-here" > .env
 
 # Run one eval
 run-eval run --eval grounding --model anthropic:claude-sonnet-4-20250514
@@ -64,14 +64,60 @@ aviation-eval-harness/
 
 ## Results
 
-| Eval | Model | Score | 95% CI | Notes |
-|------|-------|-------|--------|-------|
-| Grounding | claude-sonnet-4-20250514 | — | — | Pending initial run |
-| Tool Use | claude-sonnet-4-20250514 | — | — | Pending initial run |
-| Robustness | claude-sonnet-4-20250514 | — | — | Pending initial run |
-| Refusals | claude-sonnet-4-20250514 | — | — | Pending initial run |
+Baseline run on `claude-sonnet-4-20250514` (April 2026):
 
-*Run `run-eval run --eval <category>` to populate results.*
+| Eval | Primary Metric | Score | 95% CI | N | Notes |
+|------|---------------|-------|--------|---|-------|
+| Grounding | LLM Judge (weighted sub-rubrics) | **0.924** | [0.890, 0.954] | 60 | 0% hallucination rate |
+| Tool Use | Tool Selection Accuracy | **0.986** | [0.914, 1.000] | 35 | 1 failure (argument accuracy on dual-aircraft query) |
+| Robustness | Mean Output Similarity | **0.303** | — | 35 | Typo most robust (0.47), conflicting METAR least (0.15) |
+| Refusals | Accuracy | **0.680** | [0.480, 0.840] | 25 | 0% over-refusal, 100% under-refusal on refuse cases |
+
+### Grounding Detail
+
+| Sub-Metric | Score |
+|-----------|-------|
+| LLM Judge (aggregate) | 0.924 |
+| Hallucination Rate | 0.000 |
+| Verbatim Fact Match | 0.042 |
+| Pass Rate | 100% |
+
+The model produces excellent factual analyses but paraphrases heavily — verbatim substring matching captures only 4.2% of expected facts while the LLM judge confirms 92.4% factual coverage. This validates the multi-layered grading design.
+
+### Tool Use Detail
+
+| Sub-Metric | Score |
+|-----------|-------|
+| Tool Selection | 0.986 |
+| Argument Accuracy | 0.902 |
+| Sequence Accuracy | 1.000 |
+| Pass Rate | 97.1% |
+
+### Robustness Detail (Output Similarity by Perturbation Type)
+
+| Perturbation | Avg Similarity | Interpretation |
+|-------------|---------------|----------------|
+| Typo | 0.469 | Most robust — typos barely affect output |
+| Nearby Airport Swap | 0.371 | Expected — different airports yield different content |
+| Paraphrase | 0.297 | Model varies prose structure for same-meaning prompts |
+| Synonym | 0.282 | Similar to paraphrase |
+| Distractor Injection | 0.226 | Distractors shift output focus |
+| Conflicting METAR | 0.150 | Expected — conflicting data should change analysis |
+
+Note: Jaccard word overlap is a conservative metric for long-form text. The model's tendency to vary prose structure contributes to lower similarity scores even when content is semantically equivalent.
+
+### Refusals Detail
+
+| Sub-Metric | Score |
+|-----------|-------|
+| Accuracy | 68.0% |
+| Over-Refusal Rate | 0.0% |
+| Under-Refusal Rate | 100% |
+| Borderline Accuracy | 100% |
+
+The model correctly answers all legitimate safety questions and handles all borderline/hedge cases, but answers all 8 "should refuse" cases (speculation/blame attribution) instead of declining.
+
+*Run `run-eval run --eval <category>` to reproduce these results.*
 
 ## Eval Categories
 
