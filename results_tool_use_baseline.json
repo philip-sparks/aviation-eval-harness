@@ -1,0 +1,1605 @@
+{
+  "eval_name": "tool_use",
+  "model_id": "claude-sonnet-4-20250514",
+  "timestamp": "2026-04-25T08:51:41.770372",
+  "examples": [
+    {
+      "example_id": "TOOL-001",
+      "input": {
+        "query": "What was the weather at KJFK when the incident occurred at 14:32Z on 2024-03-15?"
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"KJFK\",\n      \"timestamp\": \"2024-03-15T14:32:00Z\"\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "KJFK",
+                "timestamp": "2024-03-15T14:32:00Z"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "metar_lookup"
+        ],
+        "expected_tools": [
+          "metar_lookup"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-002",
+      "input": {
+        "query": "Look up the aircraft performance data for a Boeing 737-800."
+      },
+      "output": "[\n  {\n    \"tool\": \"aircraft_info\",\n    \"args\": {\n      \"icao_type_designator\": \"B738\"\n    }\n  }\n]",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "aircraft_info",
+              "args": {
+                "icao_type_designator": "B738"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "aircraft_info"
+        ],
+        "expected_tools": [
+          "aircraft_info"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-003",
+      "input": {
+        "query": "What are the current NOTAMs for KORD on 2024-06-01?"
+      },
+      "output": "[\n  {\n    \"tool\": \"notam_check\",\n    \"args\": {\n      \"icao_code\": \"KORD\",\n      \"date\": \"2024-06-01\"\n    }\n  }\n]",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "notam_check",
+              "args": {
+                "icao_code": "KORD",
+                "date": "2024-06-01"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "notam_check"
+        ],
+        "expected_tools": [
+          "notam_check"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-004",
+      "input": {
+        "query": "What does FAR 91.175 say about descending below MDA/DA?"
+      },
+      "output": "[\n  {\n    \"tool\": \"regulation_search\",\n    \"args\": {\n      \"far_section\": \"91.175\"\n    }\n  }\n]",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "regulation_search",
+              "args": {
+                "far_section": "91.175"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "regulation_search"
+        ],
+        "expected_tools": [
+          "regulation_search"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-005",
+      "input": {
+        "query": "What is the elevation and runway information for KASE?"
+      },
+      "output": "[\n  {\n    \"tool\": \"airport_info\",\n    \"args\": {\n      \"icao_code\": \"KASE\"\n    }\n  }\n]",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "airport_info",
+              "args": {
+                "icao_code": "KASE"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "airport_info"
+        ],
+        "expected_tools": [
+          "airport_info"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-006",
+      "input": {
+        "query": "Show me the ADS-B track for aircraft A4B210 during the 10-minute window around the loss of separation event at 19:45Z."
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"track_query\",\n    \"args\": {\n      \"mode_s_hex\": \"A4B210\",\n      \"time_window\": {\n        \"start\": \"2024-01-01T19:40:00Z\",\n        \"end\": \"2024-01-01T19:50:00Z\"\n      }\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 0.5,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "track_query",
+              "args": {
+                "mode_s_hex": "A4B210",
+                "time_window": {
+                  "start": "2024-01-01T19:40:00Z",
+                  "end": "2024-01-01T19:50:00Z"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "track_query"
+        ],
+        "expected_tools": [
+          "track_query"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-007",
+      "input": {
+        "query": "What were the weather conditions at KDCA and what NOTAMs were active when the CRJ-200 had an engine failure on departure on 2024-01-20?"
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"KDCA\",\n      \"timestamp\": \"2024-01-20T12:00:00Z\"\n    }\n  },\n  {\n    \"tool\": \"notam_check\",\n    \"args\": {\n      \"icao_code\": \"KDCA\",\n      \"date\": \"2024-01-20\"\n    }\n  },\n  {\n    \"tool\": \"aircraft_info\",\n    \"args\": {\n      \"icao_type_designator\": \"CRJ2\"\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 0.9,
+        "argument_accuracy": 0.75,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "KDCA",
+                "timestamp": "2024-01-20T12:00:00Z"
+              }
+            },
+            {
+              "tool": "notam_check",
+              "args": {
+                "icao_code": "KDCA",
+                "date": "2024-01-20"
+              }
+            },
+            {
+              "tool": "aircraft_info",
+              "args": {
+                "icao_type_designator": "CRJ2"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "metar_lookup",
+          "notam_check",
+          "aircraft_info"
+        ],
+        "expected_tools": [
+          "metar_lookup",
+          "notam_check"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-008",
+      "input": {
+        "query": "For the landing overrun at KMDT on 2024-05-10, what were the airport conditions and what does FAR 91.103 require about preflight planning?"
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"KMDT\",\n      \"timestamp\": \"2024-05-10T12:00:00Z\"\n    }\n  },\n  {\n    \"tool\": \"notam_check\",\n    \"args\": {\n      \"icao_code\": \"KMDT\",\n      \"date\": \"2024-05-10\"\n    }\n  },\n  {\n    \"tool\": \"airport_info\",\n    \"args\": {\n      \"icao_code\": \"KMDT\"\n    }\n  },\n  {\n    \"tool\": \"regulation_search\",\n    \"args\": {\n      \"far_section\": \"91.103\"\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 0.8,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "KMDT",
+                "timestamp": "2024-05-10T12:00:00Z"
+              }
+            },
+            {
+              "tool": "notam_check",
+              "args": {
+                "icao_code": "KMDT",
+                "date": "2024-05-10"
+              }
+            },
+            {
+              "tool": "airport_info",
+              "args": {
+                "icao_code": "KMDT"
+              }
+            },
+            {
+              "tool": "regulation_search",
+              "args": {
+                "far_section": "91.103"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "metar_lookup",
+          "notam_check",
+          "airport_info",
+          "regulation_search"
+        ],
+        "expected_tools": [
+          "airport_info",
+          "regulation_search"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-009",
+      "input": {
+        "query": "Pull the ADS-B track for Mode S hex code A0F2C8 between 08:00Z and 08:30Z and also get the weather at KDEN at 08:15Z on 2024-07-22."
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"track_query\",\n    \"args\": {\n      \"mode_s_hex\": \"A0F2C8\",\n      \"time_window\": {\n        \"start\": \"2024-07-22T08:00:00Z\",\n        \"end\": \"2024-07-22T08:30:00Z\"\n      }\n    }\n  },\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"KDEN\",\n      \"timestamp\": \"2024-07-22T08:15:00Z\"\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 0.75,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "track_query",
+              "args": {
+                "mode_s_hex": "A0F2C8",
+                "time_window": {
+                  "start": "2024-07-22T08:00:00Z",
+                  "end": "2024-07-22T08:30:00Z"
+                }
+              }
+            },
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "KDEN",
+                "timestamp": "2024-07-22T08:15:00Z"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "track_query",
+          "metar_lookup"
+        ],
+        "expected_tools": [
+          "track_query",
+          "metar_lookup"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-010",
+      "input": {
+        "query": "What are the performance characteristics of the A320 and what does FAR 25.125 say about landing distance requirements?"
+      },
+      "output": "[\n  {\n    \"tool\": \"aircraft_info\",\n    \"args\": {\n      \"icao_type_designator\": \"A320\"\n    }\n  },\n  {\n    \"tool\": \"regulation_search\",\n    \"args\": {\n      \"far_section\": \"25.125\"\n    }\n  }\n]",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "aircraft_info",
+              "args": {
+                "icao_type_designator": "A320"
+              }
+            },
+            {
+              "tool": "regulation_search",
+              "args": {
+                "far_section": "25.125"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "aircraft_info",
+          "regulation_search"
+        ],
+        "expected_tools": [
+          "aircraft_info",
+          "regulation_search"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-011",
+      "input": {
+        "query": "An ERJ-145 with Mode S A1234F had a tail strike on landing at KBOS at 22:10Z on 2024-09-05. Get me the airport info, the weather at the time, and the aircraft track for 22:00Z to 22:15Z."
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"airport_info\",\n    \"args\": {\n      \"icao_code\": \"KBOS\"\n    }\n  },\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"KBOS\",\n      \"timestamp\": \"2024-09-05T22:10:00Z\"\n    }\n  },\n  {\n    \"tool\": \"track_query\",\n    \"args\": {\n      \"mode_s_hex\": \"A1234F\",\n      \"time_window\": {\n        \"start\": \"2024-09-05T22:00:00Z\",\n        \"end\": \"2024-09-05T22:15:00Z\"\n      }\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 0.8333333333333334,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "airport_info",
+              "args": {
+                "icao_code": "KBOS"
+              }
+            },
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "KBOS",
+                "timestamp": "2024-09-05T22:10:00Z"
+              }
+            },
+            {
+              "tool": "track_query",
+              "args": {
+                "mode_s_hex": "A1234F",
+                "time_window": {
+                  "start": "2024-09-05T22:00:00Z",
+                  "end": "2024-09-05T22:15:00Z"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "airport_info",
+          "metar_lookup",
+          "track_query"
+        ],
+        "expected_tools": [
+          "airport_info",
+          "metar_lookup",
+          "track_query"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-012",
+      "input": {
+        "query": "Was the pilot in compliance with FAR 91.155 regarding VFR weather minimums when flying near KLAS on 2024-04-18 at 16:00Z?"
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"regulation_search\",\n    \"args\": {\n      \"far_section\": \"91.155\"\n    }\n  },\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"KLAS\",\n      \"timestamp\": \"2024-04-18T16:00:00Z\"\n    }\n  },\n  {\n    \"tool\": \"airport_info\",\n    \"args\": {\n      \"icao_code\": \"KLAS\"\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 0.9,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "regulation_search",
+              "args": {
+                "far_section": "91.155"
+              }
+            },
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "KLAS",
+                "timestamp": "2024-04-18T16:00:00Z"
+              }
+            },
+            {
+              "tool": "airport_info",
+              "args": {
+                "icao_code": "KLAS"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "regulation_search",
+          "metar_lookup",
+          "airport_info"
+        ],
+        "expected_tools": [
+          "regulation_search",
+          "metar_lookup"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-013",
+      "input": {
+        "query": "Look up FAR 91.185 regarding IFR communication failure procedures."
+      },
+      "output": "[\n  {\n    \"tool\": \"regulation_search\",\n    \"args\": {\n      \"far_section\": \"91.185\"\n    }\n  }\n]",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "regulation_search",
+              "args": {
+                "far_section": "91.185"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "regulation_search"
+        ],
+        "expected_tools": [
+          "regulation_search"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-014",
+      "input": {
+        "query": "A DHC-6 Twin Otter experienced a bird strike at PANC on 2024-08-12. Get the aircraft performance specs and check if there were any relevant NOTAMs about bird activity."
+      },
+      "output": "[\n  {\n    \"tool\": \"aircraft_info\",\n    \"args\": {\n      \"icao_type_designator\": \"DHC6\"\n    }\n  },\n  {\n    \"tool\": \"notam_check\",\n    \"args\": {\n      \"icao_code\": \"PANC\",\n      \"date\": \"2024-08-12\"\n    }\n  }\n]",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "aircraft_info",
+              "args": {
+                "icao_type_designator": "DHC6"
+              }
+            },
+            {
+              "tool": "notam_check",
+              "args": {
+                "icao_code": "PANC",
+                "date": "2024-08-12"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "aircraft_info",
+          "notam_check"
+        ],
+        "expected_tools": [
+          "aircraft_info",
+          "notam_check"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-015",
+      "input": {
+        "query": "For the unstabilized approach incident at KSFO on 2024-11-03 at 03:45Z involving a B777 (Mode S hex ABCDEF), retrieve the weather, the aircraft track from 03:30Z to 03:50Z, the airport layout, and the B777 performance data."
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"KSFO\",\n      \"timestamp\": \"2024-11-03T03:45:00Z\"\n    }\n  },\n  {\n    \"tool\": \"track_query\",\n    \"args\": {\n      \"mode_s_hex\": \"ABCDEF\",\n      \"time_window\": {\n        \"start\": \"2024-11-03T03:30:00Z\",\n        \"end\": \"2024-11-03T03:50:00Z\"\n      }\n    }\n  },\n  {\n    \"tool\": \"airport_info\",\n    \"args\": {\n      \"icao_code\": \"KSFO\"\n    }\n  },\n  {\n    \"tool\": \"aircraft_info\",\n    \"args\": {\n      \"icao_type_designator\": \"B777\"\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 0.875,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "KSFO",
+                "timestamp": "2024-11-03T03:45:00Z"
+              }
+            },
+            {
+              "tool": "track_query",
+              "args": {
+                "mode_s_hex": "ABCDEF",
+                "time_window": {
+                  "start": "2024-11-03T03:30:00Z",
+                  "end": "2024-11-03T03:50:00Z"
+                }
+              }
+            },
+            {
+              "tool": "airport_info",
+              "args": {
+                "icao_code": "KSFO"
+              }
+            },
+            {
+              "tool": "aircraft_info",
+              "args": {
+                "icao_type_designator": "B777"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "metar_lookup",
+          "track_query",
+          "airport_info",
+          "aircraft_info"
+        ],
+        "expected_tools": [
+          "metar_lookup",
+          "track_query",
+          "airport_info",
+          "aircraft_info"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-016",
+      "input": {
+        "query": "What were the crosswind conditions at KLGA when the A319 landed at 18:25Z on 2024-02-28?"
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"KLGA\",\n      \"timestamp\": \"2024-02-28T18:25:00Z\"\n    }\n  },\n  {\n    \"tool\": \"airport_info\",\n    \"args\": {\n      \"icao_code\": \"KLGA\"\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 0.9,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "KLGA",
+                "timestamp": "2024-02-28T18:25:00Z"
+              }
+            },
+            {
+              "tool": "airport_info",
+              "args": {
+                "icao_code": "KLGA"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "metar_lookup",
+          "airport_info"
+        ],
+        "expected_tools": [
+          "metar_lookup"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-017",
+      "input": {
+        "query": "Check what NOTAMs were active at KIAH on 2024-10-15 and pull the airport metadata to see which runways might have been affected."
+      },
+      "output": "[\n  {\n    \"tool\": \"notam_check\",\n    \"args\": {\n      \"icao_code\": \"KIAH\",\n      \"date\": \"2024-10-15\"\n    }\n  },\n  {\n    \"tool\": \"airport_info\",\n    \"args\": {\n      \"icao_code\": \"KIAH\"\n    }\n  }\n]",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "notam_check",
+              "args": {
+                "icao_code": "KIAH",
+                "date": "2024-10-15"
+              }
+            },
+            {
+              "tool": "airport_info",
+              "args": {
+                "icao_code": "KIAH"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "notam_check",
+          "airport_info"
+        ],
+        "expected_tools": [
+          "notam_check",
+          "airport_info"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-018",
+      "input": {
+        "query": "What are the fuel reserve requirements under FAR 91.167 for IFR flights?"
+      },
+      "output": "[\n  {\n    \"tool\": \"regulation_search\",\n    \"args\": {\n      \"far_section\": \"91.167\"\n    }\n  }\n]",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "regulation_search",
+              "args": {
+                "far_section": "91.167"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "regulation_search"
+        ],
+        "expected_tools": [
+          "regulation_search"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-019",
+      "input": {
+        "query": "Get me the ADS-B tracks for both aircraft involved in the near-miss: A7E001 and A8F320, during the window 14:00Z to 14:20Z on 2024-06-30."
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"track_query\",\n    \"args\": {\n      \"mode_s_hex\": \"A7E001\",\n      \"time_window\": {\n        \"start\": \"2024-06-30T14:00:00Z\",\n        \"end\": \"2024-06-30T14:20:00Z\"\n      }\n    }\n  },\n  {\n    \"tool\": \"track_query\",\n    \"args\": {\n      \"mode_s_hex\": \"A8F320\",\n      \"time_window\": {\n        \"start\": \"2024-06-30T14:00:00Z\",\n        \"end\": \"2024-06-30T14:20:00Z\"\n      }\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 0.25,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "track_query",
+              "args": {
+                "mode_s_hex": "A7E001",
+                "time_window": {
+                  "start": "2024-06-30T14:00:00Z",
+                  "end": "2024-06-30T14:20:00Z"
+                }
+              }
+            },
+            {
+              "tool": "track_query",
+              "args": {
+                "mode_s_hex": "A8F320",
+                "time_window": {
+                  "start": "2024-06-30T14:00:00Z",
+                  "end": "2024-06-30T14:20:00Z"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "track_query",
+          "track_query"
+        ],
+        "expected_tools": [
+          "track_query",
+          "track_query"
+        ]
+      },
+      "passed": false
+    },
+    {
+      "example_id": "TOOL-020",
+      "input": {
+        "query": "During the CFIT accident investigation near LOWI on 2024-12-01 at 06:15Z, retrieve the airport terrain data, weather observations, active NOTAMs, and the aircraft track (Mode S hex 3C4A12) from 06:00Z to 06:20Z."
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"airport_info\",\n    \"args\": {\n      \"icao_code\": \"LOWI\"\n    }\n  },\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"LOWI\",\n      \"timestamp\": \"2024-12-01T06:15:00Z\"\n    }\n  },\n  {\n    \"tool\": \"notam_check\",\n    \"args\": {\n      \"icao_code\": \"LOWI\",\n      \"date\": \"2024-12-01\"\n    }\n  },\n  {\n    \"tool\": \"track_query\",\n    \"args\": {\n      \"mode_s_hex\": \"3C4A12\",\n      \"time_window\": {\n        \"start\": \"2024-12-01T06:00:00Z\",\n        \"end\": \"2024-12-01T06:20:00Z\"\n      }\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 0.875,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "airport_info",
+              "args": {
+                "icao_code": "LOWI"
+              }
+            },
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "LOWI",
+                "timestamp": "2024-12-01T06:15:00Z"
+              }
+            },
+            {
+              "tool": "notam_check",
+              "args": {
+                "icao_code": "LOWI",
+                "date": "2024-12-01"
+              }
+            },
+            {
+              "tool": "track_query",
+              "args": {
+                "mode_s_hex": "3C4A12",
+                "time_window": {
+                  "start": "2024-12-01T06:00:00Z",
+                  "end": "2024-12-01T06:20:00Z"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "airport_info",
+          "metar_lookup",
+          "notam_check",
+          "track_query"
+        ],
+        "expected_tools": [
+          "airport_info",
+          "metar_lookup",
+          "notam_check",
+          "track_query"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-021",
+      "input": {
+        "query": "What does FAR 91.117 say about airspeed limits below 10,000 feet, and what are the performance characteristics of the E175 that was cited for the violation?"
+      },
+      "output": "[\n  {\n    \"tool\": \"regulation_search\",\n    \"args\": {\n      \"far_section\": \"91.117\"\n    }\n  },\n  {\n    \"tool\": \"aircraft_info\",\n    \"args\": {\n      \"icao_type_designator\": \"E175\"\n    }\n  }\n]",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "regulation_search",
+              "args": {
+                "far_section": "91.117"
+              }
+            },
+            {
+              "tool": "aircraft_info",
+              "args": {
+                "icao_type_designator": "E175"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "regulation_search",
+          "aircraft_info"
+        ],
+        "expected_tools": [
+          "regulation_search",
+          "aircraft_info"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-022",
+      "input": {
+        "query": "Retrieve the weather at both KJFK and KEWR at 11:00Z on 2024-03-22 to compare conditions for the divert decision."
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"KJFK\",\n      \"timestamp\": \"2024-03-22T11:00:00Z\"\n    }\n  },\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"KEWR\",\n      \"timestamp\": \"2024-03-22T11:00:00Z\"\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 0.75,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "KJFK",
+                "timestamp": "2024-03-22T11:00:00Z"
+              }
+            },
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "KEWR",
+                "timestamp": "2024-03-22T11:00:00Z"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "metar_lookup",
+          "metar_lookup"
+        ],
+        "expected_tools": [
+          "metar_lookup",
+          "metar_lookup"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-023",
+      "input": {
+        "query": "What is the runway length at KEGE and what are the high-altitude performance specs of a CL30 Challenger?"
+      },
+      "output": "[\n  {\n    \"tool\": \"airport_info\",\n    \"args\": {\n      \"icao_code\": \"KEGE\"\n    }\n  },\n  {\n    \"tool\": \"aircraft_info\",\n    \"args\": {\n      \"icao_type_designator\": \"CL30\"\n    }\n  }\n]",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "airport_info",
+              "args": {
+                "icao_code": "KEGE"
+              }
+            },
+            {
+              "tool": "aircraft_info",
+              "args": {
+                "icao_type_designator": "CL30"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "airport_info",
+          "aircraft_info"
+        ],
+        "expected_tools": [
+          "airport_info",
+          "aircraft_info"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-024",
+      "input": {
+        "query": "Look up FAR 91.13 on careless and reckless operation."
+      },
+      "output": "[\n  {\n    \"tool\": \"regulation_search\",\n    \"args\": {\n      \"far_section\": \"91.13\"\n    }\n  }\n]",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "regulation_search",
+              "args": {
+                "far_section": "91.13"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "regulation_search"
+        ],
+        "expected_tools": [
+          "regulation_search"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-025",
+      "input": {
+        "query": "For the gear-up landing at KTEB on 2024-07-08 at 20:30Z, get the weather, NOTAMs, airport info, aircraft specs for the BE36 Bonanza, and the ADS-B track (Mode S hex A55D19) from 20:15Z to 20:35Z."
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"KTEB\",\n      \"timestamp\": \"2024-07-08T20:30:00Z\"\n    }\n  },\n  {\n    \"tool\": \"notam_check\",\n    \"args\": {\n      \"icao_code\": \"KTEB\",\n      \"date\": \"2024-07-08\"\n    }\n  },\n  {\n    \"tool\": \"airport_info\",\n    \"args\": {\n      \"icao_code\": \"KTEB\"\n    }\n  },\n  {\n    \"tool\": \"aircraft_info\",\n    \"args\": {\n      \"icao_type_designator\": \"BE36\"\n    }\n  },\n  {\n    \"tool\": \"track_query\",\n    \"args\": {\n      \"mode_s_hex\": \"A55D19\",\n      \"time_window\": {\n        \"start\": \"2024-07-08T20:15:00Z\",\n        \"end\": \"2024-07-08T20:35:00Z\"\n      }\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 0.9,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "KTEB",
+                "timestamp": "2024-07-08T20:30:00Z"
+              }
+            },
+            {
+              "tool": "notam_check",
+              "args": {
+                "icao_code": "KTEB",
+                "date": "2024-07-08"
+              }
+            },
+            {
+              "tool": "airport_info",
+              "args": {
+                "icao_code": "KTEB"
+              }
+            },
+            {
+              "tool": "aircraft_info",
+              "args": {
+                "icao_type_designator": "BE36"
+              }
+            },
+            {
+              "tool": "track_query",
+              "args": {
+                "mode_s_hex": "A55D19",
+                "time_window": {
+                  "start": "2024-07-08T20:15:00Z",
+                  "end": "2024-07-08T20:35:00Z"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "metar_lookup",
+          "notam_check",
+          "airport_info",
+          "aircraft_info",
+          "track_query"
+        ],
+        "expected_tools": [
+          "metar_lookup",
+          "notam_check",
+          "airport_info",
+          "aircraft_info",
+          "track_query"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-026",
+      "input": {
+        "query": "What are the minimum equipment list requirements under FAR 91.213?"
+      },
+      "output": "[\n  {\n    \"tool\": \"regulation_search\",\n    \"args\": {\n      \"far_section\": \"91.213\"\n    }\n  }\n]",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "regulation_search",
+              "args": {
+                "far_section": "91.213"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "regulation_search"
+        ],
+        "expected_tools": [
+          "regulation_search"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-027",
+      "input": {
+        "query": "Check weather at KMDW at 15:45Z on 2024-08-19 and look up FAR 121.613 regarding dispatch requirements in weather conditions."
+      },
+      "output": "[\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"KMDW\",\n      \"timestamp\": \"2024-08-19T15:45:00Z\"\n    }\n  },\n  {\n    \"tool\": \"regulation_search\",\n    \"args\": {\n      \"far_section\": \"121.613\"\n    }\n  }\n]",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "KMDW",
+                "timestamp": "2024-08-19T15:45:00Z"
+              }
+            },
+            {
+              "tool": "regulation_search",
+              "args": {
+                "far_section": "121.613"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "metar_lookup",
+          "regulation_search"
+        ],
+        "expected_tools": [
+          "metar_lookup",
+          "regulation_search"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-028",
+      "input": {
+        "query": "What are the specs for a Pilatus PC-12?"
+      },
+      "output": "[\n  {\n    \"tool\": \"aircraft_info\",\n    \"args\": {\n      \"icao_type_designator\": \"PC12\"\n    }\n  }\n]",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "aircraft_info",
+              "args": {
+                "icao_type_designator": "PC12"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "aircraft_info"
+        ],
+        "expected_tools": [
+          "aircraft_info"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-029",
+      "input": {
+        "query": "During the turbulence encounter involving a B763 (Mode S hex AC0099) at 2024-04-05 17:30Z, get the aircraft track from 17:20Z to 17:40Z and retrieve the aircraft performance characteristics."
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"track_query\",\n    \"args\": {\n      \"mode_s_hex\": \"AC0099\",\n      \"time_window\": {\n        \"start\": \"2024-04-05T17:20:00Z\",\n        \"end\": \"2024-04-05T17:40:00Z\"\n      }\n    }\n  },\n  {\n    \"tool\": \"aircraft_info\",\n    \"args\": {\n      \"icao_type_designator\": \"B763\"\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 0.75,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "track_query",
+              "args": {
+                "mode_s_hex": "AC0099",
+                "time_window": {
+                  "start": "2024-04-05T17:20:00Z",
+                  "end": "2024-04-05T17:40:00Z"
+                }
+              }
+            },
+            {
+              "tool": "aircraft_info",
+              "args": {
+                "icao_type_designator": "B763"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "track_query",
+          "aircraft_info"
+        ],
+        "expected_tools": [
+          "track_query",
+          "aircraft_info"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-030",
+      "input": {
+        "query": "Check if there were any NOTAMs affecting PAFA on 2024-01-15 and get the airport info for Fairbanks."
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"notam_check\",\n    \"args\": {\n      \"icao_code\": \"PAFA\",\n      \"date\": \"2024-01-15\"\n    }\n  },\n  {\n    \"tool\": \"airport_info\",\n    \"args\": {\n      \"icao_code\": \"PAFA\"\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "notam_check",
+              "args": {
+                "icao_code": "PAFA",
+                "date": "2024-01-15"
+              }
+            },
+            {
+              "tool": "airport_info",
+              "args": {
+                "icao_code": "PAFA"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "notam_check",
+          "airport_info"
+        ],
+        "expected_tools": [
+          "notam_check",
+          "airport_info"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-031",
+      "input": {
+        "query": "Investigate the helicopter wire strike near KVNY on 2024-09-20 at 12:00Z: get weather, NOTAMs for obstacle information, and look up FAR 91.119 on minimum safe altitudes."
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"KVNY\",\n      \"timestamp\": \"2024-09-20T12:00:00Z\"\n    }\n  },\n  {\n    \"tool\": \"notam_check\",\n    \"args\": {\n      \"icao_code\": \"KVNY\",\n      \"date\": \"2024-09-20\"\n    }\n  },\n  {\n    \"tool\": \"regulation_search\",\n    \"args\": {\n      \"far_section\": \"91.119\"\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "KVNY",
+                "timestamp": "2024-09-20T12:00:00Z"
+              }
+            },
+            {
+              "tool": "notam_check",
+              "args": {
+                "icao_code": "KVNY",
+                "date": "2024-09-20"
+              }
+            },
+            {
+              "tool": "regulation_search",
+              "args": {
+                "far_section": "91.119"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "metar_lookup",
+          "notam_check",
+          "regulation_search"
+        ],
+        "expected_tools": [
+          "metar_lookup",
+          "notam_check",
+          "regulation_search"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-032",
+      "input": {
+        "query": "Get the airport information for LUKLA, the Tenzing-Hillary Airport in Nepal."
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"airport_info\",\n    \"args\": {\n      \"icao_code\": \"VNLK\"\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 1.0,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "airport_info",
+              "args": {
+                "icao_code": "VNLK"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "airport_info"
+        ],
+        "expected_tools": [
+          "airport_info"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-033",
+      "input": {
+        "query": "A Cessna Citation X (C750, Mode S hex A90B11) experienced a cabin depressurization at FL430 at 10:05Z on 2024-05-30. Retrieve the track from 10:00Z to 10:25Z, the aircraft specs, and check what FAR 91.211 says about supplemental oxygen requirements."
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"track_query\",\n    \"args\": {\n      \"mode_s_hex\": \"A90B11\",\n      \"time_window\": {\n        \"start\": \"2024-05-30T10:00:00Z\",\n        \"end\": \"2024-05-30T10:25:00Z\"\n      }\n    }\n  },\n  {\n    \"tool\": \"aircraft_info\",\n    \"args\": {\n      \"icao_type_designator\": \"C750\"\n    }\n  },\n  {\n    \"tool\": \"regulation_search\",\n    \"args\": {\n      \"far_section\": \"91.211\"\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 0.8333333333333334,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "track_query",
+              "args": {
+                "mode_s_hex": "A90B11",
+                "time_window": {
+                  "start": "2024-05-30T10:00:00Z",
+                  "end": "2024-05-30T10:25:00Z"
+                }
+              }
+            },
+            {
+              "tool": "aircraft_info",
+              "args": {
+                "icao_type_designator": "C750"
+              }
+            },
+            {
+              "tool": "regulation_search",
+              "args": {
+                "far_section": "91.211"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "track_query",
+          "aircraft_info",
+          "regulation_search"
+        ],
+        "expected_tools": [
+          "track_query",
+          "aircraft_info",
+          "regulation_search"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-034",
+      "input": {
+        "query": "Compare the weather at KSEA and KPDX at 09:00Z on 2024-11-10 and check NOTAMs at both airports for a diversion analysis."
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"KSEA\",\n      \"timestamp\": \"2024-11-10T09:00:00Z\"\n    }\n  },\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"KPDX\",\n      \"timestamp\": \"2024-11-10T09:00:00Z\"\n    }\n  },\n  {\n    \"tool\": \"notam_check\",\n    \"args\": {\n      \"icao_code\": \"KSEA\",\n      \"date\": \"2024-11-10\"\n    }\n  },\n  {\n    \"tool\": \"notam_check\",\n    \"args\": {\n      \"icao_code\": \"KPDX\",\n      \"date\": \"2024-11-10\"\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 0.75,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "KSEA",
+                "timestamp": "2024-11-10T09:00:00Z"
+              }
+            },
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "KPDX",
+                "timestamp": "2024-11-10T09:00:00Z"
+              }
+            },
+            {
+              "tool": "notam_check",
+              "args": {
+                "icao_code": "KSEA",
+                "date": "2024-11-10"
+              }
+            },
+            {
+              "tool": "notam_check",
+              "args": {
+                "icao_code": "KPDX",
+                "date": "2024-11-10"
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "metar_lookup",
+          "metar_lookup",
+          "notam_check",
+          "notam_check"
+        ],
+        "expected_tools": [
+          "metar_lookup",
+          "metar_lookup",
+          "notam_check",
+          "notam_check"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "example_id": "TOOL-035",
+      "input": {
+        "query": "For the midair collision risk event at KOSH during AirVenture on 2024-07-25, retrieve the airport info, check NOTAMs for the special procedures, get weather at 18:00Z, look up FAR 91.126 on traffic pattern operations, and pull ADS-B tracks for both aircraft (Mode S hex A11111 and A22222) from 17:50Z to 18:10Z."
+      },
+      "output": "```json\n[\n  {\n    \"tool\": \"airport_info\",\n    \"args\": {\n      \"icao_code\": \"KOSH\"\n    }\n  },\n  {\n    \"tool\": \"notam_check\",\n    \"args\": {\n      \"icao_code\": \"KOSH\",\n      \"date\": \"2024-07-25\"\n    }\n  },\n  {\n    \"tool\": \"metar_lookup\",\n    \"args\": {\n      \"icao_code\": \"KOSH\",\n      \"timestamp\": \"2024-07-25T18:00:00Z\"\n    }\n  },\n  {\n    \"tool\": \"regulation_search\",\n    \"args\": {\n      \"far_section\": \"91.126\"\n    }\n  },\n  {\n    \"tool\": \"track_query\",\n    \"args\": {\n      \"mode_s_hex\": \"A11111\",\n      \"time_window\": {\n        \"start\": \"2024-07-25T17:50:00Z\",\n        \"end\": \"2024-07-25T18:10:00Z\"\n      }\n    }\n  },\n  {\n    \"tool\": \"track_query\",\n    \"args\": {\n      \"mode_s_hex\": \"A22222\",\n      \"time_window\": {\n        \"start\": \"2024-07-25T17:50:00Z\",\n        \"end\": \"2024-07-25T18:10:00Z\"\n      }\n    }\n  }\n]\n```",
+      "scores": {
+        "tool_selection": 1.0,
+        "argument_accuracy": 0.75,
+        "sequence_accuracy": 1.0
+      },
+      "traces": [
+        {
+          "predicted_calls": [
+            {
+              "tool": "airport_info",
+              "args": {
+                "icao_code": "KOSH"
+              }
+            },
+            {
+              "tool": "notam_check",
+              "args": {
+                "icao_code": "KOSH",
+                "date": "2024-07-25"
+              }
+            },
+            {
+              "tool": "metar_lookup",
+              "args": {
+                "icao_code": "KOSH",
+                "timestamp": "2024-07-25T18:00:00Z"
+              }
+            },
+            {
+              "tool": "regulation_search",
+              "args": {
+                "far_section": "91.126"
+              }
+            },
+            {
+              "tool": "track_query",
+              "args": {
+                "mode_s_hex": "A11111",
+                "time_window": {
+                  "start": "2024-07-25T17:50:00Z",
+                  "end": "2024-07-25T18:10:00Z"
+                }
+              }
+            },
+            {
+              "tool": "track_query",
+              "args": {
+                "mode_s_hex": "A22222",
+                "time_window": {
+                  "start": "2024-07-25T17:50:00Z",
+                  "end": "2024-07-25T18:10:00Z"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "grader_results": {
+        "predicted_tools": [
+          "airport_info",
+          "notam_check",
+          "metar_lookup",
+          "regulation_search",
+          "track_query",
+          "track_query"
+        ],
+        "expected_tools": [
+          "airport_info",
+          "notam_check",
+          "metar_lookup",
+          "regulation_search",
+          "track_query",
+          "track_query"
+        ]
+      },
+      "passed": true
+    }
+  ],
+  "aggregate_metrics": {
+    "tool_selection_accuracy": 0.9857142857142858,
+    "argument_accuracy": 0.9019047619047619,
+    "sequence_accuracy": 1.0,
+    "pass_rate": 0.9714285714285714
+  },
+  "confidence_intervals": {
+    "tool_selection_accuracy": [
+      0.9142857142857143,
+      1.0
+    ],
+    "argument_accuracy": [
+      0.9142857142857143,
+      1.0
+    ],
+    "sequence_accuracy": [
+      0.9142857142857143,
+      1.0
+    ],
+    "pass_rate": [
+      0.9142857142857143,
+      1.0
+    ]
+  },
+  "run_config": {
+    "dataset": "/Users/psparks/PycharmProjects/aviation-eval-harness/datasets/tool_use_cases.jsonl"
+  }
+}

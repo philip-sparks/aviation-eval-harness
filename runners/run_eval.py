@@ -17,6 +17,9 @@ from pathlib import Path
 from typing import Any
 
 import click
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from evals.base import Result
 from evals.config import load_config, save_config
@@ -82,7 +85,12 @@ def run(eval_name, model_spec, dataset_path, config_path, output_path, use_cache
 
     # Load eval class
     eval_cls = _load_eval_class(eval_name)
-    eval_instance = eval_cls()
+
+    # Pass judge adapter for evals that need it
+    eval_kwargs = {}
+    if eval_name in ("grounding",):
+        eval_kwargs["judge_adapter"] = adapter
+    eval_instance = eval_cls(**eval_kwargs)
 
     # Load dataset
     dataset = None
@@ -99,8 +107,22 @@ def run(eval_name, model_spec, dataset_path, config_path, output_path, use_cache
     # Add bootstrap CIs
     try:
         from analysis.significance import bootstrap_ci
-        for metric, value in result.aggregate_metrics.items():
-            scores = [e.scores.get(metric, float(e.passed)) for e in result.examples]
+
+        # Map aggregate metric names to per-example score extraction
+        ci_extractors = {
+            "grounding_accuracy": lambda e: max(
+                e.scores.get("semantic_equivalence", 0),
+                e.scores.get("contains", 0),
+            ),
+            "hallucination_rate": lambda e: 1.0 - e.scores.get("not_contains", 1.0),
+            "pass_rate": lambda e: float(e.passed),
+            "llm_judge": lambda e: e.scores.get("llm_judge", 0),
+        }
+        default_extractor = lambda e: float(e.passed)
+
+        for metric in result.aggregate_metrics:
+            extractor = ci_extractors.get(metric, default_extractor)
+            scores = [extractor(e) for e in result.examples]
             if scores:
                 _, lower, upper = bootstrap_ci(scores)
                 result.confidence_intervals[metric] = (lower, upper)

@@ -19,16 +19,38 @@ SYSTEM_PROMPT = (
 DEFAULT_DATASET = Path(__file__).parent.parent.parent / "datasets" / "adversarial_prompts.jsonl"
 
 
+def _output_similarity(text_a: str, text_b: str) -> float:
+    """Compute similarity between two outputs using token overlap (Jaccard).
+
+    Returns a value between 0 and 1 where 1 means identical content.
+    Uses word-level Jaccard similarity — fast, no external dependencies.
+    """
+    words_a = set(text_a.lower().split())
+    words_b = set(text_b.lower().split())
+    if not words_a and not words_b:
+        return 1.0
+    if not words_a or not words_b:
+        return 0.0
+    intersection = words_a & words_b
+    union = words_a | words_b
+    return len(intersection) / len(union)
+
+
 class RobustnessEval(Eval):
     """Robustness evaluation.
 
     Runs each base prompt to get a baseline score, then runs perturbation
     variants and measures score degradation.
 
+    Scores each pair on two dimensions:
+    - output_similarity: Jaccard word overlap between baseline and perturbed output
+    - fact_coverage: SemanticEquivalenceGrader score (when expected facts exist)
+
     Metrics:
-    - mean_degradation: average score drop across perturbations
-    - max_degradation: worst-case score drop
-    - perturbation_type_breakdown: degradation by perturbation category
+    - mean_degradation: average drop in fact coverage
+    - max_degradation: worst-case fact coverage drop
+    - mean_similarity: average output similarity (higher = more robust)
+    - perturbation_type_breakdown: per-type similarity and degradation
     """
 
     def __init__(self, dataset_path: Path | str | None = None):
@@ -51,24 +73,26 @@ class RobustnessEval(Eval):
             )
 
         degradations = [e.scores.get("degradation", 0) for e in examples]
+        similarities = [e.scores.get("output_similarity", 0) for e in examples]
 
         # Breakdown by perturbation type
-        type_degradations: dict[str, list[float]] = {}
+        type_stats: dict[str, dict[str, list[float]]] = {}
         for e in examples:
             ptype = e.input.get("perturbation_type", "unknown")
-            type_degradations.setdefault(ptype, []).append(e.scores.get("degradation", 0))
-
-        breakdown = {
-            ptype: sum(vals) / len(vals)
-            for ptype, vals in type_degradations.items()
-        }
+            bucket = type_stats.setdefault(ptype, {"degradation": [], "similarity": []})
+            bucket["degradation"].append(e.scores.get("degradation", 0))
+            bucket["similarity"].append(e.scores.get("output_similarity", 0))
 
         aggregate = {
             "mean_degradation": sum(degradations) / n,
             "max_degradation": max(degradations) if degradations else 0.0,
-            "robustness_score": 1.0 - (sum(degradations) / n),
+            "mean_similarity": sum(similarities) / n,
+            "robustness_score": sum(similarities) / n,
             "pass_rate": sum(1 for e in examples if e.passed) / n,
-            **{f"degradation_{k}": v for k, v in breakdown.items()},
+            **{
+                f"similarity_{k}": sum(v["similarity"]) / len(v["similarity"])
+                for k, v in type_stats.items()
+            },
         }
 
         return Result(
@@ -96,17 +120,21 @@ class RobustnessEval(Eval):
             perturbed_response.text, {"expected_facts": expected_facts}
         )
 
-        # Compute degradation
+        # Compute degradation (fact coverage drop)
         degradation = max(0.0, baseline_result.score - perturbed_result.score)
+
+        # Compute output similarity (are the answers substantively the same?)
+        similarity = _output_similarity(baseline_response.text, perturbed_response.text)
 
         scores = {
             "baseline_score": baseline_result.score,
             "perturbed_score": perturbed_result.score,
             "degradation": degradation,
+            "output_similarity": similarity,
         }
 
-        # Pass if degradation is minimal (< 0.2)
-        passed = degradation < 0.2
+        # Pass if outputs are similar (similarity >= 0.5) and no major degradation
+        passed = similarity >= 0.5 and degradation < 0.2
 
         return ExampleResult(
             example_id=example.get("case_id", ""),

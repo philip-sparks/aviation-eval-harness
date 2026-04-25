@@ -79,7 +79,10 @@ class GroundingEval(Eval):
                 confidence_intervals={}, run_config={},
             )
 
-        grounding_scores = [e.scores.get("semantic_equivalence", 0) for e in examples]
+        grounding_scores = [
+            max(e.scores.get("semantic_equivalence", 0), e.scores.get("contains", 0))
+            for e in examples
+        ]
         hallucination_scores = [e.scores.get("not_contains", 1) for e in examples]
 
         # Agreement between rule-based and LLM judge
@@ -93,8 +96,11 @@ class GroundingEval(Eval):
                 if rule_passed == judge_passed:
                     agreements += 1
 
+        judge_scores = [e.scores.get("llm_judge", 0) for e in examples]
+
         aggregate = {
             "grounding_accuracy": sum(grounding_scores) / n,
+            "llm_judge": sum(judge_scores) / n,
             "hallucination_rate": 1.0 - (sum(hallucination_scores) / n),
             "grader_agreement_rate": agreements / judged if judged > 0 else 0.0,
             "pass_rate": sum(1 for e in examples if e.passed) / n,
@@ -140,8 +146,17 @@ class GroundingEval(Eval):
             "llm_judge": {"passed": judge_result.passed, **judge_result.details},
         }
 
-        # Overall pass: must pass both contains and not-contains
-        passed = contains_result.passed and not_contains_result.passed
+        # Overall pass: no hallucinations required, plus at least one grader
+        # confirms factual coverage (contains, semantic, or LLM judge).
+        # Strict substring matching (contains) alone is too brittle for
+        # paraphrased model output, so we accept semantic or judge confirmation.
+        factual_ok = (
+            contains_result.passed
+            or semantic_result.passed
+            or judge_result.passed
+            or semantic_result.score >= 0.5
+        )
+        passed = not_contains_result.passed and factual_ok
 
         return ExampleResult(
             example_id=example.get("case_id", ""),

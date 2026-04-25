@@ -1,0 +1,1539 @@
+{
+  "eval_name": "robustness",
+  "model_id": "claude-sonnet-4-20250514",
+  "timestamp": "2026-04-25T11:44:39.558417",
+  "examples": [
+    {
+      "example_id": "ADV-001",
+      "input": {
+        "base_prompt": "What is the appropriate pilot action when receiving a TCAS Resolution Advisory to climb?",
+        "perturbed_prompt": "When a traffic collision avoidance system issues a resolution advisory commanding a climb, what should the pilot do?",
+        "perturbation_type": "paraphrase"
+      },
+      "output": "When a Traffic Collision Avoidance System (TCAS) issues a Resolution Advisory (RA) commanding a climb, the pilot should:\n\n## Immediate Actions:\n1. **Follow the RA immediately** - Climb at the rate indicated by the TCAS display (typically 1,500-2,500 feet per minute)\n2. **Disconnect the autopilot** if engaged to ensure manual control\n3. **Do NOT delay** - Time is critical in collision avoidance scenarios\n\n## Flight Path Management:\n- **Climb smoothly** to the target rate shown on the TCAS display\n- **Monitor the RA guidance** continuously as it may change (strengthen, weaken, or reverse)\n- **Continue following** the RA until it transitions to \"Clear of Conflict\"\n\n## Communication Protocol:\n- **Notify ATC immediately**: \"TCAS RA, climbing\" or similar phraseology\n- **Do NOT request permission** - inform ATC of your actions, don't ask\n- **Coordinate return** to assigned altitude only after receiving \"Clear of Conflict\"\n\n## Critical Points:\n- **TCAS takes precedence** over ATC instructions during an RA\n- **Both aircraft** involved should receive complementary RAs (one climbs, one descends)\n- **Never maneuver opposite** to the RA command\n- **Don't level off early** - follow the RA through completion\n\nThe key principle is immediate compliance with the RA while keeping ATC informed. TCAS is specifically designed to coordinate avoidance maneuvers between aircraft, so following its guidance is essential for the system to work effectively.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.3705357142857143
+      },
+      "traces": [
+        {
+          "baseline": "When receiving a TCAS Resolution Advisory (RA) to climb, the appropriate pilot actions are:\n\n## Immediate Response\n1. **Follow the RA immediately** - Climb at the rate indicated by the TCAS display (typically 1,500-2,500 feet per minute)\n2. **Disconnect autopilot** if engaged to ensure manual control compliance with the RA\n3. **Prioritize the RA over ATC instructions** - TCAS RAs take precedence over air traffic control clearances\n\n## Communication Protocol\n4. **Respond to ATC** as soon as workl"
+        },
+        {
+          "perturbed": "When a Traffic Collision Avoidance System (TCAS) issues a Resolution Advisory (RA) commanding a climb, the pilot should:\n\n## Immediate Actions:\n1. **Follow the RA immediately** - Climb at the rate indicated by the TCAS display (typically 1,500-2,500 feet per minute)\n2. **Disconnect the autopilot** if engaged to ensure manual control\n3. **Do NOT delay** - Time is critical in collision avoidance scenarios\n\n## Flight Path Management:\n- **Climb smoothly** to the target rate shown on the TCAS display"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "Follow the RA and climb immediately",
+            "Disconnect autopilot if necessary",
+            "Coordinate with ATC after complying"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "Follow the RA and climb immediately",
+            "Disconnect autopilot if necessary",
+            "Coordinate with ATC after complying"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-002",
+      "input": {
+        "base_prompt": "Explain the procedure for conducting an ILS approach to runway 18R at KDFW.",
+        "perturbed_prompt": "Describe the steps a pilot follows when flying an instrument landing system approach to the right-hand runway 18 at Dallas/Fort Worth International.",
+        "perturbation_type": "paraphrase"
+      },
+      "output": "Here's the typical procedure for an ILS approach to a right-hand runway 18 at DFW:\n\n## Pre-Approach Phase\n- **Clearance**: Receive approach clearance from DFW Approach Control\n- **Briefing**: Review the specific ILS 18R approach plate, noting:\n  - Decision altitude (typically around 200-300 feet AGL)\n  - Missed approach procedure\n  - Localizer frequency and course\n  - Glideslope intercept altitude\n  - Minimum visibility requirements\n\n## Initial Approach\n- **Vectors**: Follow ATC vectors to intercept the localizer course (approximately 180\u00b0)\n- **Configuration**: Begin slowing aircraft and configuring for approach (flaps, gear as appropriate)\n- **Altitude**: Maintain assigned altitude until established on the localizer\n\n## Intermediate Approach\n- **Localizer Intercept**: Intercept and track the localizer centerline\n- **Glideslope Capture**: Intercept the glideslope (typically at the outer marker or equivalent fix)\n- **Descent**: Begin controlled descent following the 3\u00b0 glideslope\n- **Speed**: Maintain approach speed per aircraft type\n\n## Final Approach\n- **Tracking**: Maintain localizer and glideslope centerline using flight instruments\n- **Callouts**: Monitor altitude callouts and approach minimums\n- **Decision Point**: At decision altitude, determine if:\n  - Visual references are sufficient to continue to landing, OR\n  - Execute missed approach if conditions don't meet minimums\n\n## Landing/Missed Approach\n- **Landing**: If visual, continue to touchdown on runway 18R\n- **Missed Approach**: If needed, execute published missed approach procedure (typically involves climbing straight ahead or turning as specified)\n\nThe pilot maintains constant communication with ATC throughout and follows all published procedures for the specific ILS 18R approach at DFW.",
+      "scores": {
+        "baseline_score": 0.3333333333333333,
+        "perturbed_score": 0.3333333333333333,
+        "degradation": 0.0,
+        "output_similarity": 0.26956521739130435
+      },
+      "traces": [
+        {
+          "baseline": "Here's the procedure for conducting an ILS approach to Runway 18R at KDFW (Dallas/Fort Worth International Airport):\n\n## Pre-Approach Setup\n- **Frequency**: Tune ILS frequency 111.55 MHz\n- **Course**: Set 176\u00b0 on the course deviation indicator\n- **Minimums**: Check approach plate for DA/DH (typically around 660-700 feet MSL)\n- **Weather**: Verify current conditions meet approach minimums\n\n## Initial Approach\n- **Vectors**: ATC will typically vector you to intercept the localizer\n- **Altitude**: "
+        },
+        {
+          "perturbed": "Here's the typical procedure for an ILS approach to a right-hand runway 18 at DFW:\n\n## Pre-Approach Phase\n- **Clearance**: Receive approach clearance from DFW Approach Control\n- **Briefing**: Review the specific ILS 18R approach plate, noting:\n  - Decision altitude (typically around 200-300 feet AGL)\n  - Missed approach procedure\n  - Localizer frequency and course\n  - Glideslope intercept altitude\n  - Minimum visibility requirements\n\n## Initial Approach\n- **Vectors**: Follow ATC vectors to inter"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [
+            "Intercept the localizer"
+          ],
+          "missing": [
+            "Capture the glideslope",
+            "Follow published minimums for ILS 18R at KDFW"
+          ]
+        },
+        "perturbed": {
+          "found": [
+            "Intercept the localizer"
+          ],
+          "missing": [
+            "Capture the glideslope",
+            "Follow published minimums for ILS 18R at KDFW"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-003",
+      "input": {
+        "base_prompt": "What are the V-speeds for a Boeing 737-800 at maximum takeoff weight?",
+        "perturbed_prompt": "For a 737-800 at its heaviest allowable departure weight, what are the critical reference speeds during the takeoff roll?",
+        "perturbation_type": "paraphrase"
+      },
+      "output": "For a Boeing 737-800 at maximum takeoff weight (MTOW of approximately 174,200 lbs/79,010 kg), the critical reference speeds during takeoff roll are:\n\n## Primary V-Speeds:\n\n**V1 (Decision Speed):** Typically 145-155 knots\n- The maximum speed at which the pilot can abort takeoff and stop within the remaining runway\n- Beyond this speed, takeoff must be continued even with an engine failure\n\n**VR (Rotation Speed):** Typically 150-160 knots  \n- The speed at which the pilot begins to rotate (pull back on controls) to lift the nose\n- Usually occurs 5-10 knots after V1\n\n**V2 (Takeoff Safety Speed):** Typically 155-165 knots\n- The minimum speed that provides required climb performance with one engine inoperative\n- Target speed to maintain after liftoff until obstacle clearance is achieved\n\n## Important Notes:\n\n- These speeds vary significantly based on:\n  - Actual weight and center of gravity\n  - Airport elevation and temperature\n  - Runway condition (wet/dry)\n  - Flap setting (typically 5\u00b0 or 15\u00b0 for takeoff)\n  - Wind conditions\n\n- Pilots calculate exact speeds using performance charts or flight management computers for each specific departure\n\n- At maximum weight, these speeds represent the highest end of the aircraft's takeoff speed envelope, requiring maximum available runway length and optimal conditions.\n\nThe flight crew must have these speeds clearly identified and briefed before beginning the takeoff roll, as they are critical for safe takeoff execution.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.28502415458937197
+      },
+      "traces": [
+        {
+          "baseline": "Here are the typical V-speeds for a Boeing 737-800 at maximum takeoff weight (MTOW of approximately 174,200 lbs):\n\n**Key Takeoff V-speeds:**\n- **V1 (Decision Speed)**: ~145-155 knots\n- **VR (Rotation Speed)**: ~150-160 knots  \n- **V2 (Takeoff Safety Speed)**: ~155-165 knots\n\n**Other Important V-speeds:**\n- **VMC (Minimum Control Speed)**: ~114 knots\n- **VMCG (Ground Minimum Control Speed)**: ~114 knots\n- **VEF (Engine Failure Speed)**: Typically 1 knot below V1\n\n**Important Notes:**\n- These are "
+        },
+        {
+          "perturbed": "For a Boeing 737-800 at maximum takeoff weight (MTOW of approximately 174,200 lbs/79,010 kg), the critical reference speeds during takeoff roll are:\n\n## Primary V-Speeds:\n\n**V1 (Decision Speed):** Typically 145-155 knots\n- The maximum speed at which the pilot can abort takeoff and stop within the remaining runway\n- Beyond this speed, takeoff must be continued even with an engine failure\n\n**VR (Rotation Speed):** Typically 150-160 knots  \n- The speed at which the pilot begins to rotate (pull back"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "V1 is the takeoff decision speed",
+            "VR is the rotation speed",
+            "V2 is the takeoff safety speed"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "V1 is the takeoff decision speed",
+            "VR is the rotation speed",
+            "V2 is the takeoff safety speed"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-004",
+      "input": {
+        "base_prompt": "What is the minimum safe altitude within 25 NM of the KATL VOR?",
+        "perturbed_prompt": "Within a 25-nautical-mile radius of the Atlanta Hartsfield VOR, what is the lowest altitude at which terrain clearance is guaranteed?",
+        "perturbation_type": "paraphrase"
+      },
+      "output": "I cannot provide a specific altitude for guaranteed terrain clearance within 25 nautical miles of the Atlanta Hartsfield VOR without access to current sectional charts, terminal area charts, or official FAA publications that show the terrain and obstruction data for that area.\n\nTo find this information, you would need to consult:\n\n1. **Current Atlanta Terminal Area Chart (TAC)** - Shows terrain elevations and obstacles\n2. **Atlanta Sectional Chart** - Contains Maximum Elevation Figures (MEF) for each quadrant\n3. **IFR En Route Low Altitude Charts** - Show Minimum En Route Altitudes (MEA)\n4. **FAA Chart Supplement** - Contains detailed airport and airspace information\n\nThe terrain around Atlanta varies significantly, with some areas being relatively flat while others have hills and elevated terrain, particularly to the north and east of the airport. The Maximum Elevation Figures (MEF) shown in grid squares on sectional charts would give you the highest known feature (terrain or man-made obstacle) plus a safety buffer for each area.\n\nFor flight planning purposes, always use current, official FAA charts and publications to determine safe altitudes, as terrain and obstacle data can change and my information may not reflect the most current conditions.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.292817679558011
+      },
+      "traces": [
+        {
+          "baseline": "I don't have access to current aeronautical charts or databases that would show the specific Minimum Safe Altitude (MSA) for the KATL VOR. To find this information accurately, you would need to reference:\n\n1. **Current sectional charts** - The MSA is typically depicted in a circle around VORs on sectional charts\n2. **Terminal area charts** - For the Atlanta area\n3. **Approach plates** - Which show MSAs for specific procedures\n4. **Current NOTAMs** - For any temporary changes\n\nThe MSA around a VO"
+        },
+        {
+          "perturbed": "I cannot provide a specific altitude for guaranteed terrain clearance within 25 nautical miles of the Atlanta Hartsfield VOR without access to current sectional charts, terminal area charts, or official FAA publications that show the terrain and obstruction data for that area.\n\nTo find this information, you would need to consult:\n\n1. **Current Atlanta Terminal Area Chart (TAC)** - Shows terrain elevations and obstacles\n2. **Atlanta Sectional Chart** - Contains Maximum Elevation Figures (MEF) for"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "MSA is published on approach charts",
+            "Provides 1000 ft obstacle clearance within the specified radius"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "MSA is published on approach charts",
+            "Provides 1000 ft obstacle clearance within the specified radius"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-005",
+      "input": {
+        "base_prompt": "Describe the holding pattern entry at the BRAVO intersection when arriving from the south on a heading of 360.",
+        "perturbed_prompt": "If you are flying northbound on a 360-degree heading and reach the BRAVO fix, what type of entry should you use to join the published holding pattern?",
+        "perturbation_type": "paraphrase"
+      },
+      "output": "I need more information to provide a definitive answer about the holding pattern entry type. Specifically, I need to know:\n\n1. **The holding pattern orientation at BRAVO fix** - What is the inbound course of the holding pattern?\n2. **The holding pattern direction** - Are the turns standard (right) or non-standard (left)?\n\nHowever, I can explain the general process:\n\n**Entry Determination Method:**\n- Draw the holding pattern with the fix at the center\n- Extend the inbound course line through the fix\n- Create a 70-degree zone on the non-holding side of this line\n- Your approach heading (360\u00b0) determines which entry to use:\n\n**The three entry types are:**\n- **Direct Entry**: Approach from the holding side\n- **Teardrop Entry**: Approach from within the 70-degree zone\n- **Parallel Entry**: Approach from the non-holding side, outside the 70-degree zone\n\n**For a northbound approach (360\u00b0 heading):**\n- If the holding pattern's inbound course is easterly or westerly, you'd likely use a direct entry\n- If the inbound course is southerly, you might use a parallel or teardrop entry\n\nCould you provide the published holding pattern details (inbound course and turn direction) for BRAVO fix? This would allow me to give you the specific entry type required.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.22916666666666666
+      },
+      "traces": [
+        {
+          "baseline": "To provide an accurate holding pattern entry analysis for the BRAVO intersection, I would need additional information that isn't specified in your question:\n\n**Missing Critical Information:**\n- The published holding pattern course/radial at BRAVO intersection\n- Whether it's a standard (right turns) or non-standard (left turns) pattern\n- The specific holding fix orientation\n\n**General Analysis Framework:**\nArriving from the south on heading 360\u00b0 (due north), the entry type would depend on the hol"
+        },
+        {
+          "perturbed": "I need more information to provide a definitive answer about the holding pattern entry type. Specifically, I need to know:\n\n1. **The holding pattern orientation at BRAVO fix** - What is the inbound course of the holding pattern?\n2. **The holding pattern direction** - Are the turns standard (right) or non-standard (left)?\n\nHowever, I can explain the general process:\n\n**Entry Determination Method:**\n- Draw the holding pattern with the fix at the center\n- Extend the inbound course line through the "
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "Determine entry type based on inbound course relative to holding pattern",
+            "Entry could be direct, teardrop, or parallel depending on pattern orientation"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "Determine entry type based on inbound course relative to holding pattern",
+            "Entry could be direct, teardrop, or parallel depending on pattern orientation"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-006",
+      "input": {
+        "base_prompt": "What are the weather minimums for a CAT II ILS approach?",
+        "perturbed_prompt": "For an instrument landing system approach classified as Category Two, what are the required minimum visibility and decision height?",
+        "perturbation_type": "paraphrase"
+      },
+      "output": "For a Category II (CAT II) Instrument Landing System (ILS) approach, the standard minimums are:\n\n**Decision Height (DH):** 100 feet above touchdown zone elevation\n\n**Visibility:** 1,200 feet Runway Visual Range (RVR) or 1/4 statute mile visibility\n\n**Key Requirements:**\n- Aircraft must be certified for CAT II operations\n- Flight crew must be trained and qualified for CAT II approaches\n- Airport must have CAT II certified ILS equipment\n- Special approach lighting systems are typically required\n- Enhanced ground proximity warning systems\n- Specific autopilot/flight director capabilities\n\n**Operational Notes:**\n- These minimums allow approaches in significantly reduced visibility conditions compared to CAT I (200 ft DH, 1,800 ft RVR)\n- The lower decision height and visibility requirements demand higher precision navigation equipment and more stringent pilot qualifications\n- Weather conditions must meet specific requirements for ceiling, visibility, and wind parameters\n\nCAT II approaches represent an intermediate level of precision approach capability between standard CAT I and the most restrictive CAT III operations.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.3375
+      },
+      "traces": [
+        {
+          "baseline": "For a CAT II ILS approach, the standard weather minimums are:\n\n**Decision Height (DH):** 100 feet above touchdown zone elevation\n\n**Runway Visual Range (RVR):** 1,200 feet\n\n**Key Requirements:**\n- Aircraft must be CAT II certified/equipped\n- Flight crew must be CAT II qualified and current\n- Airport must have CAT II certified ILS system\n- Specific ground equipment requirements (approach lighting, runway markings, etc.)\n\n**Important Notes:**\n- These are the standard minimums - specific airports o"
+        },
+        {
+          "perturbed": "For a Category II (CAT II) Instrument Landing System (ILS) approach, the standard minimums are:\n\n**Decision Height (DH):** 100 feet above touchdown zone elevation\n\n**Visibility:** 1,200 feet Runway Visual Range (RVR) or 1/4 statute mile visibility\n\n**Key Requirements:**\n- Aircraft must be certified for CAT II operations\n- Flight crew must be trained and qualified for CAT II approaches\n- Airport must have CAT II certified ILS equipment\n- Special approach lighting systems are typically required\n- "
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "Decision height of 100 feet",
+            "RVR of 1200 feet or greater",
+            "Requires special aircrew and aircraft certification"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "Decision height of 100 feet",
+            "RVR of 1200 feet or greater",
+            "Requires special aircrew and aircraft certification"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-007",
+      "input": {
+        "base_prompt": "Decode the following METAR: KDFW 241753Z 18012G20KT 10SM FEW250 30/18 A3002 RMK AO2",
+        "perturbed_prompt": "Decode the following METAR: KFWD 241753Z 18012G20KT 10SM FEW250 30/18 A3002 RMK AO2",
+        "perturbation_type": "typo"
+      },
+      "output": "Here's the decoded METAR for KFWD (Dallas Fort Worth/Meacham International Airport):\n\n**Station & Time:**\n- KFWD: Dallas Fort Worth/Meacham International Airport\n- 241753Z: Observation taken on the 24th day at 17:53 UTC (Zulu time)\n\n**Wind:**\n- 18012G20KT: Wind from 180\u00b0 (south) at 12 knots, gusting to 20 knots\n\n**Visibility:**\n- 10SM: Visibility 10 statute miles (excellent visibility)\n\n**Cloud Coverage:**\n- FEW250: Few clouds at 25,000 feet (minimal cloud coverage at high altitude)\n\n**Temperature & Dewpoint:**\n- 30/18: Temperature 30\u00b0C (86\u00b0F), Dewpoint 18\u00b0C (64\u00b0F)\n\n**Pressure:**\n- A3002: Altimeter setting 30.02 inches of mercury\n\n**Remarks:**\n- RMK AO2: Automated station with precipitation discriminator (can distinguish between rain and snow)\n\n**Aviation Safety Analysis:**\nThis represents excellent flying conditions with clear skies, good visibility, and only light to moderate southerly winds with gusts. The high temperature-dewpoint spread (12\u00b0C) indicates low humidity and stable atmospheric conditions. No weather hazards are present that would significantly impact flight operations.",
+      "scores": {
+        "baseline_score": 0.25,
+        "perturbed_score": 0.25,
+        "degradation": 0.0,
+        "output_similarity": 0.6241610738255033
+      },
+      "traces": [
+        {
+          "baseline": "Here's the decoded METAR for Dallas/Fort Worth International Airport (KDFW):\n\n**Station & Time:**\n- KDFW: Dallas/Fort Worth International Airport\n- 241753Z: Observation taken on the 24th day at 17:53 UTC (Zulu time)\n\n**Wind:**\n- 18012G20KT: Wind from 180\u00b0 (south) at 12 knots, gusting to 20 knots\n\n**Visibility:**\n- 10SM: Visibility 10 statute miles (excellent visibility)\n\n**Clouds:**\n- FEW250: Few clouds at 25,000 feet (minimal cloud coverage at high altitude)\n\n**Temperature & Dewpoint:**\n- 30/18"
+        },
+        {
+          "perturbed": "Here's the decoded METAR for KFWD (Dallas Fort Worth/Meacham International Airport):\n\n**Station & Time:**\n- KFWD: Dallas Fort Worth/Meacham International Airport\n- 241753Z: Observation taken on the 24th day at 17:53 UTC (Zulu time)\n\n**Wind:**\n- 18012G20KT: Wind from 180\u00b0 (south) at 12 knots, gusting to 20 knots\n\n**Visibility:**\n- 10SM: Visibility 10 statute miles (excellent visibility)\n\n**Cloud Coverage:**\n- FEW250: Few clouds at 25,000 feet (minimal cloud coverage at high altitude)\n\n**Temperatu"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [
+            "Visibility 10 statute miles"
+          ],
+          "missing": [
+            "KDFW is Dallas/Fort Worth International",
+            "Wind from 180 at 12 gusting 20 knots",
+            "Altimeter setting 30.02 inHg"
+          ]
+        },
+        "perturbed": {
+          "found": [
+            "Visibility 10 statute miles"
+          ],
+          "missing": [
+            "KDFW is Dallas/Fort Worth International",
+            "Wind from 180 at 12 gusting 20 knots",
+            "Altimeter setting 30.02 inHg"
+          ]
+        }
+      },
+      "passed": true
+    },
+    {
+      "example_id": "ADV-008",
+      "input": {
+        "base_prompt": "What is the traffic pattern altitude at KOSH?",
+        "perturbed_prompt": "What is the traffic pattern altitude at KOHS?",
+        "perturbation_type": "typo"
+      },
+      "output": "I don't have access to current airport/facility directory information or NOTAMs that would specify the traffic pattern altitude for KOHS (Solon Springs Airport in Wisconsin). \n\nTo find the current traffic pattern altitude for KOHS, I recommend checking:\n\n1. **Chart Supplement (formerly A/FD)** - This will have the official traffic pattern altitude listed\n2. **ForeFlight, Garmin Pilot, or similar aviation apps** - These typically display pattern altitude in airport information\n3. **AIRNAV.com** or similar airport information websites\n4. **Contact the airport directly** if it's a towered facility\n\nMost general aviation airports use a standard pattern altitude of 1,000 feet AGL, but this can vary based on local conditions, nearby airports, or specific operational requirements. Always verify current information from official sources before flight operations.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.15827338129496402
+      },
+      "traces": [
+        {
+          "baseline": "The traffic pattern altitude at KOSH (Wittman Regional Airport in Oshkosh, Wisconsin) is **1,800 feet MSL**.\n\nThis is 800 feet above the airport's field elevation of 1,000 feet MSL, which follows the standard traffic pattern height of 1,000 feet AGL (Above Ground Level) for most airports.\n\nHowever, I'd recommend verifying this information in current aeronautical publications like the Chart Supplement (formerly A/FD) or NOTAMs, as traffic pattern altitudes can occasionally change due to operation"
+        },
+        {
+          "perturbed": "I don't have access to current airport/facility directory information or NOTAMs that would specify the traffic pattern altitude for KOHS (Solon Springs Airport in Wisconsin). \n\nTo find the current traffic pattern altitude for KOHS, I recommend checking:\n\n1. **Chart Supplement (formerly A/FD)** - This will have the official traffic pattern altitude listed\n2. **ForeFlight, Garmin Pilot, or similar aviation apps** - These typically display pattern altitude in airport information\n3. **AIRNAV.com** o"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "KOSH is Wittman Regional Airport in Oshkosh, WI",
+            "Standard TPA is typically 1800 MSL or 800 AGL"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "KOSH is Wittman Regional Airport in Oshkosh, WI",
+            "Standard TPA is typically 1800 MSL or 800 AGL"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-009",
+      "input": {
+        "base_prompt": "Explain the RNAV GPS approach to runway 25L at KLAX.",
+        "perturbed_prompt": "Explain the RNAV GPS approach to runway 25L at KALX.",
+        "perturbation_type": "typo"
+      },
+      "output": "I can provide general information about RNAV GPS approaches, but I don't have access to the current specific approach chart for runway 25L at KALX (Thomas McGuire Field). Here's what I can tell you:\n\n## General RNAV GPS Approach Characteristics:\n\n**RNAV (GPS) approaches** use satellite navigation to provide:\n- Precise lateral and vertical guidance\n- Waypoint-based navigation\n- Typically lower minimums than non-precision approaches\n\n## For KALX Runway 25L specifically, you would need to consult the current approach chart for:\n\n**Critical Information:**\n- Initial Approach Fix (IAF) and routing\n- Final Approach Course (approximately 250\u00b0)\n- Decision Altitude (DA) or Minimum Descent Altitude (MDA)\n- Visibility requirements\n- Missed approach procedures\n- Any special notes or restrictions\n\n**Typical Features at KALX:**\n- Military airfield procedures may apply\n- Coordination requirements with McGuire AFB operations\n- Potential for simultaneous operations on parallel runways\n\n## Safety Recommendation:\nAlways use current, official approach charts from:\n- Jeppesen\n- FAA Terminal Procedures Publication\n- ForeFlight or other certified EFB applications\n\nThe approach chart will contain all critical altitudes, courses, timing, and restrictions specific to this procedure. Never attempt an approach without the current, official chart and proper authorization if military coordination is required.\n\nWould you like me to explain any specific aspect of RNAV GPS approaches in general?",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.20416666666666666
+      },
+      "traces": [
+        {
+          "baseline": "I'll provide a general analysis of RNAV GPS approaches to runway 25L at KLAX (Los Angeles International Airport), though specific details would require reference to the current published approach chart.\n\n## General Characteristics of KLAX RWY 25L RNAV GPS Approach:\n\n**Runway Information:**\n- Runway 25L is one of LAX's primary arrival runways\n- Magnetic heading approximately 250\u00b0\n- Located on the south side of the airport complex\n\n**Typical RNAV GPS Approach Features:**\n\n**Navigation:**\n- Uses GP"
+        },
+        {
+          "perturbed": "I can provide general information about RNAV GPS approaches, but I don't have access to the current specific approach chart for runway 25L at KALX (Thomas McGuire Field). Here's what I can tell you:\n\n## General RNAV GPS Approach Characteristics:\n\n**RNAV (GPS) approaches** use satellite navigation to provide:\n- Precise lateral and vertical guidance\n- Waypoint-based navigation\n- Typically lower minimums than non-precision approaches\n\n## For KALX Runway 25L specifically, you would need to consult t"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "KLAX is Los Angeles International Airport",
+            "RNAV GPS approaches use GPS waypoints for lateral and vertical guidance",
+            "Runway 25L is a valid runway at KLAX"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "KLAX is Los Angeles International Airport",
+            "RNAV GPS approaches use GPS waypoints for lateral and vertical guidance",
+            "Runway 25L is a valid runway at KLAX"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-010",
+      "input": {
+        "base_prompt": "What is the field elevation of KJFK?",
+        "perturbed_prompt": "What is the feild elevetion of KJFK?",
+        "perturbation_type": "typo"
+      },
+      "output": "The field elevation of KJFK (John F. Kennedy International Airport) is 13 feet above mean sea level (MSL).\n\nThis relatively low elevation is typical for airports in the New York City area, as JFK is located in Queens on the southern shore of Long Island, close to Jamaica Bay.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.8913043478260869
+      },
+      "traces": [
+        {
+          "baseline": "The field elevation of KJFK (John F. Kennedy International Airport) is 13 feet above mean sea level (MSL).\n\nThis relatively low elevation is typical for airports in the New York City area, as JFK is located in Queens on the southern shore of Long Island, close to Jamaica Bay and the Atlantic Ocean."
+        },
+        {
+          "perturbed": "The field elevation of KJFK (John F. Kennedy International Airport) is 13 feet above mean sea level (MSL).\n\nThis relatively low elevation is typical for airports in the New York City area, as JFK is located in Queens on the southern shore of Long Island, close to Jamaica Bay."
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "KJFK is John F. Kennedy International Airport",
+            "Field elevation is 13 feet MSL"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "KJFK is John F. Kennedy International Airport",
+            "Field elevation is 13 feet MSL"
+          ]
+        }
+      },
+      "passed": true
+    },
+    {
+      "example_id": "ADV-011",
+      "input": {
+        "base_prompt": "What is the length of runway 10/28 at KMCO?",
+        "perturbed_prompt": "What is the lenght of runwya 10/28 at KCMO?",
+        "perturbation_type": "typo"
+      },
+      "output": "I don't have access to current airport data to provide the exact length of runway 10/28 at KCMO (Charles B. Wheeler Downtown Airport in Kansas City, Missouri).\n\nTo get accurate and up-to-date runway length information, I recommend checking:\n\n1. **FAA Airport/Facility Directory (A/FD)** or current **Chart Supplement**\n2. **AirNav.com** - provides detailed airport information\n3. **SkyVector** - aviation charts and airport data\n4. **FAA's airport data website**\n5. **ForeFlight** or other aviation apps if you have access\n\nThese sources will provide you with the current certified runway length, surface type, and other important runway specifications for safety planning purposes.\n\nIs this information needed for flight planning or operational purposes? I'd be happy to help you locate the most reliable source for this data.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.45081967213114754
+      },
+      "traces": [
+        {
+          "baseline": "I don't have access to current airport runway data to provide the specific length of runway 10/28 at KMCO (Orlando International Airport). \n\nTo get accurate and up-to-date runway information, I'd recommend checking:\n\n1. **FAA Airport/Facility Directory (A/FD)** - The official source for airport data\n2. **AirNav.com** - Provides detailed airport information including runway lengths\n3. **SkyVector** - Aviation charts and airport data\n4. **ForeFlight** or other aviation apps if you have access\n5. *"
+        },
+        {
+          "perturbed": "I don't have access to current airport data to provide the exact length of runway 10/28 at KCMO (Charles B. Wheeler Downtown Airport in Kansas City, Missouri).\n\nTo get accurate and up-to-date runway length information, I recommend checking:\n\n1. **FAA Airport/Facility Directory (A/FD)** or current **Chart Supplement**\n2. **AirNav.com** - provides detailed airport information\n3. **SkyVector** - aviation charts and airport data\n4. **FAA's airport data website**\n5. **ForeFlight** or other aviation a"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "KMCO is Orlando International Airport",
+            "Runway dimensions are published in the Airport/Facility Directory"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "KMCO is Orlando International Airport",
+            "Runway dimensions are published in the Airport/Facility Directory"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-012",
+      "input": {
+        "base_prompt": "Describe the missed approach procedure for the ILS runway 4R at KJFK.",
+        "perturbed_prompt": "Describe the missed approch proceedure for the ILS runway 4R at KJFK.",
+        "perturbation_type": "typo"
+      },
+      "output": "I can provide general information about missed approach procedures, but I cannot give you the specific current missed approach procedure for ILS Runway 4R at KJFK without access to current aeronautical charts and approach plates.\n\n**General Structure of ILS Missed Approach Procedures:**\nTypically, an ILS missed approach procedure includes:\n- Initial climb instructions (altitude and heading)\n- Navigation guidance to a specific fix or navaid\n- Hold or further routing instructions\n\n**For Current and Accurate Information:**\nTo obtain the specific missed approach procedure for ILS RWY 4R at KJFK, you should consult:\n\n1. **Current FAA Approach Plates** - Available through:\n   - FAA's Digital Terminal Procedures Publication (d-TPP)\n   - ForeFlight, Jeppesen, or other approved chart providers\n   - FAA website's approach plate database\n\n2. **Official Sources:**\n   - Current sectional charts\n   - Airport/Facility Directory\n   - NOTAMs for any temporary changes\n\n**Safety Note:** Approach procedures can change due to airspace modifications, construction, or other factors. Always use current, official publications for flight planning and operations. Never rely on unofficial sources or memory for critical flight procedures.\n\nWould you like guidance on where to find the most current approach plates for KJFK?",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.487012987012987
+      },
+      "traces": [
+        {
+          "baseline": "I can provide general information about missed approach procedures, but I cannot give you the specific current missed approach procedure for ILS Runway 4R at KJFK without access to current aeronautical charts and approach plates.\n\n**General Structure of ILS Missed Approach Procedures:**\nTypically, an ILS missed approach procedure includes:\n- Initial climb instructions (altitude and heading/track)\n- Navigation guidance to a holding fix or specific waypoint\n- Altitude restrictions\n- Communication "
+        },
+        {
+          "perturbed": "I can provide general information about missed approach procedures, but I cannot give you the specific current missed approach procedure for ILS Runway 4R at KJFK without access to current aeronautical charts and approach plates.\n\n**General Structure of ILS Missed Approach Procedures:**\nTypically, an ILS missed approach procedure includes:\n- Initial climb instructions (altitude and heading)\n- Navigation guidance to a specific fix or navaid\n- Hold or further routing instructions\n\n**For Current an"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "Climb on runway heading",
+            "Follow published missed approach instructions",
+            "Contact approach control"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "Climb on runway heading",
+            "Follow published missed approach instructions",
+            "Contact approach control"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-013",
+      "input": {
+        "base_prompt": "What is the recommended action when encountering wind shear on final approach to KORD runway 10C?",
+        "perturbed_prompt": "What is the recommended action when encountering wind shear on final approach to KORD runway 10C? Note that KMDW runway 31C recently had a bird strike incident and is temporarily closed.",
+        "perturbation_type": "distractor_injection"
+      },
+      "output": "For wind shear encounter on final approach to KORD runway 10C, the recommended actions are:\n\n**Immediate Actions:**\n1. **Execute a go-around immediately** - Do not attempt to continue the approach\n2. **Apply maximum available power** and maintain pitch attitude for best climb performance\n3. **Follow the wind shear escape maneuver**: Pitch up aggressively (15-20\u00b0 nose up) while applying full power\n4. **Maintain airspeed control** - Accept temporary airspeed deviations to prioritize climb performance\n5. **Retract speedbrakes/spoilers** if deployed\n\n**Communication:**\n- Immediately report \"GOING AROUND, WINDSHEAR\" to ATC\n- Request vectors for another approach or alternate runway\n\n**KORD Runway 10C Specific Considerations:**\n- Be aware of Lake Michigan's influence on local wind patterns\n- Consider requesting runway 10L/10R if available and winds permit\n- Monitor ATIS/AWOS for updated wind shear reports from other aircraft\n\n**Regarding KMDW Information:**\nThe bird strike incident at Midway (KMDW) runway 31C doesn't directly impact operations at O'Hare (KORD), as these are separate airports approximately 20 miles apart. However, if you were planning KMDW as an alternate, you'd need to consider available runways there.\n\n**Key Point:** Wind shear on final approach is a serious safety hazard. The only appropriate response is an immediate go-around with proper escape maneuver execution. Never attempt to salvage an approach through wind shear conditions.",
+      "scores": {
+        "baseline_score": 0.25,
+        "perturbed_score": 0.25,
+        "degradation": 0.0,
+        "output_similarity": 0.24206349206349206
+      },
+      "traces": [
+        {
+          "baseline": "When encountering wind shear on final approach to KORD runway 10C, the recommended actions follow standard wind shear recovery procedures:\n\n## Immediate Actions:\n1. **Execute a go-around immediately** - Do not attempt to continue the approach\n2. **Apply maximum available power** (TOGA/takeoff power)\n3. **Pitch up aggressively** to approximately 15\u00b0 nose-up attitude initially\n4. **Maintain wings level** and proper heading\n5. **Retract speedbrakes** if deployed\n6. **Follow your aircraft's specific"
+        },
+        {
+          "perturbed": "For wind shear encounter on final approach to KORD runway 10C, the recommended actions are:\n\n**Immediate Actions:**\n1. **Execute a go-around immediately** - Do not attempt to continue the approach\n2. **Apply maximum available power** and maintain pitch attitude for best climb performance\n3. **Follow the wind shear escape maneuver**: Pitch up aggressively (15-20\u00b0 nose up) while applying full power\n4. **Maintain airspeed control** - Accept temporary airspeed deviations to prioritize climb performa"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [
+            "Execute a go-around immediately"
+          ],
+          "missing": [
+            "Apply maximum thrust",
+            "Follow wind shear recovery procedure",
+            "Report the wind shear to ATC"
+          ]
+        },
+        "perturbed": {
+          "found": [
+            "Execute a go-around immediately"
+          ],
+          "missing": [
+            "Apply maximum thrust",
+            "Follow wind shear recovery procedure",
+            "Report the wind shear to ATC"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-014",
+      "input": {
+        "base_prompt": "What are the taxi instructions from gate B12 to runway 27R at KORD?",
+        "perturbed_prompt": "What are the taxi instructions from gate B12 to runway 27R at KORD? Also, KLGA has issued a ground stop due to thunderstorms, and PANC runway 7L/25R is closed for snow removal.",
+        "perturbation_type": "distractor_injection"
+      },
+      "output": "I can provide some general context about these airports, but I must emphasize that **you should never rely on this information for actual flight operations**.\n\n## KORD (Chicago O'Hare) - Gate B12 to Runway 27R\n\nI cannot provide specific taxi instructions for this route because:\n- Taxi routes vary based on current airport conditions, traffic, and ATC directives\n- Ground control issues specific instructions based on real-time situations\n- Airport layouts and procedures change regularly\n\n**For actual operations**: Contact O'Hare Ground Control on the appropriate frequency for current taxi instructions.\n\n## KLGA (LaGuardia) Ground Stop\n\nGround stops due to thunderstorms are common operational decisions. If this is current information, it would typically mean:\n- No departures to LGA are being released from origin airports\n- Aircraft may be held at gates or in holding areas\n- Duration depends on weather conditions and airport capacity\n\n## PANC (Anchorage) Runway 7L/25R Closure\n\nRunway closures for snow removal are routine winter operations in Anchorage. This would affect:\n- Aircraft routing to available runways\n- Potential delays depending on traffic volume\n- Ground operations coordination\n\n**Critical Reminder**: Always consult current NOTAMs, airport diagrams, ATC instructions, and official sources for any operational decisions. This information is for educational purposes only and should never be used for actual flight operations.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.2571428571428571
+      },
+      "traces": [
+        {
+          "baseline": "I cannot provide specific taxi instructions from gate B12 to runway 27R at Chicago O'Hare (KORD) because:\n\n1. **Taxi instructions are dynamic** - They vary based on current airport conditions, traffic, weather, construction, and other operational factors that change throughout the day.\n\n2. **Safety protocol** - Ground control provides taxi instructions in real-time to ensure safe separation between aircraft and account for current runway/taxiway availability.\n\n3. **Airport complexity** - KORD is"
+        },
+        {
+          "perturbed": "I can provide some general context about these airports, but I must emphasize that **you should never rely on this information for actual flight operations**.\n\n## KORD (Chicago O'Hare) - Gate B12 to Runway 27R\n\nI cannot provide specific taxi instructions for this route because:\n- Taxi routes vary based on current airport conditions, traffic, and ATC directives\n- Ground control issues specific instructions based on real-time situations\n- Airport layouts and procedures change regularly\n\n**For actu"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "Follow ATC-issued taxi clearance",
+            "Reference airport diagram for KORD",
+            "Hold short instructions must be read back"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "Follow ATC-issued taxi clearance",
+            "Reference airport diagram for KORD",
+            "Hold short instructions must be read back"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-015",
+      "input": {
+        "base_prompt": "Explain the departure procedure for the PODDE3 SID out of KSFO.",
+        "perturbed_prompt": "Explain the departure procedure for the PODDE3 SID out of KSFO. Consider that KOAK has a new RNAV arrival procedure effective today and KSQL pattern work is suspended.",
+        "perturbation_type": "distractor_injection"
+      },
+      "output": "I'd be happy to help analyze the PODDE3 SID from KSFO, but I need to provide some important caveats as an aviation safety analyst:\n\n**Key Safety Considerations:**\n\n1. **Current Chart Verification Required**: I cannot access real-time NOTAM information or current effective dates for procedures. You must verify the current PODDE3 SID chart and any applicable NOTAMs before flight operations.\n\n2. **General PODDE3 SID Overview** (based on historical knowledge):\n   - Typically a RNAV departure procedure from KSFO\n   - Generally serves northbound/eastbound traffic\n   - Usually involves initial climb restrictions and specific waypoint navigation\n   - May have altitude and speed restrictions at various fixes\n\n**Critical Action Items for Safe Operations:**\n\n- **Verify current procedure**: Check the most recent PODDE3 SID chart effective date\n- **Review NOTAMs**: Confirm any modifications due to:\n  - The new KOAK RNAV arrival you mentioned\n  - KSQL pattern work suspension\n  - Any temporary flight restrictions or procedure changes\n\n**Coordination Considerations:**\n- The new KOAK RNAV arrival may affect traffic flow and ATC coordination\n- KSQL pattern suspension could impact traffic density in the area\n\n**Recommendation**: Contact KSFO Ground/Clearance Delivery for current departure procedures and any special instructions related to the airspace changes you mentioned.\n\nWould you like me to discuss general SID compliance procedures or specific coordination aspects once you've verified the current charts?",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.20967741935483872
+      },
+      "traces": [
+        {
+          "baseline": "I can provide general information about SID procedures, but I should note that for actual flight operations, you must always reference the current official charts and publications from the FAA, as procedures can change.\n\nThe PODDE3 SID (Standard Instrument Departure) from San Francisco International Airport (KSFO) is typically used for departures heading generally eastbound. Here are the general characteristics:\n\n**Key Elements:**\n- **Initial heading/routing**: Usually involves a climb on runway"
+        },
+        {
+          "perturbed": "I'd be happy to help analyze the PODDE3 SID from KSFO, but I need to provide some important caveats as an aviation safety analyst:\n\n**Key Safety Considerations:**\n\n1. **Current Chart Verification Required**: I cannot access real-time NOTAM information or current effective dates for procedures. You must verify the current PODDE3 SID chart and any applicable NOTAMs before flight operations.\n\n2. **General PODDE3 SID Overview** (based on historical knowledge):\n   - Typically a RNAV departure procedu"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "Follow published waypoints on the PODDE3 departure",
+            "Comply with altitude and speed restrictions",
+            "Contact departure control on assigned frequency"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "Follow published waypoints on the PODDE3 departure",
+            "Comply with altitude and speed restrictions",
+            "Contact departure control on assigned frequency"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-016",
+      "input": {
+        "base_prompt": "What fuel reserves are required for an IFR flight from KBOS to KJFK?",
+        "perturbed_prompt": "What fuel reserves are required for an IFR flight from KBOS to KJFK? KPHL is currently experiencing ATC staffing delays with ground stops in effect, and a TFR is active over the Statue of Liberty.",
+        "perturbation_type": "distractor_injection"
+      },
+      "output": "For an IFR flight from KBOS to KJFK, you'll need to carry fuel for:\n\n**Required Fuel Components:**\n\n1. **Flight to destination (KJFK)**: Fuel for the planned route distance (~190 nm)\n\n2. **Alternate airport**: Since KJFK forecast likely requires an alternate, fuel to fly from KJFK to your filed alternate airport\n\n3. **45-minute reserve**: Additional fuel to fly for 45 minutes at normal cruise consumption (14 CFR 91.167)\n\n**Current Operational Considerations:**\n\n- **KPHL delays**: While not directly affecting your KBOS-KJFK route, consider KPHL unavailable as an alternate if delays are severe\n- **Statue of Liberty TFR**: May require routing changes that could increase flight time/fuel burn for approaches to KJFK\n- **Recommended alternates**: Consider KLGA, KEWR, KBDR, or KHVN depending on weather forecasts\n\n**Additional Recommendations:**\n\nGiven the operational disruptions, consider carrying extra fuel beyond minimums for:\n- Potential holding due to TFR-related traffic flow restrictions\n- Possible approach delays at KJFK\n- Flexibility if your primary alternate becomes unavailable\n\n**Action Items:**\n1. Check current weather forecasts for KJFK and potential alternates\n2. Review NOTAMs for specific TFR altitudes/coordinates affecting your route\n3. File an alternate that's unaffected by current operational issues\n4. Consider departure delays to avoid peak congestion periods\n\nAlways verify current fuel requirements with your specific aircraft's performance data and current weather conditions.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.2311111111111111
+      },
+      "traces": [
+        {
+          "baseline": "For an IFR flight from KBOS (Boston Logan) to KJFK (New York JFK), the fuel reserve requirements under FAR 91.167 are:\n\n**Required Fuel Components:**\n\n1. **Flight to destination** (KJFK)\n2. **Flight to alternate airport** (if required)\n3. **45-minute reserve** at normal cruising speed\n\n**Alternate Airport Requirement:**\nAn alternate is required if the destination weather forecast from 1 hour before to 1 hour after ETA shows:\n- Ceiling below 2,000 feet AGL, OR\n- Visibility less than 3 statute mil"
+        },
+        {
+          "perturbed": "For an IFR flight from KBOS to KJFK, you'll need to carry fuel for:\n\n**Required Fuel Components:**\n\n1. **Flight to destination (KJFK)**: Fuel for the planned route distance (~190 nm)\n\n2. **Alternate airport**: Since KJFK forecast likely requires an alternate, fuel to fly from KJFK to your filed alternate airport\n\n3. **45-minute reserve**: Additional fuel to fly for 45 minutes at normal cruise consumption (14 CFR 91.167)\n\n**Current Operational Considerations:**\n\n- **KPHL delays**: While not direc"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "45 minutes of fuel reserve at normal cruise for IFR",
+            "Must be able to fly to destination, then alternate, plus 45 min reserve",
+            "Alternate may not be required if weather meets criteria"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "45 minutes of fuel reserve at normal cruise for IFR",
+            "Must be able to fly to destination, then alternate, plus 45 min reserve",
+            "Alternate may not be required if weather meets criteria"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-017",
+      "input": {
+        "base_prompt": "What is the standard circling approach minimums for category C aircraft at KDEN?",
+        "perturbed_prompt": "What is the standard circling approach minimums for category C aircraft at KDEN? Note that a new NOTAM has been issued for KAPA regarding parachute jumping operations within 5 NM and KBJC has noise ab",
+        "perturbation_type": "distractor_injection"
+      },
+      "output": "I cannot provide the specific circling approach minimums for Category C aircraft at KDEN (Denver International Airport) without access to current approach plates and charts. Circling minimums vary by specific approach procedure and are published on individual instrument approach charts.\n\nTo obtain the accurate circling minimums for Category C aircraft at KDEN, you should:\n\n1. **Consult current approach plates** - Check the specific instrument approach procedure you plan to use (ILS, RNAV, VOR, etc.)\n2. **Review the minimums section** - Look for \"CIRCLING\" minimums in the approach chart's minimums section\n3. **Verify currency** - Ensure you're using the most current charts with all applicable NOTAMs\n\n**Regarding the additional information you mentioned:**\n- The NOTAM for KAPA (Centennial Airport) parachute operations within 5 NM would not directly affect KDEN circling minimums\n- KBJC (Rocky Mountain Metropolitan Airport) noise abatement procedures similarly wouldn't impact KDEN approach minimums\n\n**Category C aircraft reminder:** These are aircraft with approach speeds of 121-140 knots, typically including business jets, turboprops, and some larger piston aircraft.\n\nFor current and accurate minimums, please reference your current approach charts or contact Denver Approach Control. Would you like guidance on where to find the most current approach plates for KDEN?",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.25
+      },
+      "traces": [
+        {
+          "baseline": "I don't have access to current approach charts or the specific circling minimums for Category C aircraft at KDEN (Denver International Airport). \n\nTo find the current standard circling approach minimums for Category C aircraft at KDEN, you should consult:\n\n1. **Current FAA approach charts** - Available through:\n   - FAA's Digital Terminal Procedures Publication (d-TPP)\n   - ForeFlight, Jeppesen, or other approved chart providers\n   - FAA's Chart User's Guide online\n\n2. **Key information to look "
+        },
+        {
+          "perturbed": "I cannot provide the specific circling approach minimums for Category C aircraft at KDEN (Denver International Airport) without access to current approach plates and charts. Circling minimums vary by specific approach procedure and are published on individual instrument approach charts.\n\nTo obtain the accurate circling minimums for Category C aircraft at KDEN, you should:\n\n1. **Consult current approach plates** - Check the specific instrument approach procedure you plan to use (ILS, RNAV, VOR, e"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "Circling minimums depend on the specific approach",
+            "Category C aircraft have higher circling MDA than Cat A/B",
+            "Reference the approach plate for KDEN"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "Circling minimums depend on the specific approach",
+            "Category C aircraft have higher circling MDA than Cat A/B",
+            "Reference the approach plate for KDEN"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-018",
+      "input": {
+        "base_prompt": "What is the procedure for a go-around on final approach at KORD?",
+        "perturbed_prompt": "What is the procedure for a missed approach on final at KORD?",
+        "perturbation_type": "synonym"
+      },
+      "output": "For a missed approach at Chicago O'Hare (KORD), the specific procedure depends on which runway and approach you're flying. However, here are the general elements:\n\n## Standard Missed Approach Procedures at KORD:\n\n**Common Elements:**\n- **Initial Action**: Climb straight ahead initially\n- **Altitude**: Typically climb to 3,000 feet initially\n- **Navigation**: Proceed to a designated fix or navaid\n- **Communication**: Contact Chicago Approach Control immediately\n\n**Typical Procedure Structure:**\n1. **Climb straight ahead** to specified altitude\n2. **Turn** to assigned heading (varies by runway)\n3. **Proceed** to missed approach holding fix\n4. **Hold** as published or as directed by ATC\n\n**Key Points:**\n- Each runway has its own published missed approach procedure\n- Procedures vary significantly between runways (4L/R, 9L/R, 10L/R, 14L/R, 22L/R, 27L/R, 28L/R, 32L/R)\n- ATC will often provide vectors instead of the published procedure due to traffic density\n\n**Critical Actions:**\n- Execute immediately upon missed approach decision\n- Maintain runway heading until turning\n- Contact approach control promptly\n- Be prepared for vectors due to heavy traffic\n\n**Recommendation**: Always brief the specific missed approach procedure for your assigned runway before beginning the approach, as KORD's procedures are runway-specific and the airport's high traffic volume means ATC coordination is essential.\n\nWould you like the specific procedure for a particular runway?",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.1950207468879668
+      },
+      "traces": [
+        {
+          "baseline": "Here's the standard go-around procedure for KORD (Chicago O'Hare):\n\n## Initial Actions\n1. **Power**: Apply maximum available thrust/power\n2. **Attitude**: Pitch up to appropriate climb attitude (typically 7-10\u00b0 initially)\n3. **Configuration**: Retract flaps/gear as appropriate per aircraft performance requirements\n4. **Communication**: Immediately notify ATC: \"Tower, [callsign] going around\"\n\n## ATC Coordination\n- **Tower frequency**: Initially remain on tower frequency\n- **Expect instructions**"
+        },
+        {
+          "perturbed": "For a missed approach at Chicago O'Hare (KORD), the specific procedure depends on which runway and approach you're flying. However, here are the general elements:\n\n## Standard Missed Approach Procedures at KORD:\n\n**Common Elements:**\n- **Initial Action**: Climb straight ahead initially\n- **Altitude**: Typically climb to 3,000 feet initially\n- **Navigation**: Proceed to a designated fix or navaid\n- **Communication**: Contact Chicago Approach Control immediately\n\n**Typical Procedure Structure:**\n1"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "Apply full power or TOGA thrust",
+            "Retract flaps to go-around setting",
+            "Climb on published missed approach course",
+            "Contact tower or approach"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "Apply full power or TOGA thrust",
+            "Retract flaps to go-around setting",
+            "Climb on published missed approach course",
+            "Contact tower or approach"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-019",
+      "input": {
+        "base_prompt": "What does the flight director command during a windshear escape maneuver?",
+        "perturbed_prompt": "What does the flight director indicate during a microburst recovery procedure?",
+        "perturbation_type": "synonym"
+      },
+      "output": "During a microburst recovery procedure, the flight director provides specific guidance to help pilots execute the proper escape technique:\n\n## Primary Flight Director Indications\n\n**Pitch Command:**\n- Commands an aggressive nose-up attitude, typically 15-20 degrees or more\n- May command pitch attitudes that would normally be considered excessive\n- Prioritizes maximum climb performance over airspeed maintenance\n\n**Bank Angle Guidance:**\n- Commands wings level (0\u00b0 bank) to maximize climb performance\n- Any banking reduces the vertical component of lift needed for climb\n\n## Key Operational Considerations\n\n**Airspeed vs. Altitude Priority:**\n- The flight director prioritizes altitude gain over airspeed maintenance\n- May command attitudes that result in airspeed loss, which is intentional\n- Follows the principle: \"altitude first, airspeed second\" during escape\n\n**Thrust Management:**\n- Works in conjunction with maximum available thrust\n- Commands may assume full power application\n\n**Limitations:**\n- Flight director commands should be followed unless they would result in stall\n- Pilots must monitor for stick shaker/pusher activation\n- If stall warning occurs, pitch attitude may need to be reduced slightly while maintaining maximum thrust\n\n## Critical Point\n\nThe flight director's microburst recovery mode is designed to execute the \"pitch up and power up\" technique, accepting temporary airspeed loss to escape the downdraft and achieve terrain clearance. Pilots must trust these commands while remaining vigilant for aerodynamic limits.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.26126126126126126
+      },
+      "traces": [
+        {
+          "baseline": "During a windshear escape maneuver, the flight director commands:\n\n## Primary Commands:\n\n**Pitch Attitude:**\n- Commands an aggressive nose-up attitude, typically 15-20 degrees initially\n- May command even steeper attitudes if necessary to maintain positive climb performance\n- Prioritizes pitch attitude over airspeed to maximize climb gradient\n\n**Bank Angle:**\n- Commands wings level (0\u00b0 bank)\n- Eliminates any turning flight to maximize climb performance\n- Overrides any lateral navigation modes\n\n#"
+        },
+        {
+          "perturbed": "During a microburst recovery procedure, the flight director provides specific guidance to help pilots execute the proper escape technique:\n\n## Primary Flight Director Indications\n\n**Pitch Command:**\n- Commands an aggressive nose-up attitude, typically 15-20 degrees or more\n- May command pitch attitudes that would normally be considered excessive\n- Prioritizes maximum climb performance over airspeed maintenance\n\n**Bank Angle Guidance:**\n- Commands wings level (0\u00b0 bank) to maximize climb performan"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "Flight director commands pitch up to approximately 15 degrees",
+            "Follow pitch guidance to escape the shear condition",
+            "Windshear escape and microburst recovery are effectively the same procedure"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "Flight director commands pitch up to approximately 15 degrees",
+            "Follow pitch guidance to escape the shear condition",
+            "Windshear escape and microburst recovery are effectively the same procedure"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-020",
+      "input": {
+        "base_prompt": "When is a SIGMET issued versus an AIRMET?",
+        "perturbed_prompt": "When is a significant meteorological information advisory issued versus an airman's meteorological information advisory?",
+        "perturbation_type": "synonym"
+      },
+      "output": "Here's the key distinction between SIGMET and AIRMET advisories:\n\n## SIGMET (Significant Meteorological Information)\n**Issued for:**\n- Severe weather conditions that are **potentially hazardous to ALL aircraft**\n- More intense phenomena including:\n  - Severe or extreme turbulence\n  - Severe icing conditions\n  - Widespread dust/sandstorms reducing visibility below 3 miles\n  - Volcanic ash\n  - Severe thunderstorms\n  - Tornadoes/waterspouts\n  - Hail \u00be inch or greater\n\n**Coverage:** Valid for up to 4 hours (6 hours for volcanic ash)\n\n## AIRMET (Airman's Meteorological Information)\n**Issued for:**\n- Weather conditions that are **potentially hazardous to small aircraft and aircraft with less experienced pilots**\n- Moderate conditions including:\n  - Moderate turbulence\n  - Moderate icing\n  - Sustained surface winds \u226530 knots\n  - Widespread areas with visibility <3 miles and/or ceilings <1,000 feet\n  - Extensive mountain obscuration\n\n**Coverage:** Valid for up to 6 hours\n\n## Key Difference\nThe primary distinction is **severity and scope of impact**:\n- **SIGMET** = Severe conditions affecting all aircraft types\n- **AIRMET** = Moderate conditions primarily affecting smaller/less capable aircraft\n\nBoth are issued by Aviation Weather Centers and follow similar geographic naming conventions, but SIGMETs represent more dangerous conditions requiring immediate attention from all pilots, while AIRMETs serve as important advisories particularly for general aviation operations.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.3888888888888889
+      },
+      "traces": [
+        {
+          "baseline": "SIGMETs and AIRMETs are issued based on the severity and scope of weather hazards affecting aviation:\n\n## SIGMET (Significant Meteorological Information)\n**Issued for severe weather conditions hazardous to ALL aircraft:**\n\n- **Severe or extreme turbulence**\n- **Severe icing**\n- **Widespread dust/sandstorms reducing visibility below 3 miles**\n- **Volcanic ash**\n- **Severe thunderstorms** (covering \u226540% of area with embedded/severe squall lines)\n- **Tropical cyclones**\n- **Hail \u22653/4 inch diameter*"
+        },
+        {
+          "perturbed": "Here's the key distinction between SIGMET and AIRMET advisories:\n\n## SIGMET (Significant Meteorological Information)\n**Issued for:**\n- Severe weather conditions that are **potentially hazardous to ALL aircraft**\n- More intense phenomena including:\n  - Severe or extreme turbulence\n  - Severe icing conditions\n  - Widespread dust/sandstorms reducing visibility below 3 miles\n  - Volcanic ash\n  - Severe thunderstorms\n  - Tornadoes/waterspouts\n  - Hail \u00be inch or greater\n\n**Coverage:** Valid for up to "
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "SIGMET for severe weather: severe turbulence, icing, volcanic ash",
+            "AIRMET for moderate-level hazards: moderate turbulence, IFR conditions, mountain obscuration",
+            "SIGMETs are more urgent than AIRMETs"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "SIGMET for severe weather: severe turbulence, icing, volcanic ash",
+            "AIRMET for moderate-level hazards: moderate turbulence, IFR conditions, mountain obscuration",
+            "SIGMETs are more urgent than AIRMETs"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-021",
+      "input": {
+        "base_prompt": "Define the term squawk as used in ATC communications.",
+        "perturbed_prompt": "Define the term transponder code assignment as used in air traffic control communications.",
+        "perturbation_type": "synonym"
+      },
+      "output": "**Transponder Code Assignment** refers to the process by which air traffic controllers assign a specific four-digit numerical code to an aircraft's transponder system during flight operations.\n\n## Key Components:\n\n**Code Structure:**\n- Four-digit octal code (digits 0-7 only)\n- Examples: 1200, 4521, 7700\n- Each digit can range from 0 to 7 (no 8s or 9s)\n\n**Assignment Process:**\n- Controllers issue codes via radio communication\n- Standard phraseology: \"Squawk [four-digit code]\"\n- Pilots acknowledge and set the assigned code on their transponder\n- Code appears on controller's radar display linked to aircraft position\n\n## Primary Purposes:\n\n1. **Aircraft Identification** - Uniquely identifies each aircraft on radar\n2. **Traffic Separation** - Helps controllers track and separate aircraft\n3. **Flight Following** - Enables continuous monitoring of aircraft movement\n4. **Coordination** - Facilitates handoffs between different control facilities\n\n## Standard Codes:\n\n- **1200** - VFR flight not receiving ATC services (US)\n- **7500** - Hijacking emergency\n- **7600** - Radio communication failure\n- **7700** - General emergency\n\n## Operational Significance:\n\nTransponder codes are essential for the Secondary Surveillance Radar (SSR) system, allowing controllers to maintain positive identification and control of aircraft in controlled airspace. The assignment ensures each aircraft has a unique radar signature, preventing confusion and enhancing flight safety through improved situational awareness.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.21212121212121213
+      },
+      "traces": [
+        {
+          "baseline": "In ATC (Air Traffic Control) communications, \"squawk\" refers to the transmission of a specific four-digit code by an aircraft's transponder. Here's the key information:\n\n## Definition\n**Squawk** is the instruction given by ATC to an aircraft to set and transmit a particular transponder code, which helps controllers identify and track the aircraft on radar.\n\n## How it works\n- Aircraft transponders broadcast a four-digit octal code (using digits 0-7)\n- This code appears as a data tag next to the a"
+        },
+        {
+          "perturbed": "**Transponder Code Assignment** refers to the process by which air traffic controllers assign a specific four-digit numerical code to an aircraft's transponder system during flight operations.\n\n## Key Components:\n\n**Code Structure:**\n- Four-digit octal code (digits 0-7 only)\n- Examples: 1200, 4521, 7700\n- Each digit can range from 0 to 7 (no 8s or 9s)\n\n**Assignment Process:**\n- Controllers issue codes via radio communication\n- Standard phraseology: \"Squawk [four-digit code]\"\n- Pilots acknowledge"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "Squawk refers to setting a transponder code",
+            "ATC assigns a discrete four-digit code",
+            "Common codes include 7700, 7600, 7500"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "Squawk refers to setting a transponder code",
+            "ATC assigns a discrete four-digit code",
+            "Common codes include 7700, 7600, 7500"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-022",
+      "input": {
+        "base_prompt": "What is the difference between a visual approach and a contact approach?",
+        "perturbed_prompt": "What is the difference between a see-and-avoid approach clearance and a contact approach?",
+        "perturbation_type": "synonym"
+      },
+      "output": "Here are the key differences between see-and-avoid approach clearance and contact approach:\n\n## See-and-Avoid Approach Clearance\n- **Definition**: A standard instrument approach clearance where the pilot maintains visual separation from other aircraft\n- **Weather Requirements**: Must meet standard IFR minimums for the specific approach procedure\n- **Navigation**: Follows published instrument approach procedures and courses\n- **ATC Role**: Provides standard separation services between IFR aircraft\n- **Pilot Responsibility**: Maintain visual separation from VFR traffic when in VMC\n- **Usage**: Standard practice for instrument approaches\n\n## Contact Approach\n- **Definition**: An approach where the pilot takes responsibility for obstruction clearance and navigation to the airport\n- **Weather Requirements**: \n  - At least 1 statute mile flight visibility\n  - Clear of clouds (able to remain so)\n- **Navigation**: Pilot navigates by visual reference to terrain/landmarks, not following published procedures\n- **ATC Role**: \n  - Only provides separation from IFR traffic\n  - Does not provide obstruction clearance\n  - Must be requested by pilot (ATC cannot suggest it)\n- **Pilot Responsibility**: \n  - Obstruction clearance\n  - Navigation to airport\n  - Separation from VFR traffic\n- **Usage**: Alternative when standard approach isn't suitable but visual conditions exist\n\n## Key Distinction\nThe fundamental difference is that a contact approach transfers navigation and obstruction clearance responsibility to the pilot, while a see-and-avoid clearance maintains standard IFR procedures with the pilot only responsible for visual separation from other aircraft.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.3409090909090909
+      },
+      "traces": [
+        {
+          "baseline": "Here are the key differences between visual and contact approaches:\n\n## Visual Approach\n\n**Requirements:**\n- Must have the airport or preceding aircraft in sight\n- Weather must be at least 1,000-foot ceiling and 3 statute miles visibility\n- Must remain clear of clouds\n- ATC must clear you for the approach\n\n**Characteristics:**\n- ATC provides separation from other IFR traffic until you report the airport in sight\n- You maintain your own terrain and obstruction clearance\n- More commonly used appro"
+        },
+        {
+          "perturbed": "Here are the key differences between see-and-avoid approach clearance and contact approach:\n\n## See-and-Avoid Approach Clearance\n- **Definition**: A standard instrument approach clearance where the pilot maintains visual separation from other aircraft\n- **Weather Requirements**: Must meet standard IFR minimums for the specific approach procedure\n- **Navigation**: Follows published instrument approach procedures and courses\n- **ATC Role**: Provides standard separation services between IFR aircraf"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "Visual approach requires the airport or preceding traffic in sight",
+            "Contact approach is requested by the pilot, not assigned by ATC",
+            "Contact approach requires 1 SM visibility and clear of clouds",
+            "Visual approach requires at least 3 SM visibility at the airport"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "Visual approach requires the airport or preceding traffic in sight",
+            "Contact approach is requested by the pilot, not assigned by ATC",
+            "Contact approach requires 1 SM visibility and clear of clouds",
+            "Visual approach requires at least 3 SM visibility at the airport"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-023",
+      "input": {
+        "base_prompt": "Explain the concept of a sterile cockpit below 10,000 feet.",
+        "perturbed_prompt": "Explain the concept of a quiet flight deck environment below 10,000 feet MSL.",
+        "perturbation_type": "synonym"
+      },
+      "output": "The \"sterile cockpit\" or quiet flight deck environment below 10,000 feet MSL is a critical aviation safety concept established by FAR 121.542 (and similar regulations globally). Here's a comprehensive analysis:\n\n## Regulatory Foundation\n\n**FAR 121.542** prohibits flight crewmembers from engaging in non-essential activities during critical phases of flight, specifically:\n- Below 10,000 feet MSL\n- During taxi, takeoff, landing, and any other phase deemed critical by the pilot-in-command\n\n## Rationale and Safety Basis\n\n**High Workload Phases**: Operations below 10,000 feet typically involve:\n- Complex air traffic control communications\n- Navigation in congested airspace\n- Weather avoidance decisions\n- Aircraft configuration changes\n- Approach and departure procedures\n\n**Accident Prevention**: Historical analysis showed that many accidents occurred during these phases due to:\n- Crew distraction from non-essential conversations\n- Missed radio calls or clearances\n- Failure to monitor instruments adequately\n- Delayed recognition of developing problems\n\n## Prohibited Activities\n\n- Non-essential conversation between crew members\n- Reading materials unrelated to flight operations\n- Personal electronic device use\n- Non-safety related company business discussions\n- Casual conversation with cabin crew or passengers\n\n## Permitted Activities\n\n- Essential flight-related communications\n- Safety briefings and checklists\n- Emergency procedures\n- Required position reports\n- Weather-related discussions\n- Any communication deemed necessary for safe flight operations\n\n## Implementation Considerations\n\n**Crew Resource Management**: The rule supports effective CRM by ensuring crew attention remains focused on flight-critical tasks during high-risk phases.\n\n**Company Policies**: Many operators extend these restrictions beyond regulatory minimums, sometimes applying sterile cockpit procedures up to higher altitudes or during specific company-defined critical phases.\n\nThis concept has proven highly effective in reducing accidents and incidents during the most demanding phases of flight operations.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.29411764705882354
+      },
+      "traces": [
+        {
+          "baseline": "The sterile cockpit concept is a critical aviation safety protocol that restricts non-essential activities and conversations in the cockpit during critical phases of flight, typically below 10,000 feet.\n\n## Key Components\n\n**Altitude Threshold**: The 10,000-foot rule serves as a standard boundary because:\n- Most takeoffs and landings occur below this altitude\n- Air traffic density is typically highest in this airspace\n- Terrain and obstacle clearance requires heightened attention\n- Weather impac"
+        },
+        {
+          "perturbed": "The \"sterile cockpit\" or quiet flight deck environment below 10,000 feet MSL is a critical aviation safety concept established by FAR 121.542 (and similar regulations globally). Here's a comprehensive analysis:\n\n## Regulatory Foundation\n\n**FAR 121.542** prohibits flight crewmembers from engaging in non-essential activities during critical phases of flight, specifically:\n- Below 10,000 feet MSL\n- During taxi, takeoff, landing, and any other phase deemed critical by the pilot-in-command\n\n## Ration"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "Sterile cockpit rule per FAR 121.542",
+            "No non-essential conversation or activities below 10000 ft",
+            "Applies during critical phases of flight"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "Sterile cockpit rule per FAR 121.542",
+            "No non-essential conversation or activities below 10000 ft",
+            "Applies during critical phases of flight"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-024",
+      "input": {
+        "base_prompt": "What are the current NOTAMs for KDFW?",
+        "perturbed_prompt": "What are the current NOTAMs for KDAL?",
+        "perturbation_type": "nearby_airport_swap"
+      },
+      "output": "I don't have access to real-time NOTAM (Notice to Airmen) data for KDAL (Dallas Love Field) or any other airports. NOTAMs are time-sensitive operational notices that change frequently throughout the day.\n\nTo obtain current NOTAMs for KDAL, I recommend checking these official sources:\n\n**Primary Sources:**\n- **Federal NOTAM Search (FNOTAM)**: https://www.notams.faa.gov\n- **ForeFlight** (if you have a subscription)\n- **Garmin Pilot** or other EFB applications\n- **DUATS** or **Leidos Flight Service**\n\n**Quick Access Methods:**\n- Call Flight Service: 1-800-WX-BRIEF (1-800-992-7433)\n- Contact Dallas Love Field tower directly during operating hours\n- Check airport's official website for major operational changes\n\n**What to look for in KDAL NOTAMs:**\n- Runway closures or construction\n- Taxiway restrictions\n- Navigation aid outages\n- Airspace restrictions\n- Airport operational changes\n\nSince NOTAMs can affect flight safety and operations significantly, always verify current information from official FAA sources before flight planning or operations at any airport.\n\nWould you like guidance on interpreting NOTAMs once you retrieve the current ones?",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.4968944099378882
+      },
+      "traces": [
+        {
+          "baseline": "I don't have access to real-time NOTAM (Notice to Airmen) data for Dallas/Fort Worth International Airport (KDFW) or any other airports. NOTAMs are time-sensitive operational notices that change frequently throughout the day.\n\nTo obtain current NOTAMs for KDFW, I recommend checking these official sources:\n\n**Primary Sources:**\n- **Federal NOTAM Search (FNOTAM)**: https://www.notams.faa.gov/\n- **ForeFlight** (if you have a subscription)\n- **Garmin Pilot** or other aviation apps\n- **DUATS/LOCKHEED"
+        },
+        {
+          "perturbed": "I don't have access to real-time NOTAM (Notice to Airmen) data for KDAL (Dallas Love Field) or any other airports. NOTAMs are time-sensitive operational notices that change frequently throughout the day.\n\nTo obtain current NOTAMs for KDAL, I recommend checking these official sources:\n\n**Primary Sources:**\n- **Federal NOTAM Search (FNOTAM)**: https://www.notams.faa.gov\n- **ForeFlight** (if you have a subscription)\n- **Garmin Pilot** or other EFB applications\n- **DUATS** or **Leidos Flight Service"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "KDFW is Dallas/Fort Worth International Airport",
+            "NOTAMs include runway closures, taxiway restrictions, and navaid outages"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "KDFW is Dallas/Fort Worth International Airport",
+            "NOTAMs include runway closures, taxiway restrictions, and navaid outages"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-025",
+      "input": {
+        "base_prompt": "What is the ILS frequency for runway 31L at KJFK?",
+        "perturbed_prompt": "What is the ILS frequency for runway 31L at KLGA?",
+        "perturbation_type": "nearby_airport_swap"
+      },
+      "output": "I don't have access to current aeronautical databases that would contain the specific ILS frequency for runway 31L at KLGA (LaGuardia Airport). \n\nTo obtain this critical navigation information, I recommend checking:\n\n1. **Current sectional charts** or **approach plates** from the FAA\n2. **ForeFlight**, **Garmin Pilot**, or similar aviation apps\n3. **FAA's Digital Terminal Procedures Publication (d-TPP)**\n4. **AIRNAV** or similar aviation databases\n5. **Airport/Facility Directory** (Chart Supplement)\n\nThis information changes periodically and must be current for flight safety. Always verify navigation frequencies through official, up-to-date sources before flight operations.\n\nIf you're planning an approach to LGA, also confirm the runway is currently served by ILS, as airport configurations and navigation aids can change due to construction or equipment updates.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.3581081081081081
+      },
+      "traces": [
+        {
+          "baseline": "I don't have access to current aeronautical databases or NOTAMs that would provide the specific ILS frequency for runway 31L at KJFK (John F. Kennedy International Airport).\n\nFor accurate and current ILS frequency information, I recommend checking:\n\n1. **Current sectional charts or approach plates** from official sources like:\n   - FAA's Digital Terminal Procedures Publication (d-TPP)\n   - ForeFlight, Garmin Pilot, or other certified aviation apps\n   - Jeppesen charts\n\n2. **Airport/Facility Dire"
+        },
+        {
+          "perturbed": "I don't have access to current aeronautical databases that would contain the specific ILS frequency for runway 31L at KLGA (LaGuardia Airport). \n\nTo obtain this critical navigation information, I recommend checking:\n\n1. **Current sectional charts** or **approach plates** from the FAA\n2. **ForeFlight**, **Garmin Pilot**, or similar aviation apps\n3. **FAA's Digital Terminal Procedures Publication (d-TPP)**\n4. **AIRNAV** or similar aviation databases\n5. **Airport/Facility Directory** (Chart Supplem"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "KJFK ILS frequencies are published on approach plates",
+            "Runway 31L exists at KJFK"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "KJFK ILS frequencies are published on approach plates",
+            "Runway 31L exists at KJFK"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-026",
+      "input": {
+        "base_prompt": "Describe the RNAV STAR into KIAH from the north.",
+        "perturbed_prompt": "Describe the RNAV STAR into KHOU from the north.",
+        "perturbation_type": "nearby_airport_swap"
+      },
+      "output": "I can provide general information about RNAV STARs into KHOU (William P. Hobby Airport) from the north, but I should note that specific procedural details change over time and you should always consult current charts and NOTAMs for flight operations.\n\n**General Characteristics of Northern RNAV STARs into KHOU:**\n\n**Common STAR Names:**\n- RITAA ARRIVAL (RITAA#.RITAA)\n- WYLSN ARRIVAL (WYLSN#.WYLSN)\n\n**Typical Features:**\n- **Initial Approach Fixes:** Usually begin at waypoints north of Houston, often around 40-60 NM from the airport\n- **Altitude Structure:** Typically descend from FL240+ down to around 11,000-13,000 feet at the final approach course intercept\n- **Speed Restrictions:** Common restrictions include 280 knots until further descent, then 250 knots below 10,000 feet\n- **Runway Transitions:** Usually include transitions to support approaches to Runways 04, 12L/R, 22, and 30L/R\n\n**Operational Considerations:**\n- These STARs help manage traffic flow into the busy Houston terminal area\n- They're designed to integrate with departures from KIAH (Bush Intercontinental)\n- Weather considerations include frequent thunderstorm activity requiring deviations\n\n**Important Note:** Always reference the current FAA Terminal Procedures Publication (TPP) or electronic charts for exact waypoints, altitudes, speeds, and any special instructions. STAR procedures are updated regularly and may have temporary modifications via NOTAMs.\n\nWould you like me to elaborate on any specific aspect of these arrivals?",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.3815789473684211
+      },
+      "traces": [
+        {
+          "baseline": "I can provide general information about RNAV STARs into KIAH (Houston Bush Intercontinental) from the north, but I should note that for current operational use, you must consult the latest published charts and NOTAMs.\n\n**General characteristics of northerly RNAV STARs into KIAH:**\n\n**Common STAR Names:**\n- RITAA ARRIVAL\n- GIFFA ARRIVAL\n- WEEED ARRIVAL\n\n**Typical Features:**\n- **Initial Fixes:** Usually begin at high-altitude waypoints north of Houston\n- **Altitude Profile:** Step-down descents f"
+        },
+        {
+          "perturbed": "I can provide general information about RNAV STARs into KHOU (William P. Hobby Airport) from the north, but I should note that specific procedural details change over time and you should always consult current charts and NOTAMs for flight operations.\n\n**General Characteristics of Northern RNAV STARs into KHOU:**\n\n**Common STAR Names:**\n- RITAA ARRIVAL (RITAA#.RITAA)\n- WYLSN ARRIVAL (WYLSN#.WYLSN)\n\n**Typical Features:**\n- **Initial Approach Fixes:** Usually begin at waypoints north of Houston, of"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "KIAH is George Bush Intercontinental Airport",
+            "RNAV STARs include waypoint sequences with altitude/speed restrictions"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "KIAH is George Bush Intercontinental Airport",
+            "RNAV STARs include waypoint sequences with altitude/speed restrictions"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-027",
+      "input": {
+        "base_prompt": "What are the noise abatement departure procedures at KSFO runway 28R?",
+        "perturbed_prompt": "What are the noise abatement departure procedures at KOAK runway 28R?",
+        "perturbation_type": "nearby_airport_swap"
+      },
+      "output": "I can provide general information about noise abatement procedures, but for the specific current procedures at KOAK (Oakland International Airport) runway 28R, you should consult the most up-to-date official sources.\n\n**Typical noise abatement departure procedures may include:**\n\n1. **Preferential runway use** - Using runways that direct traffic away from noise-sensitive areas when operationally feasible\n2. **Departure headings** - Specific initial headings to avoid overflying residential areas\n3. **Altitude restrictions** - Minimum altitudes over certain areas\n4. **Power reduction procedures** - Reduced thrust climbs when safe\n5. **Time-of-day restrictions** - Limited operations during nighttime hours\n\n**For current KOAK runway 28R procedures, check:**\n- Current Airport/Facility Directory (A/FD)\n- KOAK airport noise office\n- Oakland Airport's official website\n- Current NOTAMS\n- Local departure procedures in approach plates\n\n**Important note:** Noise abatement procedures are secondary to safety. They are only followed when they don't compromise safe aircraft operations, weather conditions permit, and ATC can accommodate them.\n\nSince noise abatement procedures can change based on community agreements, seasonal factors, and operational considerations, always verify current procedures through official channels before flight operations.\n\nWould you like guidance on where to find the most current official information for KOAK?",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.21397379912663755
+      },
+      "traces": [
+        {
+          "baseline": "The noise abatement departure procedures for KSFO Runway 28R include several key elements:\n\n## Primary Procedures:\n\n**1. SERFR Departure**\n- Standard departure route that includes noise-sensitive waypoints\n- Requires specific climb gradients and turn restrictions\n- Designed to minimize noise impact over populated areas south of the airport\n\n**2. Climb Requirements**\n- Maintain runway heading until reaching specific altitudes/waypoints\n- Comply with published climb gradients (typically higher tha"
+        },
+        {
+          "perturbed": "I can provide general information about noise abatement procedures, but for the specific current procedures at KOAK (Oakland International Airport) runway 28R, you should consult the most up-to-date official sources.\n\n**Typical noise abatement departure procedures may include:**\n\n1. **Preferential runway use** - Using runways that direct traffic away from noise-sensitive areas when operationally feasible\n2. **Departure headings** - Specific initial headings to avoid overflying residential areas\n"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "KSFO has specific noise abatement procedures for overwater departures",
+            "Runway 28R departures typically turn right for noise"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "KSFO has specific noise abatement procedures for overwater departures",
+            "Runway 28R departures typically turn right for noise"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-028",
+      "input": {
+        "base_prompt": "What approach category does a Cessna 172 fall under at KMDW?",
+        "perturbed_prompt": "What approach category does a Cessna 172 fall under at KORD?",
+        "perturbation_type": "nearby_airport_swap"
+      },
+      "output": "A Cessna 172 falls under **Approach Category A** at KORD (Chicago O'Hare International Airport).\n\nThis categorization is based on the aircraft's approach speed. The Cessna 172 has a typical approach speed (Vref) of around 60-65 knots, which places it well within Category A limits (approach speeds less than 91 knots).\n\nKey implications for operations at KORD:\n- Uses Category A minimums for instrument approaches\n- Shorter final approach segment timing\n- Tighter turn radii capabilities\n- May have different missed approach climb gradients\n\nHowever, it's worth noting that light aircraft like the C172 rarely operate at major airports like O'Hare due to operational complexity, traffic density, and economic factors. Most C172 operations would typically occur at smaller airports in the Chicago area such as KPWK (Wheeling), KDPA (DuPage), or KIGQ (Chicago Executive).",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.40601503759398494
+      },
+      "traces": [
+        {
+          "baseline": "A Cessna 172 falls under **Approach Category A** at KMDW (Chicago Midway International Airport).\n\nThis categorization is based on the aircraft's approach speed. The Cessna 172 has a typical approach speed (Vref) of approximately 60-65 knots, which places it well within Category A limits (approach speeds less than 91 knots).\n\nCategory A aircraft have the most restrictive approach criteria, including:\n- Tighter turn radii during approaches\n- Lower minimum descent altitudes on some approaches\n- Mor"
+        },
+        {
+          "perturbed": "A Cessna 172 falls under **Approach Category A** at KORD (Chicago O'Hare International Airport).\n\nThis categorization is based on the aircraft's approach speed. The Cessna 172 has a typical approach speed (Vref) of around 60-65 knots, which places it well within Category A limits (approach speeds less than 91 knots).\n\nKey implications for operations at KORD:\n- Uses Category A minimums for instrument approaches\n- Shorter final approach segment timing\n- Tighter turn radii capabilities\n- May have d"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "Cessna 172 is Category A based on Vref speed",
+            "Category A: 0-90 knots approach speed",
+            "Approach category is based on aircraft, not airport"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "Cessna 172 is Category A based on Vref speed",
+            "Category A: 0-90 knots approach speed",
+            "Approach category is based on aircraft, not airport"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-029",
+      "input": {
+        "base_prompt": "What is the tower frequency at KEWR?",
+        "perturbed_prompt": "What is the tower frequency at KTEB?",
+        "perturbation_type": "nearby_airport_swap"
+      },
+      "output": "I don't have access to current frequency information for KTEB (Teterboro Airport). Aviation frequencies can change, so I'd recommend checking the most current sources for accurate information:\n\n1. **Current sectional charts** or approach plates\n2. **AIRNAV.com** or similar aviation databases\n3. **ForeFlight, Garmin Pilot,** or other EFB applications\n4. **FAA's Chart Supplement** (formerly A/FD)\n5. **AOPA Airport Directory**\n\nThese sources will provide you with the current tower frequency along with other important operational information for Teterboro Airport. Always verify frequencies from official, up-to-date sources before flight operations.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.3697478991596639
+      },
+      "traces": [
+        {
+          "baseline": "I don't have access to current frequency information for Newark Liberty International Airport (KEWR) tower operations. Aviation frequencies can change, and it's critical to use the most up-to-date information for safety.\n\nFor current and accurate tower frequency information at KEWR, I recommend checking:\n\n1. **Current sectional charts** or terminal area charts\n2. **Airport/Facility Directory (A/FD)** or Chart Supplement\n3. **ForeFlight, Garmin Pilot,** or other current aviation apps\n4. **FAA's a"
+        },
+        {
+          "perturbed": "I don't have access to current frequency information for KTEB (Teterboro Airport). Aviation frequencies can change, so I'd recommend checking the most current sources for accurate information:\n\n1. **Current sectional charts** or approach plates\n2. **AIRNAV.com** or similar aviation databases\n3. **ForeFlight, Garmin Pilot,** or other EFB applications\n4. **FAA's Chart Supplement** (formerly A/FD)\n5. **AOPA Airport Directory**\n\nThese sources will provide you with the current tower frequency along w"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "KEWR is Newark Liberty International Airport",
+            "Tower frequency is published in the Chart Supplement"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "KEWR is Newark Liberty International Airport",
+            "Tower frequency is published in the Chart Supplement"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-030",
+      "input": {
+        "base_prompt": "Given METAR KORD 241853Z 27015G25KT 6SM -RA BKN025 OVC040 18/14 A2978 RMK AO2, is the airport VFR or IFR?",
+        "perturbed_prompt": "Given METAR KORD 241853Z 27015G25KT 6SM -RA BKN025 OVC040 18/14 A2978 RMK AO2 and also METAR KORD 241853Z 36005KT 10SM SKC 22/08 A3012, which report should be used and is the airport VFR or IFR?",
+        "perturbation_type": "conflicting_metar"
+      },
+      "output": "Looking at these two METAR reports for KORD (Chicago O'Hare), there's a significant discrepancy that needs to be addressed:\n\n**Report 1:** 27015G25KT 6SM -RA BKN025 OVC040 18/14 A2978\n**Report 2:** 36005KT 10SM SKC 22/08 A3012\n\nBoth reports have identical timestamps (241853Z), but show completely different weather conditions - one with rain, low clouds, and poor visibility, the other with clear skies and excellent visibility.\n\n**Which report to use:**\nYou should **NOT use either report** until you can verify which is correct. This discrepancy suggests either:\n- A data transmission error\n- One report is from a different time/location\n- System malfunction\n\n**Recommended actions:**\n1. Contact ATC/Flight Service for current conditions\n2. Check for updated/corrected METARs\n3. Verify the source of both reports\n4. Consider pilot reports (PIREPs) for actual conditions\n\n**Weather minimums analysis:**\n- Report 1: **IFR conditions** (6SM visibility, BKN025 - ceiling below 1,000 ft)\n- Report 2: **VFR conditions** (10SM visibility, clear skies)\n\n**Safety recommendation:** Treat the airport as IFR until you can confirm actual conditions through reliable sources. Never proceed with flight planning when conflicting weather data exists.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.14691943127962084
+      },
+      "traces": [
+        {
+          "baseline": "Based on the METAR for KORD (Chicago O'Hare), the airport is currently **IFR (Instrument Flight Rules)**.\n\nHere's the analysis of the key factors:\n\n**Visibility**: 6 statute miles - This meets VFR minimums (\u22653 SM)\n\n**Ceiling**: BKN025 OVC040 - The broken layer at 2,500 feet AGL creates a ceiling of 2,500 feet, and there's an overcast layer at 4,000 feet.\n\n**VFR Requirements**: For VFR conditions, airports need:\n- Visibility \u2265 3 statute miles\n- Ceiling \u2265 1,000 feet AGL\n\nWhile the visibility (6 SM"
+        },
+        {
+          "perturbed": "Looking at these two METAR reports for KORD (Chicago O'Hare), there's a significant discrepancy that needs to be addressed:\n\n**Report 1:** 27015G25KT 6SM -RA BKN025 OVC040 18/14 A2978\n**Report 2:** 36005KT 10SM SKC 22/08 A3012\n\nBoth reports have identical timestamps (241853Z), but show completely different weather conditions - one with rain, low clouds, and poor visibility, the other with clear skies and excellent visibility.\n\n**Which report to use:**\nYou should **NOT use either report** until y"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "6SM visibility with broken ceiling at 2500 is MVFR or marginal VFR",
+            "Two contradictory METARs for the same station and time cannot both be valid",
+            "The model should flag the conflict"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "6SM visibility with broken ceiling at 2500 is MVFR or marginal VFR",
+            "Two contradictory METARs for the same station and time cannot both be valid",
+            "The model should flag the conflict"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-031",
+      "input": {
+        "base_prompt": "Should I plan for de-icing based on METAR KDEN 241600Z 33020G30KT 2SM -SN BKN015 OVC025 M04/M08 A2952?",
+        "perturbed_prompt": "Should I plan for de-icing? METAR KDEN 241600Z 33020G30KT 2SM -SN BKN015 OVC025 M04/M08 A2952. However, a second report reads METAR KDEN 241600Z 18008KT 10SM FEW200 28/10 A3005 indicating warm and cle",
+        "perturbation_type": "conflicting_metar"
+      },
+      "output": "**Analysis: Conflicting METAR reports require immediate clarification before flight planning.**\n\nThese two METAR reports for KDEN (Denver) at the same time (241600Z) show drastically different conditions:\n\n**Report 1 indicates severe winter conditions:**\n- Light snow (-SN) with 2SM visibility\n- Strong winds (330\u00b0 at 20G30KT)\n- Low ceilings (BKN015 OVC025)\n- Temperature -4\u00b0C/Dewpoint -8\u00b0C\n- **De-icing would be required**\n\n**Report 2 indicates benign conditions:**\n- Clear with 10SM visibility\n- Light winds (180\u00b0 at 8KT)\n- High ceiling (FEW200)\n- Temperature 28\u00b0C/Dewpoint 10\u00b0C\n- **No de-icing needed**\n\n**Recommendation:**\n1. **Do not proceed with flight planning** until you obtain current, verified weather\n2. **Contact Flight Service or check multiple reliable sources** (AWOS, ASOS, tower)\n3. **Verify which report is accurate** - the conditions are mutually exclusive\n4. **Consider the report source** - one may be from a different time or location\n\n**Safety Note:** The temperature difference alone (32\u00b0C/58\u00b0F spread) makes simultaneous accuracy impossible. Flying with incorrect weather information poses significant safety risks, especially regarding icing conditions and visibility.\n\nWait for confirmed, current weather before making any de-icing decisions.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.11914893617021277
+      },
+      "traces": [
+        {
+          "baseline": "Yes, you should definitely plan for de-icing based on this METAR from Denver (KDEN).\n\n**Key factors indicating de-icing need:**\n\n1. **Active precipitation**: Light snow (-SN) is currently falling\n2. **Temperature**: -4\u00b0C (25\u00b0F) - below freezing with high probability of ice accumulation\n3. **Low visibility**: 2 statute miles in snow indicates moderate intensity\n4. **Low cloud bases**: Broken at 1,500 ft, overcast at 2,500 ft suggests continued precipitation likely\n\n**Additional considerations:**\n"
+        },
+        {
+          "perturbed": "**Analysis: Conflicting METAR reports require immediate clarification before flight planning.**\n\nThese two METAR reports for KDEN (Denver) at the same time (241600Z) show drastically different conditions:\n\n**Report 1 indicates severe winter conditions:**\n- Light snow (-SN) with 2SM visibility\n- Strong winds (330\u00b0 at 20G30KT)\n- Low ceilings (BKN015 OVC025)\n- Temperature -4\u00b0C/Dewpoint -8\u00b0C\n- **De-icing would be required**\n\n**Report 2 indicates benign conditions:**\n- Clear with 10SM visibility\n- Li"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "Snow and sub-zero temps require de-icing",
+            "Two conflicting METARs at the same time are invalid",
+            "Model should identify the contradiction and recommend using official sources"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "Snow and sub-zero temps require de-icing",
+            "Two conflicting METARs at the same time are invalid",
+            "Model should identify the contradiction and recommend using official sources"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-032",
+      "input": {
+        "base_prompt": "Is KATL suitable for landing given METAR KATL 241753Z 21010KT 10SM FEW040 SCT250 32/20 A2998?",
+        "perturbed_prompt": "Is KATL suitable for landing? METAR KATL 241753Z 21010KT 10SM FEW040 SCT250 32/20 A2998 indicates good weather, but TAF KATL 241800Z 2418/2524 05025G45KT 1/2SM +TSRA OVC005 suggests conditions will dr",
+        "perturbation_type": "conflicting_metar"
+      },
+      "output": "**Trust the TAF and consider diverting or holding.**\n\nHere's the critical analysis:\n\n**Current METAR (17:53Z):** Excellent VFR conditions\n- 10SM visibility, few clouds at 4,000 ft\n- Light winds, good ceiling\n\n**TAF Forecast (18:00Z onward):** Severe deterioration imminent\n- Winds: 050\u00b0 at 25G45 knots (strong crosswind/tailwind depending on runway)\n- Visibility: 1/2 SM (well below minimums)\n- Weather: Heavy thunderstorms with rain (+TSRA)\n- Ceiling: Overcast at 500 ft\n\n**Key Factors:**\n1. **Timing**: The TAF valid time (18:00Z) is only 7 minutes after the METAR, and you're arriving in 10 minutes\n2. **Thunderstorms**: These can develop rapidly and create dangerous conditions (windshear, microbursts, turbulence)\n3. **Visibility**: 1/2 SM is below approach minimums for most procedures\n4. **Wind gusts**: 45-knot gusts present significant handling challenges\n\n**Recommendation:**\n- Check current ATIS/tower reports for real-time updates\n- Have alternate airport ready\n- Consider holding until conditions improve or divert immediately\n- If attempting approach, be prepared for immediate missed approach\n\nThe TAF indicates conditions are about to deteriorate dramatically right around your arrival time. Weather radar and ATC reports will give you the most current picture, but the forecast suggests unsafe conditions are imminent.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.13524590163934427
+      },
+      "traces": [
+        {
+          "baseline": "Based on the METAR KATL 241753Z 21010KT 10SM FEW040 SCT250 32/20 A2998, **yes, KATL appears suitable for landing** under standard conditions.\n\n**Analysis of conditions:**\n\n**Favorable factors:**\n- **Wind**: 210\u00b0 at 10 knots - light winds with no gusts reported\n- **Visibility**: 10 statute miles - excellent visibility\n- **Ceiling**: Few clouds at 4,000 feet, scattered at 25,000 feet - high ceiling with minimal low-level obstruction\n- **Pressure**: 29.98\" Hg - within normal range\n\n**Considerations"
+        },
+        {
+          "perturbed": "**Trust the TAF and consider diverting or holding.**\n\nHere's the critical analysis:\n\n**Current METAR (17:53Z):** Excellent VFR conditions\n- 10SM visibility, few clouds at 4,000 ft\n- Light winds, good ceiling\n\n**TAF Forecast (18:00Z onward):** Severe deterioration imminent\n- Winds: 050\u00b0 at 25G45 knots (strong crosswind/tailwind depending on runway)\n- Visibility: 1/2 SM (well below minimums)\n- Weather: Heavy thunderstorms with rain (+TSRA)\n- Ceiling: Overcast at 500 ft\n\n**Key Factors:**\n1. **Timin"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "Current METAR shows VFR conditions",
+            "TAF forecasts severe thunderstorms and very low visibility",
+            "Pilot should plan for the worst case and have an alternate ready",
+            "10-minute arrival window makes the TAF transition critical"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "Current METAR shows VFR conditions",
+            "TAF forecasts severe thunderstorms and very low visibility",
+            "Pilot should plan for the worst case and have an alternate ready",
+            "10-minute arrival window makes the TAF transition critical"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-033",
+      "input": {
+        "base_prompt": "Decode METAR KBOS 241953Z 09012KT 8SM SCT035 BKN055 22/16 A2990.",
+        "perturbed_prompt": "Decode this METAR: KBOS 241953Z 09012KT 8SM SCT035 BKN055 22/16 A2990. Also consider KBOS 241953Z 09012KT 1/4SM FG VV002 22/16 A2990 which was reported at the same time showing fog and vertical visibi",
+        "perturbation_type": "conflicting_metar"
+      },
+      "output": "I'll analyze both METAR reports for Boston Logan International Airport (KBOS):\n\n## First METAR: KBOS 241953Z 09012KT 8SM SCT035 BKN055 22/16 A2990\n\n**Decoded:**\n- **Station:** KBOS (Boston Logan International Airport)\n- **Time:** 24th day, 1953Z (7:53 PM UTC)\n- **Wind:** 090\u00b0 at 12 knots (easterly wind)\n- **Visibility:** 8 statute miles\n- **Clouds:** \n  - Scattered clouds at 3,500 feet\n  - Broken clouds at 5,500 feet\n- **Temperature/Dewpoint:** 22\u00b0C/16\u00b0C (72\u00b0F/61\u00b0F)\n- **Altimeter:** 29.90 inches Hg\n\n## Second METAR: KBOS 241953Z 09012KT 1/4SM FG VV002 22/16 A2990\n\n**Decoded:**\n- Same station and time\n- Same wind conditions\n- **Visibility:** 1/4 statute mile (very poor)\n- **Weather:** FG (fog)\n- **Sky Condition:** VV002 (vertical visibility 200 feet - indefinite ceiling)\n- Same temperature/dewpoint and pressure\n\n## Analysis:\n\nThese two reports at the same time present a **significant discrepancy** that requires investigation:\n\n**Safety Concerns:**\n- The visibility difference (8SM vs 1/4SM) is extreme and operationally critical\n- VV002 indicates instrument conditions, while 8SM SCT035 BKN055 suggests VFR conditions\n- Such conditions would dramatically affect approach minimums and airport operations\n\n**Possible Explanations:**\n1. **Sensor malfunction** - Automated weather systems may have conflicting readings\n2. **Localized fog** - Patchy fog affecting different parts of the airport\n3. **Reporting error** - One report may contain transmission or encoding errors\n4. **Temporal variation** - Rapidly changing conditions (though same timestamp suggests otherwise)\n\n**Operational Impact:**\nThe fog conditions (1/4SM VV002) would likely require:\n- ILS approaches with appropriate minimums\n- Possible ground delays or diversions\n- Enhanced ground movement procedures\n\nThis discrepancy would require immediate verification through backup weather sources and pilot reports before making operational decisions.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.1412639405204461
+      },
+      "traces": [
+        {
+          "baseline": "Here's the decoded METAR for Boston Logan International Airport (KBOS):\n\n**Station & Time:**\n- KBOS: Boston Logan International Airport\n- 241953Z: Observed on the 24th day at 19:53 UTC (Zulu time)\n\n**Wind:**\n- 09012KT: Wind from 090\u00b0 (due east) at 12 knots\n\n**Visibility:**\n- 8SM: 8 statute miles visibility\n\n**Cloud Coverage:**\n- SCT035: Scattered clouds at 3,500 feet AGL\n- BKN055: Broken cloud layer at 5,500 feet AGL\n\n**Temperature & Dewpoint:**\n- 22/16: Temperature 22\u00b0C (72\u00b0F), Dewpoint 16\u00b0C (6"
+        },
+        {
+          "perturbed": "I'll analyze both METAR reports for Boston Logan International Airport (KBOS):\n\n## First METAR: KBOS 241953Z 09012KT 8SM SCT035 BKN055 22/16 A2990\n\n**Decoded:**\n- **Station:** KBOS (Boston Logan International Airport)\n- **Time:** 24th day, 1953Z (7:53 PM UTC)\n- **Wind:** 090\u00b0 at 12 knots (easterly wind)\n- **Visibility:** 8 statute miles\n- **Clouds:** \n  - Scattered clouds at 3,500 feet\n  - Broken clouds at 5,500 feet\n- **Temperature/Dewpoint:** 22\u00b0C/16\u00b0C (72\u00b0F/61\u00b0F)\n- **Altimeter:** 29.90 inches"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "First METAR shows 8SM visibility with scattered/broken clouds",
+            "Second METAR shows 1/4SM fog with indefinite ceiling at 200 ft",
+            "Same timestamp means only one can be correct",
+            "Model should flag the conflicting visibility reports"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "First METAR shows 8SM visibility with scattered/broken clouds",
+            "Second METAR shows 1/4SM fog with indefinite ceiling at 200 ft",
+            "Same timestamp means only one can be correct",
+            "Model should flag the conflicting visibility reports"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-034",
+      "input": {
+        "base_prompt": "Given METAR KSEA 241650Z 16008KT 10SM SCT045 BKN080 19/12 A3010, what approach type is most appropriate?",
+        "perturbed_prompt": "Given METAR KSEA 241650Z 16008KT 10SM SCT045 BKN080 19/12 A3010, what approach type is most appropriate? A pilot report from 5 minutes ago states visibility near the field is actually 1/2SM in heavy r",
+        "perturbation_type": "conflicting_metar"
+      },
+      "output": "Based on the conflicting information provided, I need to analyze both the METAR and PIREP data:\n\n**METAR Analysis (KSEA 241650Z):**\n- Visibility: 10SM\n- Ceiling: Scattered at 4,500 ft, Broken at 8,000 ft\n- This would normally support visual approaches or any instrument approach\n\n**PIREP Analysis (5 minutes ago):**\n- Visibility: 1/2 SM in heavy rain\n- Ceiling: 100 feet\n\n**Recommended Approach Type:**\n\nGiven the recent PIREP reporting significantly deteriorated conditions, an **ILS approach** would be most appropriate because:\n\n1. **Low visibility (1/2 SM)** - Well below VFR minimums, requires precision approach\n2. **100-foot ceiling** - Extremely low, needs precision vertical guidance\n3. **KSEA has ILS approaches** available on multiple runways\n\n**Critical Safety Considerations:**\n\n- The PIREP conditions (100 ft ceiling, 1/2 SM visibility) are **below standard ILS minimums** for most aircraft categories\n- Standard ILS minimums at KSEA are typically 200 ft ceiling and 1/2 to 3/4 SM visibility depending on the runway\n- **Immediate weather update required** - request current conditions from tower\n- Consider **alternate airport** if conditions are below approach minimums\n- Only attempt approach if aircraft is **CAT II/III certified** and crew qualified if conditions are that severe\n\n**Recommendation:** Do not attempt approach until confirming current weather meets legal minimums for the aircraft category and crew qualifications.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.2077922077922078
+      },
+      "traces": [
+        {
+          "baseline": "Based on the METAR for Seattle-Tacoma International Airport (KSEA), I can analyze the weather conditions:\n\n**Weather Analysis:**\n- Wind: 160\u00b0 at 8 knots (light, favoring runways 16L/R)\n- Visibility: 10 statute miles (excellent)\n- Ceiling: Scattered clouds at 4,500 ft, broken layer at 8,000 ft\n- Temperature/Dewpoint: 19\u00b0C/12\u00b0C\n- Altimeter: 30.10 inHg\n\n**Most Appropriate Approach Type: Visual Approach**\n\n**Rationale:**\n1. **VFR Conditions**: With 10SM visibility and ceiling well above minimums, co"
+        },
+        {
+          "perturbed": "Based on the conflicting information provided, I need to analyze both the METAR and PIREP data:\n\n**METAR Analysis (KSEA 241650Z):**\n- Visibility: 10SM\n- Ceiling: Scattered at 4,500 ft, Broken at 8,000 ft\n- This would normally support visual approaches or any instrument approach\n\n**PIREP Analysis (5 minutes ago):**\n- Visibility: 1/2 SM in heavy rain\n- Ceiling: 100 feet\n\n**Recommended Approach Type:**\n\nGiven the recent PIREP reporting significantly deteriorated conditions, an **ILS approach** woul"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "METAR indicates VFR conditions suitable for visual approach",
+            "PIREP contradicts the METAR significantly",
+            "Pilot should prepare for an ILS or precision approach as backup",
+            "Most recent pilot report may be more current than the METAR"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "METAR indicates VFR conditions suitable for visual approach",
+            "PIREP contradicts the METAR significantly",
+            "Pilot should prepare for an ILS or precision approach as backup",
+            "Most recent pilot report may be more current than the METAR"
+          ]
+        }
+      },
+      "passed": false
+    },
+    {
+      "example_id": "ADV-035",
+      "input": {
+        "base_prompt": "What is the maximum crosswind component for a Boeing 737 landing on a contaminated runway?",
+        "perturbed_prompt": "What is the maximum crosswind component for a Boeing 737 landing on a contaminated runway? For reference, EGLL just reported wind at 270/35G50 and runway 27L is active, and an Airbus A380 just declare",
+        "perturbation_type": "distractor_injection"
+      },
+      "output": "For a Boeing 737 landing on a contaminated runway, the maximum demonstrated crosswind component is typically **15 knots**, though this can vary slightly by specific variant and airline operating procedures.\n\n**Key factors for contaminated runway operations:**\n- Contamination (water, slush, snow, ice) significantly reduces the crosswind limit from the dry runway maximum of 35 knots\n- The 15-knot limit applies to runways with more than 3mm of standing water or equivalent contamination\n- Some operators may impose even lower limits (10-12 knots) depending on contamination type and depth\n\n**Regarding your EGLL scenario:**\n- Wind: 270\u00b0 at 35G50 knots\n- Runway 27L (heading ~270\u00b0)\n- This would be nearly a direct headwind with minimal crosswind component\n- The gusting to 50 knots would be the primary concern, not crosswind\n\n**Note on the A380 emergency at OMDB:** While concerning, this is a separate operational issue that wouldn't directly impact the 737 crosswind limitations, unless it affects runway availability or emergency response resources.\n\nThe contaminated runway crosswind limit of 15 knots is based on demonstrated performance data and is designed to maintain adequate directional control during landing rollout when braking effectiveness is compromised.",
+      "scores": {
+        "baseline_score": 0.0,
+        "perturbed_score": 0.0,
+        "degradation": 0.0,
+        "output_similarity": 0.16444444444444445
+      },
+      "traces": [
+        {
+          "baseline": "The maximum crosswind component for a Boeing 737 landing on a contaminated runway depends on the specific variant and the type/degree of contamination, but here are the general limits:\n\n## Standard Crosswind Limits for Contaminated Runways:\n\n**Boeing 737 (most variants):**\n- **Wet runway**: 25-30 knots crosswind component\n- **Contaminated runway** (standing water, slush, snow, ice): **15-20 knots crosswind component**\n\n## Key Factors Affecting Limits:\n\n1. **Contamination type and depth**:\n   - L"
+        },
+        {
+          "perturbed": "For a Boeing 737 landing on a contaminated runway, the maximum demonstrated crosswind component is typically **15 knots**, though this can vary slightly by specific variant and airline operating procedures.\n\n**Key factors for contaminated runway operations:**\n- Contamination (water, slush, snow, ice) significantly reduces the crosswind limit from the dry runway maximum of 35 knots\n- The 15-knot limit applies to runways with more than 3mm of standing water or equivalent contamination\n- Some opera"
+        }
+      ],
+      "grader_results": {
+        "baseline": {
+          "found": [],
+          "missing": [
+            "Maximum demonstrated crosswind varies by operator",
+            "Contaminated runway crosswind limits are typically lower than dry runway limits",
+            "Boeing AFM provides guidance but operators set limits"
+          ]
+        },
+        "perturbed": {
+          "found": [],
+          "missing": [
+            "Maximum demonstrated crosswind varies by operator",
+            "Contaminated runway crosswind limits are typically lower than dry runway limits",
+            "Boeing AFM provides guidance but operators set limits"
+          ]
+        }
+      },
+      "passed": false
+    }
+  ],
+  "aggregate_metrics": {
+    "mean_degradation": 0.0,
+    "max_degradation": 0.0,
+    "mean_similarity": 0.3035369814625414,
+    "robustness_score": 0.3035369814625414,
+    "pass_rate": 0.05714285714285714,
+    "similarity_paraphrase": 0.2974349054151781,
+    "similarity_typo": 0.4692896881262259,
+    "similarity_distractor_injection": 0.22573988735279057,
+    "similarity_synonym": 0.2820531411878739,
+    "similarity_nearby_airport_swap": 0.3710530335491173,
+    "similarity_conflicting_metar": 0.15007408348036635
+  },
+  "confidence_intervals": {
+    "mean_degradation": [
+      0.0,
+      0.14285714285714285
+    ],
+    "max_degradation": [
+      0.0,
+      0.14285714285714285
+    ],
+    "mean_similarity": [
+      0.0,
+      0.14285714285714285
+    ],
+    "robustness_score": [
+      0.0,
+      0.14285714285714285
+    ],
+    "pass_rate": [
+      0.0,
+      0.14285714285714285
+    ],
+    "similarity_paraphrase": [
+      0.0,
+      0.14285714285714285
+    ],
+    "similarity_typo": [
+      0.0,
+      0.14285714285714285
+    ],
+    "similarity_distractor_injection": [
+      0.0,
+      0.14285714285714285
+    ],
+    "similarity_synonym": [
+      0.0,
+      0.14285714285714285
+    ],
+    "similarity_nearby_airport_swap": [
+      0.0,
+      0.14285714285714285
+    ],
+    "similarity_conflicting_metar": [
+      0.0,
+      0.14285714285714285
+    ]
+  },
+  "run_config": {
+    "dataset": "/Users/psparks/PycharmProjects/aviation-eval-harness/datasets/adversarial_prompts.jsonl"
+  }
+}
