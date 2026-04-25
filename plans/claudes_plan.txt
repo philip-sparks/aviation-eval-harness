@@ -1,0 +1,265 @@
+Sub-tasks generated. Here's the summary:
+
+  ┌───────────────────────────┬───────────┬───────────────────────────────────────────────────────────────────────────────────┐
+  │        Parent Task        │ Sub-tasks │                                 Key Deliverables                                  │
+  ├───────────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────┤
+  │ 0.0 Feature branch        │ 1         │ Branch feature/agent-eval-harness                                                 │
+  ├───────────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────┤
+  │ 1.0 Scaffold              │ 5         │ Directory tree, pyproject.toml, aviation_domain.py constants                      │
+  ├───────────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────┤
+  │ 2.0 Core infra            │ 5         │ Eval ABC, Result/ExampleResult dataclasses, config loader                         │
+  ├───────────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────┤
+  │ 3.0 Model adapters        │ 5         │ ModelAdapter ABC, AnthropicAdapter, create_adapter() factory                      │
+  ├───────────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────┤
+  │ 4.0 Datasets              │ 8         │ 4 JSONL dataset files, 3 synthetic generators, dataset README                     │
+  ├───────────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────┤
+  │ 5.0 Graders               │ 5         │ Rule-based (5 grader types), LLM judge w/ calibration, human agreement            │
+  ├───────────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────┤
+  │ 6.0 Promptfoo integration │ 5         │ Config generation, custom provider, per-eval configs, result translation          │
+  ├───────────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────┤
+  │ 7.0 Eval categories       │ 7         │ All 5 evals: grounding, tool_use, robustness, refusals, regression                │
+  ├───────────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────┤
+  │ 8.0 Runners               │ 4         │ Click CLI, SQLite response cache, parallel runner, CachedAdapter                  │
+  ├───────────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────┤
+  │ 9.0 Analysis              │ 5         │ Bootstrap CIs, paired comparison, failure clustering, HTML dashboard              │
+  ├───────────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────┤
+  │ 10.0 Experiments          │ 3         │ Template dir, scaffold CLI, first experiment with writeup                         │
+  ├───────────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────┤
+  │ 11.0 Documentation        │ 3         │ methodology.md, threat-model.md, README with results table                        │
+  ├───────────────────────────┼───────────┼───────────────────────────────────────────────────────────────────────────────────┤
+  │ 12.0 Tests                │ 10        │ Tests across all modules (base, adapters, graders, runners, analysis, generators) │
+  └───────────────────────────┴───────────┴───────────────────────────────────────────────────────────────────────────────────┘
+
+  Total: 66 sub-tasks across 13 parent tasks.
+
+  The task list is saved at tasks/tasks-agent-eval-harness.md. Ready to start implementing when you are.
+
+✻ Worked for 3m 8s
+
+❯ Let's start implementing.
+
+⏺ Entered plan mode
+  Claude is now exploring and designing an implementation approach.
+
+⏺ Let me quickly assess the current repo state and reference the key blazer patterns before creating the implementation plan.
+
+⏺ 2 Explore agents finished (ctrl+o to expand)
+   ├─ Explore current repo state · 11 tool uses · 14.7k tokens
+   │  ⎿  Done
+   └─ Explore blazer eval patterns · 4 tool uses · 11.1k tokens
+      ⎿  Done
+
+⏺ Good, I have everything I need. Let me create the implementation plan.
+
+⏺ Updated plan
+  ⎿  /plan to preview
+
+⏺ The plan organizes the 66 sub-tasks into 6 execution batches following dependency order:
+
+  1. Foundation — scaffold, packaging, base classes, model adapters
+  2. Graders + Promptfoo — all grader types, config generation, custom provider
+  3. Datasets — synthetic generators, all 4 JSONL files, dataset docs
+  4. Eval Categories — all 5 eval implementations
+  5. Runners + Analysis — CLI, caching, parallelism, stats, clustering, dashboards
+  6. Polish — experiments, docs, README, full test suite
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ Ready to code?
+
+ Here is Claude's plan:
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+ Implementation Plan: Agent Evaluation Harness
+
+ Context
+
+ We're building a research-grade agent evaluation harness for aviation safety, drawing on patterns from the Blazer project (~/PycharmProjects/blazer). The repo
+ is currently a clean slate — only .venv/, .idea/, plans/, and tasks/ exist. Python 3.10.11, Node.js 25.3, npm 11.7, and uv 0.9.22 are available.
+
+ The full PRD is at tasks/prd-agent-eval-harness.md and the detailed task list (66 sub-tasks) is at tasks/tasks-agent-eval-harness.md. Rather than restating
+ everything, this plan focuses on execution order, key decisions, and implementation patterns.
+
+ Key Decisions
+
+ 1. Package manager: uv (already installed) for Python deps
+ 2. Promptfoo provider interface: call_api(prompt, options, context) -> dict returning {output, metadata, tokenUsage} — matches blazer's pattern exactly
+ 3. Config generation: YAML via yaml.safe_dump(), same as blazer
+ 4. Project layout: Flat (not nested under agent-evals/ subdir) — the repo root IS the project
+ 5. CLI framework: Click
+ 6. Aviation domain constants: Centralized in evals/aviation_domain.py
+
+ Execution Plan
+
+ We'll implement in 6 batches, following the task list dependency order. Each batch groups tasks that can be worked on together.
+
+ Batch 1: Foundation (Tasks 0.0, 1.0, 2.0, 3.0)
+
+ Goal: Skeleton that can be installed and imported.
+
+ 1. Create feature branch (feature/agent-eval-harness)
+ 2. Scaffold all directories and __init__.py files per PRD 4.1
+ 3. pyproject.toml — project metadata, deps, [project.scripts] entry point
+ 4. .gitignore — Python, Node, cache, .env
+ 5. evals/aviation_domain.py — event taxonomy, airport coords, semantic equivalences, numeric tolerances
+ 6. evals/base.py — Eval ABC, Result, ExampleResult dataclasses with JSON serialization
+ 7. evals/config.py — YAML/JSON config loader
+ 8. models/adapters.py — ModelAdapter ABC, ModelResponse, AnthropicAdapter, create_adapter() factory
+
+ Verify: uv pip install -e . succeeds, python -c "from evals.base import Eval, Result" works.
+
+ Batch 2: Graders + Promptfoo Integration (Tasks 5.0, 6.0)
+
+ Goal: Grading infrastructure connected to Promptfoo.
+
+ 1. graders/__init__.py — Grader ABC, GradeResult dataclass
+ 2. graders/rule_based.py — ContainsGrader, NotContainsGrader, NumericToleranceGrader, RegexGrader, SemanticEquivalenceGrader
+ 3. graders/llm_judge.py — LLMJudgeGrader with weighted sub-rubrics, CalibrationReport, calibrate() method
+ 4. graders/human_agreement.py — cohens_kappa(), krippendorffs_alpha(), disagreement_report()
+ 5. runners/promptfoo_config.py — generate_config(), write_config(), per-eval config generators
+ 6. runners/promptfoo_provider.py — custom provider script (call_api entry point)
+ 7. Result translation — promptfoo_results_to_result()
+
+ Verify: Generate a grounding config YAML, inspect it manually for correctness.
+
+ Batch 3: Datasets (Task 4.0)
+
+ Goal: All JSONL datasets and synthetic generators.
+
+ 1. datasets/generators/generate_metar.py — METAR string generator with presets
+ 2. datasets/generators/generate_tracks.py — ADS-B track generator (approach, departure, taxi, go-around profiles)
+ 3. datasets/generators/generate_scenarios.py — composite scenario generator
+ 4. datasets/grounding_cases.jsonl — 50-100 cases from ASRS/NTSB/FAR sources
+ 5. datasets/tool_use_cases.jsonl — 30-50 tool use scenarios
+ 6. datasets/adversarial_prompts.jsonl — 30-50 perturbation templates
+ 7. datasets/refusal_cases.jsonl — 20-30 refusal boundary cases
+ 8. datasets/README.md — provenance, schema docs
+
+ Verify: python -c "import json; [json.loads(l) for l in open('datasets/grounding_cases.jsonl')]" validates JSONL.
+
+ Batch 4: Eval Categories (Task 7.0)
+
+ Goal: All 5 eval implementations.
+
+ 1. evals/grounding/grounding_eval.py — GroundingEval(Eval) with dual graders
+ 2. evals/tool_use/mock_tools.py — 6 aviation tool schemas + simulate()
+ 3. evals/tool_use/tool_use_eval.py — ToolUseEval(Eval)
+ 4. evals/robustness/perturbations.py — perturbation engine
+ 5. evals/robustness/robustness_eval.py — RobustnessEval(Eval)
+ 6. evals/refusals/refusals_eval.py — RefusalsEval(Eval)
+ 7. evals/regression/regression_eval.py — RegressionEval(Eval) with diff reports
+
+ Verify: Instantiate each eval, confirm it loads its dataset and can describe its graders.
+
+ Batch 5: Runners + Analysis (Tasks 8.0, 9.0)
+
+ Goal: CLI works end-to-end, analysis tools functional.
+
+ 1. runners/cache.py — ResponseCache (SQLite-backed)
+ 2. runners/parallel.py — ParallelRunner with asyncio
+ 3. runners/run_eval.py — Click CLI (run, compare, new-experiment)
+ 4. CachedAdapter wrapper
+ 5. analysis/significance.py — bootstrap_ci(), paired_bootstrap_test(), compare_runs()
+ 6. analysis/failure_clustering.py — cluster_failures(), generate_failure_report()
+ 7. analysis/dashboards/report.py — generate_report() → static HTML
+
+ Verify: python -m runners.run_eval run --eval grounding --model anthropic:claude-sonnet-4-20250514 --help shows CLI options.
+
+ Batch 6: Experiments, Docs, Tests (Tasks 10.0, 11.0, 12.0)
+
+ Goal: Ship-ready with documentation and test coverage.
+
+ 1. experiments/template/ — config.yaml, writeup.md templates
+ 2. new-experiment CLI — scaffold command
+ 3. Initial experiment — 2026-04-grounding-baseline/
+ 4. docs/methodology.md — 2-4 pages
+ 5. docs/threat-model.md — failure mode catalog
+ 6. README.md — pitch, quick-start, results table, limitations, surprising finding
+ 7. All tests (10 test files across modules)
+
+ Verify: pytest passes, README.md quick-start instructions work from a fresh clone.
+
+ Key Blazer Patterns to Reference
+
+ ┌───────────────────────┬─────────────────────────────────────────────────────┬───────────────────────────────────────────────────────────────────────┐
+ │        Pattern        │                     Blazer File                     │                             How We Adapt                              │
+ ├───────────────────────┼─────────────────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+ │ Config generation     │ src/evals/generate_asaic_eval_config.py             │ Same YAML structure, generate_config() in runners/promptfoo_config.py │
+ ├───────────────────────┼─────────────────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+ │ Provider interface    │ src/evals/promptfoo_provider_asaic.py               │ Same call_api(prompt, options, context) -> dict signature             │
+ ├───────────────────────┼─────────────────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+ │ Weighted sub-rubrics  │ generate_asaic_eval_config.py (30/30/25/15)         │ Replicate in generate_grounding_config()                              │
+ ├───────────────────────┼─────────────────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+ │ Calibrated thresholds │ generate_calibrated_config.py (threshold: 0.4)      │ Built into LLMJudgeGrader config                                      │
+ ├───────────────────────┼─────────────────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+ │ Semantic equivalence  │ generate_calibrated_config.py AIRCRAFT_ALTERNATIVES │ Generalized in aviation_domain.py                                     │
+ ├───────────────────────┼─────────────────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+ │ Anti-hallucination    │ generate_asaic_eval_config.py not-icontains checks  │ NotContainsGrader + negative_facts in datasets                        │
+ ├───────────────────────┼─────────────────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+ │ Module-level caching  │ promptfoo_provider_asaic.py _fixture_cache          │ Same pattern in our provider                                          │
+ └───────────────────────┴─────────────────────────────────────────────────────┴───────────────────────────────────────────────────────────────────────┘
+
+ Verification Strategy
+
+ After each batch:
+ 1. Run pytest on any new test files
+ 2. Verify imports work (python -c "from module import Class")
+ 3. After Batch 5: end-to-end dry run of CLI
+ 4. After Batch 6: full pytest suite, README quick-start walkthrough
+
+
+
+
+⏺ Implementation complete. Here's a summary of everything that was built:
+
+  Summary
+
+  131 tests passing across 10 test files, all 6 batches implemented:
+
+  Batch 1: Foundation
+
+  - pyproject.toml with all deps, CLI entry point, hatchling build config
+  - evals/aviation_domain.py — 18 airports, 9 event types, semantic equivalences, numeric tolerances
+  - evals/base.py — Eval ABC, Result, ExampleResult with JSON serialization
+  - evals/config.py — YAML/JSON config loader
+  - models/adapters.py — ModelAdapter ABC, AnthropicAdapter, create_adapter() factory
+
+  Batch 2: Graders + Promptfoo
+
+  - graders/ — Grader ABC, ContainsGrader, NotContainsGrader, NumericToleranceGrader, RegexGrader, SemanticEquivalenceGrader
+  - graders/llm_judge.py — LLMJudgeGrader with weighted sub-rubrics (30/30/25/15), CalibrationReport
+  - graders/human_agreement.py — cohens_kappa(), krippendorffs_alpha(), disagreement_report()
+  - runners/promptfoo_config.py — Config generation with per-eval generators
+  - runners/promptfoo_provider.py — Custom Promptfoo provider with call_api() entry point
+
+  Batch 3: Datasets
+
+  - datasets/grounding_cases.jsonl — 60 cases (10 per event type, 3 source types)
+  - datasets/tool_use_cases.jsonl — 35 cases covering all 6 mock tools
+  - datasets/adversarial_prompts.jsonl — 35 perturbation templates (6 types)
+  - datasets/refusal_cases.jsonl — 25 refusal boundary cases
+  - 3 synthetic generators (METAR, ADS-B tracks, composite scenarios)
+
+  Batch 4: Eval Categories
+
+  - GroundingEval — dual graders (rule-based + LLM judge), agreement tracking
+  - ToolUseEval — tool selection, argument accuracy, sequence scoring
+  - RobustnessEval — perturbation degradation measurement
+  - RefusalsEval — answered/refused/hedged classification
+  - RegressionEval — paired comparison with significance tests
+
+  Batch 5: Runners + Analysis
+
+  - CLI with run, compare, new-experiment commands
+  - ResponseCache (SQLite-backed) + CachedAdapter wrapper
+  - ParallelRunner with asyncio concurrency
+  - bootstrap_ci(), paired_bootstrap_test(), compare_runs()
+  - Failure clustering with sentence-transformers/TF-IDF fallback
+  - Static HTML report generation with matplotlib charts
+
+  Batch 6: Docs + Tests
+
+  - docs/methodology.md — 4-page methodology document
+  - docs/threat-model.md — Failure mode catalog (Critical/High/Medium/Low)
+  - README.md — Pitch, quick-start, results table, known limitations
+  - Experiment template directory
+  - 10 test files, 131 tests, all passing
+

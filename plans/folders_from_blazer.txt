@@ -1,0 +1,4 @@
+~/PycharmProjects/blazer/chats/
+~/PycharmProjects/blazer/blazer-ec2-exports/
+~/PycharmProjects/blazer/src/evals
+~/PycharmProjects/blazer/README.md

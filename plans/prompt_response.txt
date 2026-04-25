@@ -1,0 +1,71 @@
+High-level philosophy
+
+The repo should demonstrate three things: (1) you can decompose agent behavior into measurable properties, (2) you can build infrastructure that supports iterative research (not just pass/fail CI), and (3) you think carefully about what "correct" means when ground truth is fuzzy. That last point is the heart of alignment eval work.
+Repo structure
+agent-evals/
+├── README.md
+├── pyproject.toml
+├── docs/
+│   ├── methodology.md          # how evals were designed, what they measure
+│   ├── threat-model.md         # what failure modes you're trying to catch
+│   └── results/                # writeups of specific experiments
+├── evals/
+│   ├── __init__.py
+│   ├── base.py                 # Eval base class, result schema
+│   ├── grounding/              # fact attribution / hallucination
+│   ├── tool_use/               # correct tool selection & argument shaping
+│   ├── robustness/             # prompt perturbations, adversarial inputs
+│   ├── refusals/               # over- and under-refusal
+│   └── regression/             # cross-model / cross-version comparison
+├── datasets/
+│   ├── README.md               # provenance, labeling process, known issues
+│   ├── grounding_cases.jsonl
+│   └── adversarial_prompts.jsonl
+├── graders/
+│   ├── llm_judge.py            # LLM-as-judge with rubric + calibration
+│   ├── rule_based.py
+│   └── human_agreement.py      # inter-rater agreement analysis
+├── runners/
+│   ├── run_eval.py             # CLI entry point
+│   ├── parallel.py             # async / batched model calls
+│   └── cache.py                # response caching for reproducibility
+├── analysis/
+│   ├── dashboards/             # result visualization
+│   ├── failure_clustering.py   # group similar failures
+│   └── significance.py         # bootstrap CIs, not just point estimates
+├── models/
+│   └── adapters.py             # unified interface: Anthropic, OpenAI, local
+├── tests/
+└── experiments/
+    └── 2026-03-grounding-v2/   # dated experiment logs
+
+What each part should actually contain:
+evals/base.py — An Eval abstract class with a clean contract: takes a model, produces a Result with per-example scores, metadata, and traces. This is the piece that signals "I've thought about this as infrastructure, not scripts."
+
+evals/grounding/ — Given your aviation work, this is your strongest showcase. Measures whether generated claims are supported by retrieved context. Include at least two graders (e.g., NLI-based + LLM judge) and report agreement between them. The interesting research question: when they disagree, which is right?
+
+evals/robustness/ — Prompt perturbations (paraphrase, typos, injected distractors, jailbreak attempts). This is where you signal adversarial robustness interest. Measure score degradation under perturbation, not just raw accuracy.
+
+evals/tool_use/ — For an agent, this matters a lot: did it pick the right tool, with correct arguments, in the right order? Include traces where the agent chose a plausible-but-wrong tool — those are the interesting failures.
+
+graders/llm_judge.py — Don't just have an LLM score outputs. Include a calibration study: run the judge against human labels on a subset, report agreement (Cohen's kappa or similar), and discuss where the judge systematically disagrees with humans. This alone puts you ahead of most eval repos.
+
+analysis/significance.py — Bootstrap confidence intervals on your metrics. Most eval harnesses report a single number; showing you know 73% ± 4% matters more than 73% demonstrates statistical maturity.
+
+analysis/failure_clustering.py — Embed failed examples and cluster them. Produce a short report like "model X fails disproportionately on examples involving numerical reasoning in regulatory language." This is qualitative research, and it's what actually drives iteration.
+
+experiments/YYYY-MM-description/ — Each run has a config, a results file, and a short markdown writeup: hypothesis, setup, result, what changed, what to try next. Treating experiments as first-class artifacts signals research mindset.
+
+docs/methodology.md — 2–4 pages explaining: what behaviors you're measuring, why those and not others, how cases were constructed, what you're explicitly not measuring. This is the document a researcher will actually read to decide if you know what you're doing.
+
+What to sanitize before publishing:
+Obviously the aviation data and any client-specific prompts. Replace with a small synthetic analog — pick a public domain (FDA drug labels, building codes, SEC filings) and build 50–100 grounding cases on that. The methodology transfers; the data doesn't need to.
+
+The README is the whole game
+Most people won't read the code. The README should have:
+
+* One-paragraph pitch — what problem, what approach, what's novel
+* A results table — models × evals, with confidence intervals
+* A "known limitations" section — this signals research honesty more than any benchmark score
+* One surprising finding — "LLM judges agreed with humans 89% of the time overall, but only 61% on refusal cases; we investigated why" — this is what gets shared on Twitter and read by reviewers
+

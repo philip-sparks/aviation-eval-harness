@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Environment
+.env
+.env.*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Promptfoo
+.promptfoo_cache/
+promptfooconfig.yaml
+
+# Eval cache
+.eval_cache/
+
+# Experiment results (generated, not committed)
+experiments/*/results/*.json
+experiments/*/results/*.jsonl
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+
+# Keep committed dataset files
+!datasets/*.jsonl

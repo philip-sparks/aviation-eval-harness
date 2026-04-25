@@ -1,0 +1,11 @@
+# Experiment Configuration
+eval: ""              # Eval category: grounding, tool_use, robustness, refusals
+model:
+  provider: anthropic
+  model_id: claude-sonnet-4-20250514
+  max_tokens: 4096
+  temperature: 0.0
+dataset: ""           # Path to dataset JSONL (empty = use default)
+description: ""       # Brief experiment description
+cache: true
+concurrency: 5

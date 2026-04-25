@@ -1,0 +1,181 @@
+"""Static HTML report generation for evaluation results."""
+
+from __future__ import annotations
+
+import base64
+import io
+import json
+from pathlib import Path
+from typing import Any
+
+from evals.base import Result
+
+
+def generate_report(results: list[Result], output_path: Path | str) -> None:
+    """Generate a self-contained static HTML report.
+
+    Args:
+        results: List of Result objects to include in the report.
+        output_path: Path for the output HTML file.
+    """
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    charts = _generate_charts(results)
+    html = _build_html(results, charts)
+    output_path.write_text(html)
+
+
+def _generate_charts(results: list[Result]) -> dict[str, str]:
+    """Generate matplotlib charts and return as base64 PNGs."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    charts = {}
+
+    if not results:
+        return charts
+
+    # Results overview bar chart
+    fig, ax = plt.subplots(figsize=(10, 5))
+    eval_names = [r.eval_name for r in results]
+    pass_rates = [r.aggregate_metrics.get("pass_rate", 0) for r in results]
+
+    colors = ["#2ecc71" if p >= 0.8 else "#e67e22" if p >= 0.5 else "#e74c3c" for p in pass_rates]
+    bars = ax.bar(eval_names, pass_rates, color=colors, edgecolor="white", linewidth=0.5)
+    ax.set_ylabel("Pass Rate")
+    ax.set_title("Evaluation Results Overview")
+    ax.set_ylim(0, 1.05)
+    ax.axhline(y=0.8, color="gray", linestyle="--", alpha=0.5, label="80% threshold")
+
+    # Add CIs if available
+    for i, r in enumerate(results):
+        ci = r.confidence_intervals.get("pass_rate")
+        if ci:
+            ax.errorbar(i, pass_rates[i], yerr=[[pass_rates[i] - ci[0]], [ci[1] - pass_rates[i]]],
+                        color="black", capsize=5, capthick=1)
+
+    ax.legend()
+    plt.tight_layout()
+    charts["overview"] = _fig_to_base64(fig)
+    plt.close(fig)
+
+    # Per-eval metric charts
+    for result in results:
+        if not result.aggregate_metrics:
+            continue
+
+        fig, ax = plt.subplots(figsize=(8, 4))
+        metrics = {k: v for k, v in result.aggregate_metrics.items() if isinstance(v, (int, float))}
+        names = list(metrics.keys())
+        values = list(metrics.values())
+
+        ax.barh(names, values, color="#3498db", edgecolor="white")
+        ax.set_xlim(0, max(1.05, max(values) * 1.1) if values else 1.05)
+        ax.set_title(f"{result.eval_name} - {result.model_id}")
+        plt.tight_layout()
+        charts[result.eval_name] = _fig_to_base64(fig)
+        plt.close(fig)
+
+    return charts
+
+
+def _fig_to_base64(fig) -> str:
+    """Convert matplotlib figure to base64 PNG string."""
+    buf = io.BytesIO()
+    fig.savefig(buf, format="png", dpi=100, bbox_inches="tight")
+    buf.seek(0)
+    return base64.b64encode(buf.read()).decode("utf-8")
+
+
+def _build_html(results: list[Result], charts: dict[str, str]) -> str:
+    """Build the HTML report string."""
+    results_table = _build_results_table(results)
+
+    chart_sections = []
+    for name, b64 in charts.items():
+        chart_sections.append(
+            f'<div class="chart"><h3>{name}</h3>'
+            f'<img src="data:image/png;base64,{b64}" alt="{name}"></div>'
+        )
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviation Eval Harness - Results Report</title>
+    <style>
+        body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+               max-width: 1200px; margin: 0 auto; padding: 20px; background: #f5f5f5; }}
+        h1 {{ color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }}
+        h2 {{ color: #34495e; }}
+        table {{ border-collapse: collapse; width: 100%; margin: 20px 0; background: white;
+                 box-shadow: 0 1px 3px rgba(0,0,0,0.1); }}
+        th, td {{ border: 1px solid #ddd; padding: 10px 14px; text-align: left; }}
+        th {{ background: #3498db; color: white; }}
+        tr:nth-child(even) {{ background: #f8f9fa; }}
+        .chart {{ background: white; padding: 15px; margin: 15px 0; border-radius: 5px;
+                  box-shadow: 0 1px 3px rgba(0,0,0,0.1); }}
+        .chart img {{ max-width: 100%; }}
+        .metric-good {{ color: #27ae60; font-weight: bold; }}
+        .metric-ok {{ color: #f39c12; font-weight: bold; }}
+        .metric-bad {{ color: #e74c3c; font-weight: bold; }}
+        .summary {{ background: white; padding: 20px; border-radius: 5px; margin: 15px 0;
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.1); }}
+        .timestamp {{ color: #95a5a6; font-size: 0.85em; }}
+    </style>
+</head>
+<body>
+    <h1>Aviation Eval Harness - Results Report</h1>
+
+    <div class="summary">
+        <h2>Results Summary</h2>
+        {results_table}
+    </div>
+
+    <h2>Charts</h2>
+    {''.join(chart_sections)}
+
+    <div class="timestamp">
+        Generated by aviation-eval-harness
+    </div>
+</body>
+</html>"""
+
+
+def _build_results_table(results: list[Result]) -> str:
+    """Build an HTML results table."""
+    if not results:
+        return "<p>No results available.</p>"
+
+    # Collect all metrics
+    all_metrics = set()
+    for r in results:
+        all_metrics.update(r.aggregate_metrics.keys())
+    metrics = sorted(all_metrics)
+
+    header = "<tr><th>Eval</th><th>Model</th>"
+    for m in metrics:
+        header += f"<th>{m}</th>"
+    header += "</tr>"
+
+    rows = []
+    for r in results:
+        row = f"<tr><td>{r.eval_name}</td><td>{r.model_id}</td>"
+        for m in metrics:
+            val = r.aggregate_metrics.get(m)
+            if val is not None:
+                ci = r.confidence_intervals.get(m)
+                css = "metric-good" if val >= 0.8 else "metric-ok" if val >= 0.5 else "metric-bad"
+                cell = f'{val:.3f}'
+                if ci:
+                    cell += f' <small>[{ci[0]:.3f}, {ci[1]:.3f}]</small>'
+                row += f'<td class="{css}">{cell}</td>'
+            else:
+                row += "<td>-</td>"
+        row += "</tr>"
+        rows.append(row)
+
+    return f"<table>{header}{''.join(rows)}</table>"
