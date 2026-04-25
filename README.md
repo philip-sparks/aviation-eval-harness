@@ -2,6 +2,28 @@
 
 A research-grade agent evaluation harness for aviation safety analysis. Decomposes LLM behavior into five measurable dimensions — grounding, tool use, robustness, refusals, and regression — using multi-layered grading (literal assertions + semantic equivalence + calibrated LLM judge), all reported with bootstrap confidence intervals. Built on lessons from production aviation safety systems where eval improvements drove composite fidelity from 4.85% to 91.9%.
 
+## Motivation
+
+This project grew out of [Blazer](https://github.com/philip-sparks/blazer), a production aviation safety report generation system that processes real-time ADS-B detection events and produces safety analysis reports for ISAM (a safety review platform). Blazer uses a LlamaIndex-powered agent with specialized tools — weather lookups, runway verification, aircraft data, waypoint validation — to analyze events from the ASAIC pipeline (Airport Safety Analysis & Intelligence Capability).
+
+**The problem we hit**: when Blazer first ran against 100 real ASAIC events, composite fidelity was **4.85%**. The agent was hallucinating airports, guessing runways instead of extracting them from structured data, and producing boilerplate analysis that ignored event-specific context. Manual "vibe checking" wasn't catching these failures — we needed automated, granular measurement.
+
+**What fixed it**: three changes drove fidelity from 4.85% to **91.9%**:
+
+1. **Making data visible** — injecting structured OPERATIONS data (runway, aircraft type, callsign) directly into the agent prompt with explicit instructions not to guess. This alone moved runway detection from 27% to 99%.
+2. **Splitting the rubric** — replacing a single pass/fail score with four weighted sub-rubrics: airport correctness (30%), event analysis quality (30%), fact extraction accuracy (25%), and flight phase relevance (15%). This revealed that the agent was acing airport identification but failing on event-specific analysis.
+3. **Deterministic extraction before LLM** — regex-based extraction of runways, altitudes, and aircraft types from narratives, verified against authoritative sources before the LLM ever sees them. The key insight: verification tools that return `MISMATCH` status force the agent to use ground truth instead of its own (often wrong) inference.
+
+**Why a standalone harness**: Blazer's eval tooling was tightly coupled to its Promptfoo/Grafana stack and couldn't easily measure semantic equivalence ("TCAS RA" = "resolution advisory"), compare across model providers, or generate CI/CD artifacts with pass/fail gates. We needed a framework that could:
+
+- Grade with multiple layers (literal assertions catch exact facts, LLM judge catches paraphrased correctness, anti-hallucination checks catch fabricated details)
+- Report uncertainty (bootstrap confidence intervals on every metric)
+- Detect regressions across model versions with paired statistical tests
+- Cluster failure modes to identify systematic weaknesses
+- Run against any model provider through a clean adapter interface
+
+This repo extracts those patterns into a general-purpose harness, with datasets inspired by real ASRS reports, NTSB investigations, and FAR regulatory scenarios.
+
 ## Quick Start
 
 ```bash
