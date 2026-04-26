@@ -88,7 +88,7 @@ def run(eval_name, model_spec, dataset_path, config_path, output_path, use_cache
 
     # Pass judge adapter for evals that need it
     eval_kwargs = {}
-    if eval_name in ("grounding",):
+    if eval_name in ("grounding", "refusals"):
         eval_kwargs["judge_adapter"] = adapter
     eval_instance = eval_cls(**eval_kwargs)
 
