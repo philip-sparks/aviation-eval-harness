@@ -91,9 +91,13 @@ The implication extends beyond aviation: any refusal evaluation of safety-traine
 
 Jaccard word overlap averaged 0.30 while embedding cosine similarity (all-MiniLM-L6-v2) averaged 0.78 across the same 35 output pairs, a 2.6x gap. The gap is largest for paraphrase perturbations (Jaccard 0.30, embedding 0.82) and smallest for conflicting METAR perturbations (Jaccard 0.15, embedding 0.64).
 
+![Figure 1. Jaccard vs embedding similarity](images/robustness_scatter.png)
+
+*Figure 1. Per-example Jaccard word overlap vs embedding cosine similarity across 35 perturbation pairs. Points above the diagonal indicate that embedding similarity exceeds word overlap - i.e., the model preserves meaning while varying prose. Conflicting-METAR perturbations (highlighted) are the control case: both metrics drop together, correctly reflecting that contradictory inputs should produce different analysis.*
+
 The paraphrase case is the clearest demonstration: the model receives the same question in different words and produces semantically equivalent answers using different vocabulary and sentence structure. Jaccard, which measures word overlap, registers this as low similarity. Embedding similarity, which captures semantic content, correctly identifies the outputs as near-equivalent.
 
-Conflicting METAR is the informative control case. When the model receives contradictory weather data, both Jaccard and embedding similarity drop -correctly, because the model *should* produce different analysis from contradictory inputs. The fact that both metrics align in this case confirms that the Jaccard-embedding gap in other perturbation types reflects prose variation, not factual disagreement.
+Conflicting METAR is the informative control case. When the model receives contradictory weather data, both Jaccard and embedding similarity drop - correctly, because the model *should* produce different analysis from contradictory inputs. The fact that both metrics align in this case confirms that the Jaccard-embedding gap in other perturbation types reflects prose variation, not factual disagreement.
 
 The methodological implication: robustness evaluations that rely on surface-level text similarity for long-form outputs will systematically understate model robustness. Embedding-based metrics separate the signal (factual consistency) from the noise (stylistic variation).
 
