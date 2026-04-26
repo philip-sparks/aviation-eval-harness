@@ -267,6 +267,6 @@ Per-file provenance details are in [datasets/README.md](datasets/README.md).
   author = {Sparks, Philip},
   title = {Aviation Eval Harness: Multi-Layered Evaluation for Domain-Specific LLM Agents},
   year = {2026},
-  url = {https://github.com/psparks/aviation-eval-harness}
+  url = {https://github.com/philip-sparks/aviation-eval-harness}
 }
 ```
