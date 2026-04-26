@@ -203,23 +203,15 @@ Compares two result sets with paired bootstrap significance tests and per-exampl
 
 ### Key Findings
 
-**1. Literal matching is 22x worse than semantic grading -and this understates the gap.**
-On the same 60 model outputs, exact substring matching found 4.2% of expected facts while the LLM judge confirmed 92.4% factual coverage. This is not a marginal difference -a practitioner using only substring matching would conclude the system fails on 96% of cases. Any eval framework that relies solely on string matching will systematically undercount model capability on open-ended generation tasks.
+**1. Literal matching is 22x worse than semantic grading.** On the same 60 outputs, substring matching found 4.2% of expected facts while the LLM judge confirmed 92.4% coverage. Any eval relying solely on string matching will systematically undercount model capability on open-ended generation.
 
-**2. Keyword refusal classifiers systematically miscount safety-trained model refusals.**
-We initially measured 100% under-refusal with a keyword classifier (68% overall accuracy); replacing it with a semantic LLM-judge classifier showed actual under-refusal was 0% (92% overall accuracy). All 8 "should refuse" cases were correctly refused by the model -the keyword classifier failed to detect them because safety-trained models produce verbose refusals (200+ word responses that explain *why* the request is problematic before declining). The keyword heuristic `refusal_keyword AND len < 50 words` misclassifies every such response as "answered." This is a known but under-documented failure mode: any classifier that equates long responses with compliance will systematically miscount refusals from safety-trained models. Refusal detection requires semantic classification.
+**2. Keyword refusal classifiers systematically miscount safety-trained model refusals.** Replacing a keyword classifier (68% accuracy, 100% under-refusal) with a semantic LLM-judge classifier showed actual under-refusal was 0% (92% accuracy). Safety-trained models produce verbose refusals that defeat length-based heuristics.
 
-**3. Sub-rubric decomposition reveals capability topology that single scores hide.**
-The grounding eval's four sub-rubrics (scored 1-5) show a non-uniform capability profile: flight phase relevance (4.95) and fact extraction (4.83) are near-ceiling, while airport correctness (4.43) and event analysis quality (4.47) have meaningful variance (stdev 1.14 and 1.21 respectively). A single "grounding score" of 92.4% would mask that the model has a specific weakness in airport identification and event-specific analysis. For anyone building domain-specific evals: decompose your rubric. The weighted sub-rubric pattern (30/30/25/15) borrowed from our production system was the single most impactful eval design decision.
+**3. Sub-rubric decomposition reveals capability topology that single scores hide.** The four grounding sub-rubrics show a non-uniform profile: flight phase relevance (4.95/5) and fact extraction (4.83/5) are near-ceiling, while airport correctness (4.43/5) and event analysis (4.47/5) have meaningful variance. A single aggregate score masks these differences.
 
-**4. Tool sequencing is solved; argument shaping is the remaining frontier.**
-The model achieved 100% sequence accuracy (always calls the right tools in the right order) and 98.6% tool selection accuracy, but argument accuracy lagged at 90.2%. The single failure was on a dual-aircraft track query where the model needed to construct multiple argument sets. This decomposition -selection vs. arguments vs. sequence -is more actionable than a single "tool use score" because it tells you *what* to fix.
+**4. Surface text similarity conflates stylistic variation with factual disagreement.** Jaccard word overlap averaged 0.30 while embedding cosine similarity averaged 0.78 across the same outputs. The gap reflects prose restructuring, not factual change, as confirmed by the conflicting-METAR control case where both metrics drop together.
 
-**5. Output-similarity metrics on long-form text conflate stylistic variation with factual disagreement.**
-Jaccard word overlap averaged 0.30 while embedding cosine similarity (all-MiniLM-L6-v2) averaged 0.78 across the same outputs, demonstrating that the gap reflects prose restructuring rather than factual change. Paraphrase perturbations show the clearest separation: Jaccard 0.30, embedding 0.82 -the model says the same thing in different words. Conflicting METAR is the only perturbation where both metrics drop together (Jaccard 0.15, embedding 0.64), correctly reflecting that contradictory input *should* produce different analysis. The methodological implication: any robustness evaluation using surface-level text similarity on long-form outputs will systematically understate model robustness. Embedding-based similarity separates stylistic variation from factual disagreement.
-
-**6. Zero hallucinations is achievable in constrained domains.**
-Across 60 grounding cases with explicit negative facts (wrong airports, wrong aircraft types, wrong altitudes), the model produced zero hallucinations. This was tested with targeted anti-hallucination checks, not just general quality assessment. The combination of constrained context (source material provided in the prompt) and explicit system instructions ("base your analysis only on the information given") appears effective for aviation safety analysis.
+For full discussion of methodology, limitations, and reproducibility, see [docs/findings.md](docs/findings.md).
 
 ### Next Steps
 
