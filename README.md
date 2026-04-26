@@ -203,7 +203,7 @@ Compares two result sets with paired bootstrap significance tests and per-exampl
 
 ### Key Findings
 
-**1. Literal matching is 22x worse than semantic grading.** On the same 60 outputs, substring matching found 4.2% of expected facts while the LLM judge confirmed 92.4% coverage. Any eval relying solely on string matching will systematically undercount model capability on open-ended generation.
+**1. Literal matching undercounts factual coverage by 22x on our dataset.** On the same 60 grounding outputs, substring matching found 4.2% of expected facts while the LLM judge confirmed 92.4% coverage. The ratio is dataset-specific, but the directional finding is general: string matching systematically undercounts capability on paraphrased outputs.
 
 **2. Keyword refusal classifiers systematically miscount safety-trained model refusals.** Replacing a keyword classifier (68% accuracy, 100% under-refusal) with a semantic LLM-judge classifier showed actual under-refusal was 0% (92% accuracy). Safety-trained models produce verbose refusals that defeat length-based heuristics.
 
