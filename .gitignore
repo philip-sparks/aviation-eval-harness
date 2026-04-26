@@ -33,6 +33,10 @@ promptfooconfig.yaml
 experiments/*/results/*.json
 experiments/*/results/*.jsonl
 
+# Personal planning notes
+plans/
+tasks/
+
 # OS
 .DS_Store
 Thumbs.db

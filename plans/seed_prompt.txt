@@ -1,9 +1,0 @@
-I'm looking to use this repository to produce the following creation shown in @plans/prompt_response.txt.
-
-We're going to use work I that produced in @~/PycharmProjects/blazer, so you should really
-delve into the history of that project, starting with the folders in @plans/folders_from_blazer.txt.
-
-Then, we're going to use @plans/create-prd.md and @plans/generate-tasks.md to hammer out any
-ambiguities before we start generating code.
-
-Ready to begin?
