@@ -33,9 +33,9 @@ Evaluates whether specific factual details (aircraft type, altitude, speed, conf
 | Score | Description | Example |
 |-------|-------------|---------|
 | **5** | All key facts from the source are present in the output. Numerical values are accurate (within tolerances: altitude +/-500ft, speed +/-10kt, heading +/-10deg). No fabricated details. | Output includes "15 knots above Vref at 500 feet AGL" matching the source exactly. |
-| **4** | Most key facts present. One minor numerical inaccuracy or one minor omission. No fabricated details. | Reports "approximately 500 feet AGL" when source says exactly "500 feet AGL" — close but slightly imprecise. Also omits one of four expected facts. |
+| **4** | Most key facts present. One minor numerical inaccuracy or one minor omission. No fabricated details. | Reports "approximately 500 feet AGL" when source says exactly "500 feet AGL" -close but slightly imprecise. Also omits one of four expected facts. |
 | **3** | Some key facts present. Two or more minor omissions or inaccuracies. No fabricated details. | Reports the airspeed deviation and altitude but omits the runway designation and aircraft type. |
-| **2** | Few key facts present. Significant omissions or numerical errors beyond tolerance. May include minor fabrication. | Reports "1,000 feet AGL" when the source says "500 feet AGL" — outside tolerance. |
+| **2** | Few key facts present. Significant omissions or numerical errors beyond tolerance. May include minor fabrication. | Reports "1,000 feet AGL" when the source says "500 feet AGL" -outside tolerance. |
 | **1** | Key facts are mostly absent or wrong. Fabricated details present. | Claims the aircraft was at FL350 when the source describes a 500-foot approach event. Invents an aircraft type not mentioned in the source. |
 
 ## Sub-Rubric 4: Flight Phase Relevance (Weight: 15%)
@@ -44,7 +44,7 @@ Evaluates whether the output correctly identifies the phase of flight and uses p
 
 | Score | Description | Example |
 |-------|-------------|---------|
-| **5** | Phase of flight is correctly identified. Analysis uses phase-appropriate parameters and references (e.g., approach speeds for approach events, taxi procedures for surface events). | Correctly identifies an approach-phase event and discusses Vref, glideslope, and decision altitude — all approach-relevant parameters. |
+| **5** | Phase of flight is correctly identified. Analysis uses phase-appropriate parameters and references (e.g., approach speeds for approach events, taxi procedures for surface events). | Correctly identifies an approach-phase event and discusses Vref, glideslope, and decision altitude -all approach-relevant parameters. |
 | **4** | Phase of flight is correct. Analysis mostly uses appropriate parameters but includes one irrelevant reference. | Correctly identifies a landing-roll event but briefly discusses approach speed (a different phase) when braking distance is the relevant parameter. |
 | **3** | Phase of flight is correct but analysis applies parameters from a different phase. | Identifies a surface event but discusses altitude and airspeed (irrelevant to taxi operations). |
 | **2** | Phase of flight is wrong but related (e.g., says "approach" for a landing-roll event). | Describes a taxi event as "ground operations during departure" when the aircraft had already landed. |

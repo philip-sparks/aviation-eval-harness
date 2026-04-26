@@ -13,13 +13,13 @@ We present models with aviation safety documents (ASRS narratives, NTSB summarie
 - **Event analysis quality**: Is the event type correctly identified and analyzed?
 - **Phase-of-flight awareness**: Does the output correctly reference the relevant phase of flight?
 
-Two grading approaches are applied in parallel — rule-based (literal string matching with semantic equivalence) and LLM-as-judge (structured rubric) — and their agreement is reported as a calibration signal.
+Two grading approaches are applied in parallel -rule-based (literal string matching with semantic equivalence) and LLM-as-judge (structured rubric) -and their agreement is reported as a calibration signal.
 
 ### 2. Tool Use (Correct Tool Selection and Sequencing)
 **Question**: Does the model select the right tools with correct arguments in the right order?
 
 Models receive a set of six aviation mock tools (METAR lookup, ADS-B track query, regulation search, airport info, NOTAM check, aircraft info) and must determine which to call for a given query. Scoring evaluates:
-- **Tool selection**: Binary — was the correct tool chosen?
+- **Tool selection**: Binary -was the correct tool chosen?
 - **Argument accuracy**: Fuzzy match on ICAO codes, timestamps, and identifiers.
 - **Sequence accuracy**: Longest common subsequence ratio against expected ordering.
 
@@ -61,7 +61,7 @@ Paired comparison of two result sets on identical test cases, with:
 ### Source Material
 - **ASRS narratives**: NASA Aviation Safety Reporting System public database. De-identified voluntary safety reports covering go-arounds, TCAS events, unstable approaches, runway incursions.
 - **NTSB summaries**: Public probable cause findings with structured factual data.
-- **FAR/AIM excerpts**: Federal Aviation Regulations and Aeronautical Information Manual — public regulatory text.
+- **FAR/AIM excerpts**: Federal Aviation Regulations and Aeronautical Information Manual -public regulatory text.
 
 ### Synthetic Data
 Synthetic generators produce:

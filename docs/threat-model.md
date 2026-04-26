@@ -65,7 +65,7 @@ This document catalogs the failure modes the evaluation suite is designed to det
 ### M1: Score Degradation Under Benign Rephrasings
 **Description**: Model gives materially different answers when the same question is rephrased or aviation jargon is expanded.
 
-**Example**: Different analysis quality for "TCAS RA" vs "TCAS Resolution Advisory" — these are semantically identical.
+**Example**: Different analysis quality for "TCAS RA" vs "TCAS Resolution Advisory" -these are semantically identical.
 
 **Detection**: `RobustnessEval` measures degradation between base and paraphrased prompts.
 

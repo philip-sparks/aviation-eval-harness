@@ -4,7 +4,7 @@
 
 This directory contains evaluation datasets for the aviation eval harness. **All data is fully synthetic.** No verbatim ASRS reports, NTSB investigation records, or proprietary data are included. Narratives are original compositions that follow realistic aviation safety patterns; all details (altitudes, airspeeds, crew actions, outcomes, report numbers) are fabricated.
 
-Public reference material — ICAO airport identifiers, aircraft type designators, FAR section numbers, METAR format conventions — is used as schema for realism but carries no proprietary content.
+Public reference material -ICAO airport identifiers, aircraft type designators, FAR section numbers, METAR format conventions -is used as schema for realism but carries no proprietary content.
 
 ## Dataset Files
 
@@ -130,7 +130,7 @@ All generators produce fully synthetic output. No real ADS-B data, real METARs, 
 - ADS-B tracks use simplified physics (no wind modeling, constant descent rates)
 - Difficulty ratings are subjective
 - The dataset is not large enough for training; it is designed for evaluation only
-- Single labeler (the project author) — no inter-rater reliability computed for labels
+- Single labeler (the project author) -no inter-rater reliability computed for labels
 
 ## Adding New Cases
 
@@ -139,4 +139,4 @@ All generators produce fully synthetic output. No real ADS-B data, real METARs, 
 3. Include at least 2 expected_facts and 1 negative_fact
 4. Set difficulty based on: easy (single fact extraction), medium (multi-fact analysis), hard (requires inference)
 5. Validate JSONL: `python -c "import json; [json.loads(l) for l in open('your_file.jsonl')]"`
-6. **All contributed data must be fully synthetic** — see [CONTRIBUTING.md](../CONTRIBUTING.md)
+6. **All contributed data must be fully synthetic** -see [CONTRIBUTING.md](../CONTRIBUTING.md)

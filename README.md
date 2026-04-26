@@ -1,28 +1,22 @@
 # Aviation Eval Harness
 
-A research-grade agent evaluation harness for aviation safety analysis. Decomposes LLM behavior into five measurable dimensions — grounding, tool use, robustness, refusals, and regression — using multi-layered grading (literal assertions + semantic equivalence + calibrated LLM judge), all reported with bootstrap confidence intervals. Built on lessons from production aviation safety systems where eval improvements drove composite fidelity from 4.85% to 91.9%.
+An evaluation harness for domain-specific LLM agents that decomposes agent behavior into measurable dimensions -grounding, tool use, robustness, refusals, and regression -using multi-layered grading: literal assertions, semantic equivalence matching, and a calibrated LLM-as-judge with weighted sub-rubrics. All metrics are reported with bootstrap confidence intervals. The harness is demonstrated on aviation safety analysis but the methodology (multi-layered grading, sub-rubric decomposition, semantic refusal classification) generalizes to any domain where LLM agents operate over structured data.
+
+In the production system where these methods were developed, replacing single-score evaluation with sub-rubric decomposition and semantic grading drove composite fidelity from 4.85% to 91.9% on 100 real aviation safety events.
+
+> **Research Note:** For the methodological writeup and key findings, see [`docs/findings.md`](docs/findings.md).
 
 ## Motivation
 
-This project grew out of a production aviation safety report generation system built for a US Government agency. The system processes real-time ADS-B detection events and produces safety analysis reports using a LlamaIndex-powered agent with specialized tools — weather lookups, runway verification, aircraft data, waypoint validation — to analyze airport safety events as they occur.
+This project grew out of a production aviation safety report generation system built for a US Government agency. The system processes real-time ADS-B detection events and produces safety analysis reports using a LlamaIndex-powered agent with specialized tools -weather lookups, runway verification, aircraft data, waypoint validation -to analyze airport safety events as they occur.
 
-**The problem we hit**: when the system first ran against 100 real safety events, composite fidelity was **4.85%**. The agent was hallucinating airports, guessing runways instead of extracting them from structured data, and producing boilerplate analysis that ignored event-specific context. Manual "vibe checking" wasn't catching these failures — we needed automated, granular measurement.
+When the system first ran against 100 real safety events, composite fidelity was **4.85%**. The agent hallucinated airports, guessed runways instead of extracting them from structured data, and produced boilerplate analysis that ignored event-specific context. Three changes drove fidelity to **91.9%**:
 
-**What fixed it**: three changes drove fidelity from 4.85% to **91.9%**:
+1. **Structured data injection** -inserting operations data (runway, aircraft type, callsign) directly into the agent prompt with explicit instructions not to guess. This alone moved runway detection from 27% to 99%.
+2. **Sub-rubric decomposition** -replacing a single pass/fail score with four weighted sub-rubrics: airport correctness (30%), event analysis quality (30%), fact extraction accuracy (25%), and flight phase relevance (15%). This revealed that the agent was succeeding at airport identification but failing on event-specific analysis.
+3. **Deterministic extraction before LLM** -regex-based extraction of runways, altitudes, and aircraft types from narratives, verified against authoritative sources before the LLM processes them. Verification tools that return `MISMATCH` status force the agent to use ground truth instead of its own inference.
 
-1. **Making data visible** — injecting structured operations data (runway, aircraft type, callsign) directly into the agent prompt with explicit instructions not to guess. This alone moved runway detection from 27% to 99%.
-2. **Splitting the rubric** — replacing a single pass/fail score with four weighted sub-rubrics: airport correctness (30%), event analysis quality (30%), fact extraction accuracy (25%), and flight phase relevance (15%). This revealed that the agent was acing airport identification but failing on event-specific analysis.
-3. **Deterministic extraction before LLM** — regex-based extraction of runways, altitudes, and aircraft types from narratives, verified against authoritative sources before the LLM ever sees them. The key insight: verification tools that return `MISMATCH` status force the agent to use ground truth instead of its own (often wrong) inference.
-
-**Why a standalone harness**: the production system's eval tooling was tightly coupled to its Promptfoo/Grafana stack and couldn't easily measure semantic equivalence ("TCAS RA" = "resolution advisory"), compare across model providers, or generate CI/CD artifacts with pass/fail gates. We needed a framework that could:
-
-- Grade with multiple layers (literal assertions catch exact facts, LLM judge catches paraphrased correctness, anti-hallucination checks catch fabricated details)
-- Report uncertainty (bootstrap confidence intervals on every metric)
-- Detect regressions across model versions with paired statistical tests
-- Cluster failure modes to identify systematic weaknesses
-- Run against any model provider through a clean adapter interface
-
-This repo extracts those patterns into a general-purpose harness, with fully synthetic datasets modeled on the structure of public ASRS reports, NTSB probable-cause summaries, and FAR regulatory scenarios (see [Dataset Provenance](#dataset-provenance)).
+The production system's evaluation tooling was tightly coupled to its Promptfoo/Grafana stack and could not measure semantic equivalence ("TCAS RA" = "resolution advisory"), compare across model providers, or generate CI/CD pass/fail gates. This repo extracts the evaluation patterns into a standalone harness with fully synthetic datasets (see [Dataset Provenance](#dataset-provenance)).
 
 ## Quick Start
 
@@ -92,7 +86,7 @@ Baseline run on `claude-sonnet-4-20250514` (April 2026):
 |------|---------------|-------|--------|---|-------|
 | Grounding | LLM Judge (weighted sub-rubrics)† | **0.924** | [0.890, 0.954] | 60 | 0% hallucination rate |
 | Tool Use | Tool Selection Accuracy | **0.986** | [0.914, 1.000] | 35 | 1 failure (argument accuracy on dual-aircraft query) |
-| Robustness | Output Variation under Perturbation | Jaccard **0.30** / Embedding **0.78** | — | 35 | See interpretation below |
+| Robustness | Output Variation under Perturbation | Jaccard **0.30** / Embedding **0.78** | -| 35 | See interpretation below |
 | Refusals | Accuracy (semantic classifier) | **0.920** | [0.800, 1.000] | 25 | 0% over-refusal, 0% under-refusal |
 
 †*LLM judge calibration: a 30-example calibration study using a second LLM rater (Claude Haiku) found 100% binary pass/fail agreement (Cohen's kappa = 1.0) with MAE = 0.084 on the aggregate score. The primary rater systematically under-scores regulatory (FAR/AIM) cases on the airport_correctness sub-rubric. See `experiments/calibration-study/report.md` for full results.*
@@ -106,7 +100,7 @@ Baseline run on `claude-sonnet-4-20250514` (April 2026):
 | Verbatim Fact Match | 0.042 |
 | Pass Rate | 100% |
 
-The model produces excellent factual analyses but paraphrases heavily — verbatim substring matching captures only 4.2% of expected facts while the LLM judge confirms 92.4% factual coverage. This validates the multi-layered grading design.
+The model produces correct factual analyses but paraphrases heavily -verbatim substring matching captures only 4.2% of expected facts while the LLM judge confirms 92.4% factual coverage. This validates the multi-layered grading design.
 
 ### Tool Use Detail
 
@@ -121,14 +115,14 @@ The model produces excellent factual analyses but paraphrases heavily — verbat
 
 | Perturbation | Jaccard Similarity | Embedding Similarity | Interpretation |
 |-------------|-------------------|---------------------|----------------|
-| Typo | 0.469 | 0.871 | Most robust — typos barely affect meaning or wording |
-| Paraphrase | 0.297 | 0.824 | Low word overlap but high semantic similarity — prose varies, facts stable |
-| Nearby Airport Swap | 0.371 | 0.792 | Expected — different airports yield different content |
+| Typo | 0.469 | 0.871 | Most robust -typos barely affect meaning or wording |
+| Paraphrase | 0.297 | 0.824 | Low word overlap but high semantic similarity -prose varies, facts stable |
+| Nearby Airport Swap | 0.371 | 0.792 | Expected -different airports yield different content |
 | Distractor Injection | 0.226 | 0.789 | Distractors shift prose focus but core analysis preserved |
-| Synonym | 0.282 | 0.765 | Similar to paraphrase — synonymous inputs produce equivalent outputs |
-| Conflicting METAR | 0.150 | 0.638 | Expected and correct — contradictory data *should* change the analysis |
+| Synonym | 0.282 | 0.765 | Similar to paraphrase -synonymous inputs produce equivalent outputs |
+| Conflicting METAR | 0.150 | 0.638 | Expected and correct -contradictory data *should* change the analysis |
 
-**Interpretation:** Jaccard word overlap averaged 0.30 while embedding cosine similarity averaged 0.78 across the same outputs. The gap confirms that low Jaccard scores reflect prose restructuring rather than factual disagreement. Paraphrase perturbations are the clearest example: Jaccard drops to 0.30 (the model uses different words) but embedding similarity remains 0.82 (the model says the same thing). Conflicting METAR is the only perturbation where both metrics drop together — correctly, since contradictory input data *should* produce different analysis.
+**Interpretation:** Jaccard word overlap averaged 0.30 while embedding cosine similarity averaged 0.78 across the same outputs. The gap confirms that low Jaccard scores reflect prose restructuring rather than factual disagreement. Paraphrase perturbations are the clearest example: Jaccard drops to 0.30 (the model uses different words) but embedding similarity remains 0.82 (the model says the same thing). Conflicting METAR is the only perturbation where both metrics drop together -correctly, since contradictory input data *should* produce different analysis.
 
 ### Refusals Detail (Semantic Classifier)
 
@@ -139,7 +133,7 @@ The model produces excellent factual analyses but paraphrases heavily — verbat
 | Under-Refusal Rate | 0.0% |
 | Borderline Accuracy | 77.8% |
 
-The model correctly answers all 8 legitimate safety questions, correctly refuses all 8 "should refuse" cases (speculation/blame attribution, reporter re-identification, data fabrication), and handles 7 of 9 borderline cases with appropriate hedging. The 2 borderline failures are cases where the model's firm refusal was classified as "refused" rather than "hedged" — a reasonable boundary disagreement.
+The model correctly answers all 8 legitimate safety questions, correctly refuses all 8 "should refuse" cases (speculation/blame attribution, reporter re-identification, data fabrication), and handles 7 of 9 borderline cases with appropriate hedging. The 2 borderline failures are cases where the model's firm refusal was classified as "refused" rather than "hedged" -a reasonable boundary disagreement.
 
 #### Keyword-Classifier Baseline (Deprecated)
 
@@ -152,9 +146,22 @@ The initial refusals eval used a keyword-plus-short-response heuristic. Results 
 | Under-Refusal Rate | 100% | 0.0% |
 | Borderline Accuracy | 100% | 77.8% |
 
-The keyword classifier reported 100% under-refusal — the model seemingly never refused. Inspecting the outputs revealed the model *was* refusing (e.g., "I cannot and will not attempt to identify the reporting pilot"), but then explained *why* at length, producing 200+ word responses that defeated the keyword-plus-short-response heuristic. The semantic classifier, which evaluates whether the model actually performed the requested task, correctly identifies all 8 refusals.
+The keyword classifier reported 100% under-refusal -the model seemingly never refused. Inspecting the outputs revealed the model *was* refusing (e.g., "I cannot and will not attempt to identify the reporting pilot"), but then explained *why* at length, producing 200+ word responses that defeated the keyword-plus-short-response heuristic. The semantic classifier, which evaluates whether the model actually performed the requested task, correctly identifies all 8 refusals.
 
 *Run `run-eval run --eval <category>` to reproduce these results.*
+
+## Sample Output
+
+The harness generates self-contained HTML reports with results tables and charts:
+
+![Sample report](docs/images/sample_report.png)
+
+Generate a report from your results:
+
+```python
+from analysis.dashboards.report import generate_report
+generate_report(results, "report.html")
+```
 
 ## Eval Categories
 
@@ -177,7 +184,7 @@ Compares two result sets with paired bootstrap significance tests and per-exampl
 
 - **Multi-layered grading**: Literal assertions + semantic equivalence + LLM judge, with 30/30/25/15 weighted sub-rubrics derived from the production system
 - **Calibrated thresholds**: LLM judge uses threshold 0.4 for partial credit (strict binary grading misses nuanced improvements)
-- **Semantic equivalence**: "TCAS RA" = "TCAS Resolution Advisory" = "resolution advisory" — prevents false negatives from phrasing variation
+- **Semantic equivalence**: "TCAS RA" = "TCAS Resolution Advisory" = "resolution advisory" -prevents false negatives from phrasing variation
 - **Anti-hallucination**: Every grounding case includes negative_facts (wrong airports, wrong aircraft) that must NOT appear
 - **Bootstrap CIs on everything**: No point estimates without uncertainty quantification
 
@@ -196,33 +203,33 @@ Compares two result sets with paired bootstrap significance tests and per-exampl
 
 ### Key Findings
 
-**1. Literal matching is 22x worse than semantic grading — and this understates the gap.**
-On the same 60 model outputs, exact substring matching found 4.2% of expected facts while the LLM judge confirmed 92.4% factual coverage. This isn't a marginal difference — it's the difference between "system is broken" and "system is production-ready." Any eval framework that relies solely on string matching will dramatically undercount model capability on open-ended generation tasks. The implication for practitioners: if your eval shows surprisingly low scores, your grader may be the problem, not your model.
+**1. Literal matching is 22x worse than semantic grading -and this understates the gap.**
+On the same 60 model outputs, exact substring matching found 4.2% of expected facts while the LLM judge confirmed 92.4% factual coverage. This is not a marginal difference -a practitioner using only substring matching would conclude the system fails on 96% of cases. Any eval framework that relies solely on string matching will systematically undercount model capability on open-ended generation tasks.
 
 **2. Keyword refusal classifiers systematically miscount safety-trained model refusals.**
-We initially measured 100% under-refusal with a keyword classifier (68% overall accuracy); replacing it with a semantic LLM-judge classifier showed actual under-refusal was 0% (92% overall accuracy). All 8 "should refuse" cases were correctly refused by the model — the keyword classifier failed to detect them because safety-trained models produce verbose refusals (200+ word responses that explain *why* the request is problematic before declining). The keyword heuristic `refusal_keyword AND len < 50 words` misclassifies every such response as "answered." This is a known but under-documented failure mode: any classifier that equates long responses with compliance will systematically miscount refusals from safety-trained models. Refusal detection requires semantic classification.
+We initially measured 100% under-refusal with a keyword classifier (68% overall accuracy); replacing it with a semantic LLM-judge classifier showed actual under-refusal was 0% (92% overall accuracy). All 8 "should refuse" cases were correctly refused by the model -the keyword classifier failed to detect them because safety-trained models produce verbose refusals (200+ word responses that explain *why* the request is problematic before declining). The keyword heuristic `refusal_keyword AND len < 50 words` misclassifies every such response as "answered." This is a known but under-documented failure mode: any classifier that equates long responses with compliance will systematically miscount refusals from safety-trained models. Refusal detection requires semantic classification.
 
 **3. Sub-rubric decomposition reveals capability topology that single scores hide.**
 The grounding eval's four sub-rubrics (scored 1-5) show a non-uniform capability profile: flight phase relevance (4.95) and fact extraction (4.83) are near-ceiling, while airport correctness (4.43) and event analysis quality (4.47) have meaningful variance (stdev 1.14 and 1.21 respectively). A single "grounding score" of 92.4% would mask that the model has a specific weakness in airport identification and event-specific analysis. For anyone building domain-specific evals: decompose your rubric. The weighted sub-rubric pattern (30/30/25/15) borrowed from our production system was the single most impactful eval design decision.
 
 **4. Tool sequencing is solved; argument shaping is the remaining frontier.**
-The model achieved 100% sequence accuracy (always calls the right tools in the right order) and 98.6% tool selection accuracy, but argument accuracy lagged at 90.2%. The single failure was on a dual-aircraft track query where the model needed to construct multiple argument sets. This decomposition — selection vs. arguments vs. sequence — is more actionable than a single "tool use score" because it tells you *what* to fix.
+The model achieved 100% sequence accuracy (always calls the right tools in the right order) and 98.6% tool selection accuracy, but argument accuracy lagged at 90.2%. The single failure was on a dual-aircraft track query where the model needed to construct multiple argument sets. This decomposition -selection vs. arguments vs. sequence -is more actionable than a single "tool use score" because it tells you *what* to fix.
 
 **5. Output-similarity metrics on long-form text conflate stylistic variation with factual disagreement.**
-Jaccard word overlap averaged 0.30 while embedding cosine similarity (all-MiniLM-L6-v2) averaged 0.78 across the same outputs, demonstrating that the gap reflects prose restructuring rather than factual change. Paraphrase perturbations show the clearest separation: Jaccard 0.30, embedding 0.82 — the model says the same thing in different words. Conflicting METAR is the only perturbation where both metrics drop together (Jaccard 0.15, embedding 0.64), correctly reflecting that contradictory input *should* produce different analysis. The methodological implication: any robustness evaluation using surface-level text similarity on long-form outputs will systematically understate model robustness. Embedding-based similarity separates stylistic variation from factual disagreement.
+Jaccard word overlap averaged 0.30 while embedding cosine similarity (all-MiniLM-L6-v2) averaged 0.78 across the same outputs, demonstrating that the gap reflects prose restructuring rather than factual change. Paraphrase perturbations show the clearest separation: Jaccard 0.30, embedding 0.82 -the model says the same thing in different words. Conflicting METAR is the only perturbation where both metrics drop together (Jaccard 0.15, embedding 0.64), correctly reflecting that contradictory input *should* produce different analysis. The methodological implication: any robustness evaluation using surface-level text similarity on long-form outputs will systematically understate model robustness. Embedding-based similarity separates stylistic variation from factual disagreement.
 
 **6. Zero hallucinations is achievable in constrained domains.**
 Across 60 grounding cases with explicit negative facts (wrong airports, wrong aircraft types, wrong altitudes), the model produced zero hallucinations. This was tested with targeted anti-hallucination checks, not just general quality assessment. The combination of constrained context (source material provided in the prompt) and explicit system instructions ("base your analysis only on the information given") appears effective for aviation safety analysis.
 
 ### Next Steps
 
-1. ~~**Embedding-based robustness scoring**~~ — *Implemented.* Sentence-transformer cosine similarity (all-MiniLM-L6-v2) added alongside Jaccard, confirming that mean similarity is 0.78 (not 0.30) when measured semantically.
-2. ~~**Semantic refusal classifier**~~ — *Implemented.* LLM-judge classifier replaced keyword heuristics, improving refusals accuracy from 68% to 92% and resolving the false 100% under-refusal rate.
-3. **Multi-model comparison** — Run the same eval suite against GPT-4, Gemini, and open-source models to produce cross-provider benchmarks. The adapter interface supports this; only new `ModelAdapter` implementations are needed.
-4. ~~**Human calibration study**~~ — *Partially implemented.* LLM-vs-LLM calibration study completed (kappa = 1.0 binary, MAE = 0.084). True human calibration with domain experts remains as future work to establish a ground-truth baseline.
-5. **Larger datasets** — Scale from 60 grounding cases to 200+ with stratified sampling across event types, difficulty levels, and source types to support distribution-level conclusions.
-6. **CI/CD integration** — Wire `run-eval` into GitHub Actions with pass/fail gates on regression detection, enabling automated quality assurance on model upgrades.
-7. **Cost tracking** — Token usage is already recorded per response; add cost estimation to enable cost-quality tradeoff analysis across models and configurations.
+1. ~~**Embedding-based robustness scoring**~~ -*Implemented.* Sentence-transformer cosine similarity (all-MiniLM-L6-v2) added alongside Jaccard, confirming that mean similarity is 0.78 (not 0.30) when measured semantically.
+2. ~~**Semantic refusal classifier**~~ -*Implemented.* LLM-judge classifier replaced keyword heuristics, improving refusals accuracy from 68% to 92% and resolving the false 100% under-refusal rate.
+3. **Multi-model comparison** -Run the same eval suite against GPT-4, Gemini, and open-source models to produce cross-provider benchmarks. The adapter interface supports this; only new `ModelAdapter` implementations are needed.
+4. ~~**Human calibration study**~~ -*Partially implemented.* LLM-vs-LLM calibration study completed (kappa = 1.0 binary, MAE = 0.084). True human calibration with domain experts remains as future work to establish a ground-truth baseline.
+5. **Larger datasets** -Scale from 60 grounding cases to 200+ with stratified sampling across event types, difficulty levels, and source types to support distribution-level conclusions.
+6. **CI/CD integration** -Wire `run-eval` into GitHub Actions with pass/fail gates on regression detection, enabling automated quality assurance on model upgrades.
+7. **Cost tracking** -Token usage is already recorded per response; add cost estimation to enable cost-quality tradeoff analysis across models and configurations.
 
 ## Adding a New Eval
 
@@ -241,7 +248,7 @@ Across 60 grounding cases with explicit negative facts (wrong airports, wrong ai
 
 **All evaluation data in this repository is fully synthetic.** No real ASRS reports, NTSB investigation records, or client data are included. Specifically:
 
-- **No verbatim safety reports.** Narratives are synthetic recreations of realistic aviation safety patterns, not copies of real reports. ASRS-style cases are inspired by publicly documented event types (unstable approaches, TCAS RAs, runway excursions) but all details — altitudes, airspeeds, crew actions, outcomes — are fabricated.
+- **No verbatim safety reports.** Narratives are synthetic recreations of realistic aviation safety patterns, not copies of real reports. ASRS-style cases are inspired by publicly documented event types (unstable approaches, TCAS RAs, runway excursions) but all details -altitudes, airspeeds, crew actions, outcomes -are fabricated.
 - **No real identifying information.** No real pilot names, active operator callsigns, or flight numbers appear in any dataset. ASRS report numbers (e.g., ACN values) are fictional.
 - **Public reference material used as schema only.** Real ICAO airport identifiers (KDFW, KJFK, etc.), aircraft type designators (B738, A320), FAR section numbers, and METAR format conventions are used for realism but carry no proprietary content.
 - **Generation process is documented** in `datasets/generators/` with scripts for synthetic METAR strings, ADS-B tracks, and composite scenarios.
@@ -250,6 +257,22 @@ Per-file provenance details are in [datasets/README.md](datasets/README.md).
 
 ## Documentation
 
-- [Methodology](docs/methodology.md) — What we measure, how, and why
-- [Threat Model](docs/threat-model.md) — Failure modes the suite detects
-- [Datasets](datasets/README.md) — Schema, provenance, and labeling process
+- [Research Note](docs/findings.md) -Methodological findings and analysis
+- [Methodology](docs/methodology.md) -What we measure, how, and why
+- [Grading Rubric](docs/grading_rubric.md) -Sub-rubric scoring criteria (1-5 scale)
+- [Threat Model](docs/threat-model.md) -Failure modes the suite detects
+- [Datasets](datasets/README.md) -Schema, provenance, and labeling process
+- [Failure Modes](docs/failure_modes.md) -Taxonomy of grading failures with examples and mitigations
+- [Calibration Study](experiments/calibration-study/report.md) -LLM judge inter-rater agreement
+- [Reproducibility](REPRODUCIBILITY.md) -Model versions, dataset checksums, and reproduction commands
+
+## Citation
+
+```bibtex
+@software{sparks2026aviation,
+  author = {Sparks, Philip},
+  title = {Aviation Eval Harness: Multi-Layered Evaluation for Domain-Specific LLM Agents},
+  year = {2026},
+  url = {https://github.com/psparks/aviation-eval-harness}
+}
+```
