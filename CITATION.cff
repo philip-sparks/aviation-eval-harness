@@ -2,11 +2,12 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 type: software
 title: "Aviation Eval Harness: Multi-Layered Evaluation for Domain-Specific LLM Agents"
+version: 0.1.0
 authors:
   - family-names: Sparks
     given-names: Philip
-url: "https://github.com/psparks/aviation-eval-harness"
-date-released: 2026-04-25
+url: "https://github.com/philip-sparks/aviation-eval-harness"
+date-released: 2026-04-26
 license: MIT
 keywords:
   - llm-evaluation

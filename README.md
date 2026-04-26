@@ -1,5 +1,7 @@
 # Aviation Eval Harness
 
+**Latest release:** [v0.1.0](https://github.com/philip-sparks/aviation-eval-harness/releases/tag/v0.1.0)
+
 An evaluation harness for domain-specific LLM agents that decomposes agent behavior into measurable dimensions -grounding, tool use, robustness, refusals, and regression -using multi-layered grading: literal assertions, semantic equivalence matching, and a calibrated LLM-as-judge with weighted sub-rubrics. All metrics are reported with bootstrap confidence intervals. The harness is demonstrated on aviation safety analysis but the methodology (multi-layered grading, sub-rubric decomposition, semantic refusal classification) generalizes to any domain where LLM agents operate over structured data.
 
 In the production system where these methods were developed, replacing single-score evaluation with sub-rubric decomposition and semantic grading drove composite fidelity from 4.85% to 91.9% on 100 real aviation safety events.
